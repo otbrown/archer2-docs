@@ -1,0 +1,417 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CP2K &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ELK" href="../elk/elk.html" />
+    <link rel="prev" title="Code Saturne" href="../code-saturne/code-saturne.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="../../_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start/quickstart-users.html">Quickstart for users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start/quickstart-developers.html">Quickstart for developers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/data.html">Data management and transfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/sw-environment.html">Software environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/scheduler.html">Running jobs on ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/io.html">I/O and file systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/dev-environment.html">Application development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/python.html">Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/debug.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/profile.html">Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/tuning.html">Performance tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CP2K</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#useful-links">Useful links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-cp2k-on-archer2">Using CP2K on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-parallel-cp2k-jobs">Running parallel CP2K jobs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mpi-only-jobs">MPI only jobs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mpi-openmp-hybrid-jobs">MPI/OpenMP hybrid jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hints-and-tips">Hints and Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compiling-cp2k">Compiling CP2K</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vasp/vasp.html">VASP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>CP2K</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/research-software/cp2k/cp2k.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cp2k">
+<h1>CP2K<a class="headerlink" href="#cp2k" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://www.cp2k.org/">CP2K</a> is a quantum chemistry and solid state
+physics software package that can perform atomistic simulations of solid
+state, liquid, molecular, periodic, material, crystal, and biological systems.
+CP2K provides a general framework for different modelling methods
+such as DFT using the mixed Gaussian and plane waves approaches GPW and GAPW.
+Supported theory levels include DFTB, LDA, GGA, MP2, RPA, semi-empirical
+methods (AM1, PM3, PM6, RM1, MNDO), and classical force fields
+(AMBER, CHARMM). CP2K can do simulations of molecular dynamics,
+metadynamics, Monte Carlo, Ehrenfest dynamics, vibrational analysis, core
+level spectroscopy, energy minimisation, and transition state optimisation
+using NEB or dimer method.</p>
+<div class="section" id="useful-links">
+<h2>Useful links<a class="headerlink" href="#useful-links" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://manual.cp2k.org/#gsc.tab=0">CP2K Reference Manual</a></li>
+<li><a class="reference external" href="https://www.cp2k.org/howto">CP2K HOWTOs</a></li>
+<li><a class="reference external" href="https://www.cp2k.org/faq">CP2K FAQs</a></li>
+</ul>
+</div>
+<div class="section" id="using-cp2k-on-archer2">
+<h2>Using CP2K on ARCHER2<a class="headerlink" href="#using-cp2k-on-archer2" title="Permalink to this headline">¶</a></h2>
+<p>CP2K is available through the <cite>cp2k</cite> module. MPI only <cite>cp2k.popt</cite>
+and MPI/OpenMP Hybrid <cite>cp2k.psmp</cite> binaries are available.</p>
+<p>For ARCHER2, CP2K has been compiled with the following optional features:
+FFTW for fast Fourier transforms, <cite>libint</cite> to enable methods including
+Hartree-Fock exchange, <cite>libxsmm</cite> for efficient small matrix multiplications,
+<cite>libxc</cite> to provide a wider choice of exchange-correlation functionals,
+ELPA for improved performance of matrix diagonalisation, PLUMED to allow
+enhanced sampling methods, and SIRIUS for plane wave computations.</p>
+<p>See <a class="reference external" href="https://www.cp2k.org/howto:compile">https://www.cp2k.org/howto:compile</a> for a full list of optional features.</p>
+<p>If there is an optional feature not available, and which you would like,
+please contact the Serive Desk. Experts may also wish to try to compile the
+code themselves (see below for instructions).</p>
+</div>
+<div class="section" id="running-parallel-cp2k-jobs">
+<h2>Running parallel CP2K jobs<a class="headerlink" href="#running-parallel-cp2k-jobs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mpi-only-jobs">
+<h3>MPI only jobs<a class="headerlink" href="#mpi-only-jobs" title="Permalink to this headline">¶</a></h3>
+<p>To run CP2K using MPI only, load the <code class="docutils literal notranslate"><span class="pre">cp2k</span></code> module and use the
+<code class="docutils literal notranslate"><span class="pre">cp2k.popt</span></code> executable.</p>
+<p>For example, the following script will run a CP2K job using 4 nodes
+(128x4 cores):</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This script is provisional and requires validation</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash --login</span>
+
+<span class="c1"># Request 4 nodes using 128 cores per node for 128 MPI tasks per node.</span>
+<span class="c1"># Replace [budget code] below with your project code (e.g. t01)</span>
+
+
+<span class="c1">#SBATCH --job-name=CP2K_test</span>
+<span class="c1">#SBATCH --nodes=4</span>
+<span class="c1">#SBATCH --ntasks=512</span>
+<span class="c1">#SBATCH --tasks-per-node=128</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+<span class="c1">#SBATCH --time=00:20:00</span>
+
+<span class="c1">#SBATCH --account=[budget code]</span>
+
+<span class="c1"># Load the relevant CP2K module</span>
+<span class="c1"># Ensure that no libraries are inadvertently using threading</span>
+<span class="c1"># Launch the executable</span>
+
+<span class="n">module</span> <span class="n">load</span> <span class="n">cp2k</span>
+
+<span class="n">export</span> <span class="n">OMP_NUM_THREADS</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="n">srun</span> <span class="n">cp2k</span><span class="o">.</span><span class="n">popt</span> <span class="n">MYINPUT</span><span class="o">.</span><span class="n">inp</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mpi-openmp-hybrid-jobs">
+<h3>MPI/OpenMP hybrid jobs<a class="headerlink" href="#mpi-openmp-hybrid-jobs" title="Permalink to this headline">¶</a></h3>
+<p>To run CP2K using MPI and OpenMP, load the <code class="docutils literal notranslate"><span class="pre">cp2k</span></code> module and use the
+<code class="docutils literal notranslate"><span class="pre">cp2k.psmp</span></code> executable.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This script is provisional and requires validation</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># Request 4 nodes with 32 MPI tasks per node each using 8 threads;</span>
+<span class="c1"># note this means 128 MPI tasks in total.</span>
+<span class="c1"># Remember to replace [budget code] below with your account code,</span>
+<span class="c1"># e.g. &#39;--account=t01&#39;.</span>
+
+<span class="c1">#SBATCH --job-name=CP2K_test</span>
+<span class="c1">#SBATCH --nodes=4</span>
+<span class="c1">#SBATCH --ntasks=128</span>
+<span class="c1">#SBATCH --tasks-per-node=32</span>
+<span class="c1">#SBATCH --cpus-per-task=8</span>
+<span class="c1">#SBATCH --time=00:20:00</span>
+
+<span class="c1">#SBATCH --account=[budget code]</span>
+
+<span class="c1"># Load the relevant CP2K module</span>
+<span class="c1"># Ensure OMP_NUM_THREADS is consistent with cpus-per-task above</span>
+<span class="c1"># Launch the executable</span>
+
+<span class="n">module</span> <span class="n">load</span> <span class="n">cp2k</span>
+
+<span class="n">export</span> <span class="n">OMP_NUM_THREADS</span><span class="o">=</span><span class="mi">8</span>
+
+<span class="n">srun</span> <span class="n">cp2k</span><span class="o">.</span><span class="n">psmp</span> <span class="n">MYINPUT</span><span class="o">.</span><span class="n">inp</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="hints-and-tips">
+<h2>Hints and Tips<a class="headerlink" href="#hints-and-tips" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="compiling-cp2k">
+<h2>Compiling CP2K<a class="headerlink" href="#compiling-cp2k" title="Permalink to this headline">¶</a></h2>
+<p>Details of how to compile CP2K on ARCHER2 are available
+<a class="reference external" href="https://github.com/hpc-uk/build-instructions/tree/master/CP2K">https://github.com/hpc-uk/build-instructions/tree/master/CP2K</a></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../elk/elk.html" class="btn btn-neutral float-right" title="ELK" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../code-saturne/code-saturne.html" class="btn btn-neutral float-left" title="Code Saturne" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

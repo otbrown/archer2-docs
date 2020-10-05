@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Performance tuning &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Overview" href="../research-software/overview.html" />
+    <link rel="prev" title="Profiling" href="profile.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="../_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-users.html">Quickstart for users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-developers.html">Quickstart for developers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data management and transfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sw-environment.html">Software environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scheduler.html">Running jobs on ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O and file systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev-environment.html">Application development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profile.html">Profiling</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Performance tuning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mpi">MPI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#synchronous-vs-asynchronous-communications">Synchronous vs asynchronous communications</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mpi-send">MPI_Send</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#implications">Implications</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tuning-performance">Tuning performance</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#collective-operations">Collective operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/cp2k/cp2k.html">CP2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/vasp/vasp.html">VASP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Performance tuning</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/user-guide/tuning.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="performance-tuning">
+<h1>Performance tuning<a class="headerlink" href="#performance-tuning" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ARCHER2 Service is not yet available. This documentation is in
+development.</p>
+</div>
+<div class="section" id="mpi">
+<h2>MPI<a class="headerlink" href="#mpi" title="Permalink to this headline">¶</a></h2>
+<p>The vast majority of parallel scientific software uses the MPI library
+as the main way to implement parallelism; it is used so universally
+that the Cray compiler wrappers on ARCHER2 link to the Cray MPI
+library by default. Unlike other clusters you may have used, there is
+no choice of MPI library on ARCHER2: regardless of what compiler you
+are using, your program will use Cray MPI. This is because the
+Slingshot network on ARCHER2 is Cray-specific and significant effort
+has been put in by Cray software engineers to optimise the MPI
+performance on Cray Shasta systems.</p>
+<p>Here we list a number of suggestions for improving the performance of
+your MPI programs on ARCHER2. Although MPI programs are capable of
+scaling very well due to the bespoke communications hardware and
+software, the details of how a program calls MPI can have significant
+effects on achieved performance.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Many of these tips are actually quite generic and should be
+beneficial to any MPI program; however, they all become much more
+important when running on very large numbers of processes on a
+machine the size of ARCHER2.</p>
+</div>
+<div class="section" id="synchronous-vs-asynchronous-communications">
+<h3>Synchronous vs asynchronous communications<a class="headerlink" href="#synchronous-vs-asynchronous-communications" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="mpi-send">
+<h4>MPI_Send<a class="headerlink" href="#mpi-send" title="Permalink to this headline">¶</a></h4>
+<p>A standard way to send data in MPI is using <code class="docutils literal notranslate"><span class="pre">MPI_Send</span></code> (aptly called
+<em>standard send</em>). Somewhat confusingly, MPI is allowed to choose
+how to implement this in two different ways:</p>
+<dl class="docutils">
+<dt>Synchronously</dt>
+<dd>The sending process waits until a matching receive has
+been posted, i.e. it operates like <code class="docutils literal notranslate"><span class="pre">MPI_Ssend</span></code>. This clearly has
+the risk of deadlock if no receive is ever issued.</dd>
+<dt>Asynchronously</dt>
+<dd>MPI makes a copy of the message into an internal buffer
+and returns straight away without waiting for a matching receive; the
+message may actually be delivered later on. This is like the
+behaviour of the the buffered send routine <code class="docutils literal notranslate"><span class="pre">MPI_Bsend</span></code>.</dd>
+</dl>
+<p>The rationale is that MPI, rather than the user, should decide how
+best to send a message.</p>
+<p>In practice, what typically happens is that MPI tries to use an
+asynchronous approach via the <em>eager</em> protocol – the message is
+copied directly to a preallocated buffer <em>on the receiver</em> and the
+routine returns immediately afterward. Clearly there is a limit on how
+much space can be reserved for this, so:</p>
+<ul class="simple">
+<li><strong>small messages</strong> will be sent asynchronously;</li>
+<li><strong>large messages</strong> will be sent synchronously.</li>
+</ul>
+<p>The threshold is often termed the <em>eager limit</em> which is fixed for the
+entire run of your program. It will have some default setting which
+varies from system to system, but might be around 8K bytes.</p>
+</div>
+<div class="section" id="implications">
+<h4>Implications<a class="headerlink" href="#implications" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>An MPI program will typically run <em>faster</em> if <code class="docutils literal notranslate"><span class="pre">MPI_Send</span></code> is
+implemented asynchronously using the eager protocol since
+synchronisation between sender and receive is much reduced.</li>
+<li>However, you should <strong>never assume</strong> that <code class="docutils literal notranslate"><span class="pre">MPI_Send</span></code> buffers your
+message, so if you have concerns about deadlock you will need to use
+the non-blocking variant <code class="docutils literal notranslate"><span class="pre">MPI_Isend</span></code> to guarantee that the send
+routine returns control to you immediately even if there is no
+matching receive.</li>
+<li>It is <strong>not enough</strong> to say <em>deadlock is an issue in principle, but
+it runs OK on my laptop so there is no problem in practice</em>. The
+<em>eager limit</em> is system-dependent so the fact that a message happens
+to be buffered on your laptop is no guarantee it will be buffered on
+ARCHER2.</li>
+<li>To check that you have a correct code, replace all instances of
+<code class="docutils literal notranslate"><span class="pre">MPI_Send</span></code> / <code class="docutils literal notranslate"><span class="pre">MPI_Isend</span></code> with <code class="docutils literal notranslate"><span class="pre">MPI_Ssend</span></code> / <code class="docutils literal notranslate"><span class="pre">MPI_Issend</span></code>. A
+correct MPI program should still run correctly when all references to
+standard send are replaced by synchronous send (since MPI is allowed
+to implement standard send as synchronous send).</li>
+</ul>
+</div>
+<div class="section" id="tuning-performance">
+<h4>Tuning performance<a class="headerlink" href="#tuning-performance" title="Permalink to this headline">¶</a></h4>
+<p>With most MPI libraries you should be able to alter the default value
+of the eager limit at runtime, perhaps via an environment variable or
+a command-line argument to <code class="docutils literal notranslate"><span class="pre">mpirun</span></code>. On ARCHER, the magic
+incantation is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">MPICH_GNI_MAX_EAGER_MSG_SIZE</span><span class="o">=</span><span class="mi">16382</span>
+</pre></div>
+</div>
+<p>which would mean that messages below 16K bytes are sent
+asynchronously (there will be a similar, but different, incantation on
+ARCHER2).</p>
+<p>The advice for tuning the performance of <code class="docutils literal notranslate"><span class="pre">MPI_Send</span></code> is</p>
+<ul class="simple">
+<li>find out what the distribution of message sizes for <code class="docutils literal notranslate"><span class="pre">MPI_Send</span></code> is
+(a profiling tool may be useful here);</li>
+<li>this applies to <code class="docutils literal notranslate"><span class="pre">MPI_Isend</span></code> as well: even in the non-blocking
+form, which can help to weaken synchronisation between sender and
+receiver, the amount of hand-shaking required is much reduced if the
+eager protocol is used;</li>
+<li>find out from the system documentation how to alter the value of the
+eager limit (there is no standardised way to set it);</li>
+<li>set the eager limit to a value larger than your typical message size
+– you may need to add a small amount, say a few hundred bytes, to
+allow for any additional header information that is added to each
+message;</li>
+<li>measure the performance before and after to check that it has improved.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It cannot be stressed strongly enough that although the performance
+may be affected by the value of the eager limit, the functionality
+of your program should be unaffected. If changing the eager limit
+affects the correctness of your program (e.g. whether or not it
+deadlocks) then <strong>you have an incorrect MPI program</strong>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="collective-operations">
+<h3>Collective operations<a class="headerlink" href="#collective-operations" title="Permalink to this headline">¶</a></h3>
+<p>Many of the collective operations that are commonly required by
+parallel scientific programs, i.e. operations that involve a group of
+processes, are already implemented in MPI. The canonical operation is
+perhaps adding up a double precision number across all MPI processes,
+which is best achieved by a <em>reduction operation</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MPI_Allreduce</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">xsum</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="n">MPI_SUM</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This will be implemented using an efficient algorithm, for example
+based on a binary tree. Using such <em>divide-and-conquer</em> approaches
+typically results in an algorithm whose execution time on <span class="math notranslate nohighlight">\(P\)</span>
+processes scales as <span class="math notranslate nohighlight">\(log_2(P)\)</span>; compare this to a naive approach
+where every process sends its input to rank 0 where the time will
+scale as <span class="math notranslate nohighlight">\(P\)</span>. This might not be significant on your laptop, but
+even on as few as 1000 processes the tree-based algorithm will already
+be around 100 times faster.</p>
+<p>So, the basic advice is <strong>always use a collective routine to implement
+your communications pattern</strong> if at all possible.</p>
+<p>In real MPI applications, collective operations are often called on a
+small amount of data, for example a global reduction of a single
+variable. In these cases, the time taken will be dominated by message
+latency and the first port of call when looking at performance
+optimisation is to call them as infrequently as possible!</p>
+<ul class="simple">
+<li>If you are simply printing diagnostics to the screen in an iterative
+loop, consider doing this less frequently, e.g every ten iterations,
+or even not at all (although you should easily be able to turn
+diagnostics on again for future debugging).</li>
+<li>If you are computing some termination criterion, it may actually be
+faster overall to compute it and check for convergence infrequently,
+e.g. every ten iterations, even although this means that your
+program could run for up to 9 extra iterations.</li>
+<li>If possible, group data into a single buffer and call a single
+reduction with count &gt; 1; two reductions with count = 1 will take
+almost exactly twice as long as a single reduction with count = 2.</li>
+<li>For example, if you only need to output a sequence of summed data at
+the end of the run, store the partial totals in an array and do a
+single reduction right at the end.</li>
+</ul>
+<p>Sometimes, the collective routines available may not appear to do
+exactly what you want. However, they can sometimes be used with a
+small amount of additional programming work:</p>
+<ul>
+<li><p class="first">To operate on a subset of processes, create sub-communicators
+containing the relevant subset(s) and use these communicators
+instead of <code class="docutils literal notranslate"><span class="pre">MPI_COMM_WORLD</span></code>. Useful functions for communicator
+management include:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">MPI_Comm_split</span></code> is the most general routine;</li>
+<li><code class="docutils literal notranslate"><span class="pre">MPI_Comm_split_type</span></code> can be used to create a separate communicator for each shared-memory node with <code class="docutils literal notranslate"><span class="pre">split</span> <span class="pre">type</span> <span class="pre">=</span> <span class="pre">MPI_COMM_TYPE_SHARED</span></code>;</li>
+<li><code class="docutils literal notranslate"><span class="pre">MPI_Cart_sub</span></code> can divide a Cartesian communicator into regular slices.</li>
+</ul>
+</li>
+<li><p class="first">If the communication <em>pattern</em> is what you want, but the data on each
+process is not arranged in the required layout, consider using MPI
+derived data types for the input and/or output. This can be useful,
+for example, if you want to communicate non-contiguous data such as
+a subsection of a multidimensional array although care must be taken
+in defining these types to ensure they have the correct extents.</p>
+<p>Another example would be using <code class="docutils literal notranslate"><span class="pre">MPI_Allreduce</span></code> to add up an
+integer and a double-precision variable using a single call by
+putting them together into a C <code class="docutils literal notranslate"><span class="pre">struct</span></code> and defining a matching
+MPI datatype using <code class="docutils literal notranslate"><span class="pre">MPI_Type_create_struct</span></code>. Here you would also
+have to provide MPI with a custom reduction operation using
+<code class="docutils literal notranslate"><span class="pre">MPI_Op_create</span></code>.</p>
+</li>
+</ul>
+<p>Many MPI programs call <code class="docutils literal notranslate"><span class="pre">MPI_Barrier</span></code> to explicitly synchronise all
+the processes. Although this can be useful for getting reliable
+performance timings, it is rare in practice to find a program where
+the call is actually needed for correctness. For example, you may
+see:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Ensure</span> <span class="n">the</span> <span class="nb">input</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">available</span> <span class="n">on</span> <span class="nb">all</span> <span class="n">processes</span>
+<span class="n">MPI_Barrier</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+<span class="o">//</span> <span class="n">Perform</span> <span class="n">a</span> <span class="k">global</span> <span class="n">reduction</span> <span class="n">operation</span>
+<span class="n">MPI_Allreduce</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">xsum</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="n">MPI_SUM</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+<span class="o">//</span> <span class="n">Ensure</span> <span class="n">the</span> <span class="n">result</span> <span class="n">xsum</span> <span class="ow">is</span> <span class="n">available</span> <span class="n">on</span> <span class="nb">all</span> <span class="n">processes</span>
+<span class="n">MPI_Barrier</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Neither of these barriers are needed</strong> as the reduction operation
+performs all the required synchronisation.</p>
+<p>If removing a barrier from your MPI code makes it run incorrectly,
+then this should ring alarm bells – it is often a symptom of an
+underlying bug that is simply being masked by the barrier.</p>
+<p>For example, if you use non-blocking calls such as <code class="docutils literal notranslate"><span class="pre">MPI_Irecv</span></code> then
+it is the programmer’s responsibility to ensure that these are
+completed at some later point, for example by calling <code class="docutils literal notranslate"><span class="pre">MPI_Wait</span></code> on
+the returned request object. A common bug is to forget to do this, in
+which case you might be reading the contents of the receive buffer
+before the incoming message has arrived (e.g. if the sender is running
+late).</p>
+<p>Calling a barrier may mask this bug as it will make all the processes
+wait for each other, perhaps allowing the late sender to catch
+up. However, this is not guaranteed so the real solution is to call
+the non-blocking communications correctly.</p>
+<p>One of the few times when a barrier may be required is if processes
+are communicating with each other via some other non-MPI method,
+e.g. via the file system. If you want processes to sequentially open,
+append to, then close the same file then barriers are a simple way to
+achieve this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">rank</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="n">append_data_to_file</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="p">);</span>
+  <span class="n">MPI_Barrier</span><span class="p">(</span><span class="n">comm</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>but this is really something of a special case.</p>
+<p>Global synchronisation may be required if you are using more advanced
+techniques such as hybrid MPI/OpenMP or single-sided MPI communication
+with put and get, but typically you should be using specialised
+routines such as <code class="docutils literal notranslate"><span class="pre">MPI_Win_fence</span></code> rather than <code class="docutils literal notranslate"><span class="pre">MPI_Barrier</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you run a performance profiler on your code and it shows a lot
+of time being spent in a collective operation such as
+<code class="docutils literal notranslate"><span class="pre">MPI_Allreduce</span></code>, this is <em>not necessarily</em> a sign that the
+reduction operation itself is the bottleneck. This is often a
+symptom of <em>load imbalance</em>: even if a reduction operation is
+efficiently implemented, it may take a long time to complete if the
+MPI processes do not all call it at the same
+time. <code class="docutils literal notranslate"><span class="pre">MPI_Allreduce</span></code> synchronises across processes so will have
+to wait for all the processes to call it before it can complete. A
+single slow process will therefore adversely impact the performance
+of your entire parallel program.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../research-software/overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="profile.html" class="btn btn-neutral float-left" title="Profiling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

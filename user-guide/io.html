@@ -1,0 +1,537 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>I/O and file systems &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Application development environment" href="dev-environment.html" />
+    <link rel="prev" title="Running jobs on ARCHER2" href="scheduler.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="../_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-users.html">Quickstart for users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-developers.html">Quickstart for developers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data management and transfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sw-environment.html">Software environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scheduler.html">Running jobs on ARCHER2</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">I/O and file systems</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-the-archer2-file-systems">Using the ARCHER2 file systems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#home">Home</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#work">Work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#solid-state-storage-sss">Solid State Storage (SSS)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#disk-quotas">Disk quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sharing-data-with-other-archer2-users">Sharing data with other ARCHER2 users</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sharing-data-with-users-in-your-project">Sharing data with users in your project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sharing-data-with-all-users">Sharing data with all users</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#common-i-o-patterns">Common I/O patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#single-file-single-writer-serial-i-o">Single file, single writer (Serial I/O)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-per-process-fpp">File-per-process (FPP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#single-file-multiple-writers-without-collective-operations">Single file, multiple writers without collective operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#single-shared-file-with-collective-writes-ssf">Single Shared File with collective writes (SSF)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#achieving-efficient-i-o">Achieving efficient I/O</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lustre">Lustre</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#striping">Striping</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#default-configuration">Default configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-custom-striping-configurations">Setting Custom Striping Configurations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#recommended-archer2-i-o-settings">Recommended ARCHER2 I/O settings</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#i-o-profiling">I/O Profiling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#craypat">CrayPat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#darshan">Darshan</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dev-environment.html">Application development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profile.html">Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tuning.html">Performance tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/cp2k/cp2k.html">CP2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/vasp/vasp.html">VASP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>I/O and file systems</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/user-guide/io.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="i-o-and-file-systems">
+<h1>I/O and file systems<a class="headerlink" href="#i-o-and-file-systems" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ARCHER2 Service is not yet available. This documentation is in
+development.</p>
+</div>
+<div class="section" id="using-the-archer2-file-systems">
+<h2>Using the ARCHER2 file systems<a class="headerlink" href="#using-the-archer2-file-systems" title="Permalink to this headline">¶</a></h2>
+<p>Different file systems are configured for different purposes and performance. ARCHER2 has three file systems available to users:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Node type</th>
+<th class="head">Available file systems</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Login</td>
+<td><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">/home</span></kbd></td>
+<td><div class="first last line-block">
+<div class="line">/work</div>
+</div>
+</td></tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-odd"><td>Compute</td>
+<td><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">/work</span></kbd></td>
+<td><div class="first last line-block">
+<div class="line">SSS</div>
+</div>
+</td></tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td>PP</td>
+<td><div class="first last line-block">
+<div class="line"><br /></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Any data used in a parallel jobs should be located on <code class="docutils literal notranslate"><span class="pre">/work</span></code> (Lustre) or the solid state storage.</p>
+</div>
+<div class="section" id="home">
+<h3>Home<a class="headerlink" href="#home" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This file system is backed up for disaster recovery purposes only. Data recovery for accidental deletion is not supported.</p>
+</div>
+<p>Home directories provide a convenient means for a user to have access to files such as source files, input files or configuration files. This file system is only mounted on the login nodes. The home directory for each user is located at:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="p">[</span><span class="n">project</span> <span class="n">code</span><span class="p">]</span><span class="o">/</span><span class="p">[</span><span class="n">group</span> <span class="n">code</span><span class="p">]</span><span class="o">/</span><span class="p">[</span><span class="n">username</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>where</p>
+<p><code class="docutils literal notranslate"><span class="pre">[project</span> <span class="pre">code]</span></code> is the code for your project (e.g., x01);</p>
+<p><code class="docutils literal notranslate"><span class="pre">[group</span> <span class="pre">code]</span></code> is the code for your project group, if your project has groups, (e.g. x01-a) or the same as the project code, if not;</p>
+<p><code class="docutils literal notranslate"><span class="pre">[username]</span></code> is your login name.</p>
+<p>Each project is allocated a portion of the total storage available, and the project PI will be able to sub-divide this quota among the groups and users within the project. As is standard practice on UNIX and Linux systems, the environment variable <code class="docutils literal notranslate"><span class="pre">$HOME</span></code> is automatically set to point to your home directory.</p>
+<p>It should be noted that the home file system is not designed, and does not have the capacity, to act as a long term archive for large sets of results.</p>
+</div>
+<div class="section" id="work">
+<h3>Work<a class="headerlink" href="#work" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">There is no separate backup of data on any of the work file systems, which means that in the event of a major hardware failure, or if a user accidently deletes essential data, it will not be possible to recover the lost files.</p>
+</div>
+<p>High-performance Lustre file system mounted on the compute nodes. All parallel calculations must be run from directories on the <code class="docutils literal notranslate"><span class="pre">/work</span></code> file system and all files required by the calculation (apart from the executable) must reside on <code class="docutils literal notranslate"><span class="pre">/work</span></code>. Each project will be assigned space on a particular Lustre partition with the assignments chosen to balance the load across the available infrastructure.</p>
+<p>The work directory for each user is located at:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="p">[</span><span class="n">project</span> <span class="n">code</span><span class="p">]</span><span class="o">/</span><span class="p">[</span><span class="n">group</span> <span class="n">code</span><span class="p">]</span><span class="o">/</span><span class="p">[</span><span class="n">username</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>where</p>
+<p><code class="docutils literal notranslate"><span class="pre">[project</span> <span class="pre">code]</span></code> is the code for your project (e.g., x01);</p>
+<p><code class="docutils literal notranslate"><span class="pre">[group</span> <span class="pre">code]</span></code> is the code for your project group, if your project has groups, (e.g. x01-a) or the same as the project code, if not;</p>
+<p><code class="docutils literal notranslate"><span class="pre">[username]</span></code> is your login name.</p>
+<p>Links from the <code class="docutils literal notranslate"><span class="pre">/home</span></code> file system to directories or files on <code class="docutils literal notranslate"><span class="pre">/work</span></code> are strongly discouraged. If links are used, executables and data files on <code class="docutils literal notranslate"><span class="pre">/work</span></code> to be used by applications on the compute nodes (i.e. those executed via the <code class="docutils literal notranslate"><span class="pre">aprun</span></code> command) should be referenced directly on <code class="docutils literal notranslate"><span class="pre">/work</span></code>.</p>
+</div>
+<div class="section" id="solid-state-storage-sss">
+<h3>Solid State Storage (SSS)<a class="headerlink" href="#solid-state-storage-sss" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This section is in development and it will be completed as soon as possible.</p>
+</div>
+<p>The 1.1 PiB ARCHER2 solid state file system significantly increase the I/O performance for all file sizes and access patterns.</p>
+</div>
+</div>
+<div class="section" id="disk-quotas">
+<h2>Disk quotas<a class="headerlink" href="#disk-quotas" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="sharing-data-with-other-archer2-users">
+<h2>Sharing data with other ARCHER2 users<a class="headerlink" href="#sharing-data-with-other-archer2-users" title="Permalink to this headline">¶</a></h2>
+<p>How you share data with other ARCHER2 users depends on whether they belong to the same project as you or not. Each project has two levels of shared directories that can be used for sharing data.</p>
+<div class="section" id="sharing-data-with-users-in-your-project">
+<h3>Sharing data with users in your project<a class="headerlink" href="#sharing-data-with-users-in-your-project" title="Permalink to this headline">¶</a></h3>
+<p>Each project has a directory called:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="p">[</span><span class="n">project</span> <span class="n">code</span><span class="p">]</span><span class="o">/</span><span class="p">[</span><span class="n">project</span> <span class="n">code</span><span class="p">]</span><span class="o">/</span><span class="n">shared</span>
+</pre></div>
+</div>
+<p>that has read/write permissions for all project members. You can place any data you wish to share with other project members in this directory.</p>
+<p>For example, if your project code is x01 the shared project directory would be located at:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">x01</span><span class="o">/</span><span class="n">x01</span><span class="o">/</span><span class="n">shared</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sharing-data-with-all-users">
+<h3>Sharing data with all users<a class="headerlink" href="#sharing-data-with-all-users" title="Permalink to this headline">¶</a></h3>
+<p>Each project also has a higher level directory called:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="p">[</span><span class="n">project</span> <span class="n">code</span><span class="p">]</span><span class="o">/</span><span class="n">shared</span>
+</pre></div>
+</div>
+<p>that is writable by all project members and readable by any user on the system. You can place any data you wish to share with other ARCHER2 users who are not members of your project in this directory.</p>
+<p>For example, if your project code is x01 the sharing directory would be located at:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">x01</span><span class="o">/</span><span class="n">shared</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="common-i-o-patterns">
+<h2>Common I/O patterns<a class="headerlink" href="#common-i-o-patterns" title="Permalink to this headline">¶</a></h2>
+<p>There is a number of I/O patterns that are frequently used in applications:</p>
+<div class="section" id="single-file-single-writer-serial-i-o">
+<h3>Single file, single writer (Serial I/O)<a class="headerlink" href="#single-file-single-writer-serial-i-o" title="Permalink to this headline">¶</a></h3>
+<p>A common approach is to funnel all the I/O through a single master process. Although this has the advantage of producing a single file, the fact that only a single client is doing all the I/O means that it gains little benefit from the parallel file system.</p>
+</div>
+<div class="section" id="file-per-process-fpp">
+<h3>File-per-process (FPP)<a class="headerlink" href="#file-per-process-fpp" title="Permalink to this headline">¶</a></h3>
+<p>One of the first parallel strategies people use for I/O is for each parallel process to write to its own file. This is a simple scheme to implement and understand but has the disadvantage that, at the end of the calculation, the data is spread across many different files and may therefore be difficult to use for further analysis without a data reconstruction stage.</p>
+</div>
+<div class="section" id="single-file-multiple-writers-without-collective-operations">
+<h3>Single file, multiple writers without collective operations<a class="headerlink" href="#single-file-multiple-writers-without-collective-operations" title="Permalink to this headline">¶</a></h3>
+<p>There are a number of ways to achieve this. For example, many processes can open the same file but access different parts by skipping some initial offset; parallel I/O libraries such as MPI-IO, HDF5 and NetCDF also enable this.</p>
+<p>Shared-file I/O has the advantage that all the data is organised correctly in a single file making analysis or restart more straightforward.</p>
+<p>The problem is that, with many clients all accessing the same file, there can be a lot of contention for file system resources.</p>
+</div>
+<div class="section" id="single-shared-file-with-collective-writes-ssf">
+<h3>Single Shared File with collective writes (SSF)<a class="headerlink" href="#single-shared-file-with-collective-writes-ssf" title="Permalink to this headline">¶</a></h3>
+<p>The problem with having many clients performing I/O at the same time is that, to prevent them clashing with each other, the I/O library may have to take a conservative approach. For example, a file may be locked while each client is accessing it which means that I/O is effectively serialised and performance may be poor.</p>
+<p>However, if I/O is done collectively where the library knows that all clients are doing I/O at the same time, then reads and writes can be explicitly coordinated to avoid clashes. It is only through collective I/O that the full bandwidth of the file system can be realised while accessing a single file.</p>
+</div>
+</div>
+<div class="section" id="achieving-efficient-i-o">
+<h2>Achieving efficient I/O<a class="headerlink" href="#achieving-efficient-i-o" title="Permalink to this headline">¶</a></h2>
+<p>This section provides information on getting the best performance out of the parallel <code class="docutils literal notranslate"><span class="pre">/work</span></code> file systems on ARCHER2 when writing data, particularly using parallel I/O patterns.</p>
+<div class="section" id="lustre">
+<h3>Lustre<a class="headerlink" href="#lustre" title="Permalink to this headline">¶</a></h3>
+<p>The ARCHER2 <code class="docutils literal notranslate"><span class="pre">/work</span></code> file systems use Lustre as a parallel file system technology. The Lustre file system provides POSIX semantics (changes on one node are immediately visible on other nodes) and can support very high data rates for appropriate I/O patterns.</p>
+</div>
+<div class="section" id="striping">
+<h3>Striping<a class="headerlink" href="#striping" title="Permalink to this headline">¶</a></h3>
+<p>One of the main factors leading to the high performance of Lustre file systems is the ability to stripe data across multiple Object Storage Targets (OSTs) in a round-robin fashion. Files are striped when the data is split up in chunks that will then be stored on different OSTs across the Lustre system. Striping might improve the I/O performance because it increases the available bandwith since multiple processes can read and write the same files simultaneously. However striping can also increase the overhead. Choosing the right striping configuration is key to obtain high performance results.</p>
+<p>Users have control of a number of striping settings on Lustre file systems. Although these parameters can be set on a per-file basis they are usually set on directory where your output files will be written so that all output files inherit the settings.</p>
+<div class="section" id="default-configuration">
+<h4>Default configuration<a class="headerlink" href="#default-configuration" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div>The <code class="docutils literal notranslate"><span class="pre">/work</span></code> file systems on ARCHER2 have the same default stripe settings:</div></blockquote>
+<ul class="simple">
+<li>A default stripe count of 1</li>
+<li>A default stripe size of 1 MiB (1048576 bytes)</li>
+</ul>
+<p>These settings have been chosen to provide a good compromise for the wide variety of I/O patterns that are seen on the system but are unlikely to be optimal for any one particular scenario.
+The Lustre command to query the stripe settings for a directory (or file) is <code class="docutils literal notranslate"><span class="pre">lfs</span> <span class="pre">getstripe</span></code>. For example, to query the stripe settings of an already created directory <code class="docutils literal notranslate"><span class="pre">res_dir</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[user@archer2]$ lfs getstripe res_dir/
+res_dir
+stripe_count:   1 stripe_size:    1048576 stripe_offset:  -1
+</pre></div>
+</div>
+</div>
+<div class="section" id="setting-custom-striping-configurations">
+<h4>Setting Custom Striping Configurations<a class="headerlink" href="#setting-custom-striping-configurations" title="Permalink to this headline">¶</a></h4>
+<p>Users can set stripe settings for a directory (or file) using the <code class="docutils literal notranslate"><span class="pre">lfs</span> <span class="pre">setstripe</span></code> command. The options for <code class="docutils literal notranslate"><span class="pre">lfs</span> <span class="pre">setstripe</span></code> are:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">[--stripe-count|-c]</span></code> to set the stripe count; 0 means use the system default (usually 1) and -1 means stripe over all available OSTs.</li>
+<li><code class="docutils literal notranslate"><span class="pre">[--stripe-size|-s]</span></code> to set the stripe size; 0 means use the system default (usually 1 MB) otherwise use k, m or g for KB, MB or GB respectively</li>
+<li><code class="docutils literal notranslate"><span class="pre">[--stripe-index|-i]</span></code> to set the OST  index (starting at 0) on which to start striping for this file.  An index of -1  allows the  MDS  to choose the starting index and it is strongly recommended, as this allows space and load balancing to  be  done  by the  MDS  as  needed.</li>
+</ul>
+<p>For example, to set a stripe size of 4 MiB for the existing directory <code class="docutils literal notranslate"><span class="pre">res_dir</span></code>, along with maximum striping count you would use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[user@archer2]$ lfs setstripe -s 4m -c -1 res_dir/
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="recommended-archer2-i-o-settings">
+<h3>Recommended ARCHER2 I/O settings<a class="headerlink" href="#recommended-archer2-i-o-settings" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="i-o-profiling">
+<h2>I/O Profiling<a class="headerlink" href="#i-o-profiling" title="Permalink to this headline">¶</a></h2>
+<p>ARCHER2 has a number of tools available for users to profile and analyse the I/O activity of software applications.</p>
+<div class="section" id="craypat">
+<h3>CrayPat<a class="headerlink" href="#craypat" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="darshan">
+<h3>Darshan<a class="headerlink" href="#darshan" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dev-environment.html" class="btn btn-neutral float-right" title="Application development environment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="scheduler.html" class="btn btn-neutral float-left" title="Running jobs on ARCHER2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,586 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Profiling &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Performance tuning" href="tuning.html" />
+    <link rel="prev" title="Debugging" href="debug.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="../_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-users.html">Quickstart for users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-developers.html">Quickstart for developers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data management and transfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sw-environment.html">Software environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scheduler.html">Running jobs on ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O and file systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev-environment.html">Application development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">Debugging</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Profiling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#craypat-lite">CrayPat-lite</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-use-craypat-lite">How to use CrayPat-lite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#further-help">Further help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#craypat">CrayPat</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sampling-analysis">Sampling analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tracing-analysis">Tracing analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#automatic-program-analysis-apa">Automatic Program Analysis (APA)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#manual-program-analysis">Manual Program Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamically-linked-binaries">Dynamically-linked binaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Further help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cray-apprentice2">Cray Apprentice2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hardware-performance-counters">Hardware Performance Counters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tuning.html">Performance tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/cp2k/cp2k.html">CP2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/vasp/vasp.html">VASP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Profiling</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/user-guide/profile.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="profiling">
+<h1>Profiling<a class="headerlink" href="#profiling" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ARCHER2 Service is not yet available. This documentation is in
+development.</p>
+</div>
+<div class="section" id="craypat-lite">
+<h2>CrayPat-lite<a class="headerlink" href="#craypat-lite" title="Permalink to this headline">¶</a></h2>
+<p>CrayPat-lite is a simplified and easy-to-use version of the Cray Performance Measurement and Analysis Tool (CrayPat) set. CrayPat-lite provides basic performance analysis information automatically, with a minimum of user interaction, and yet offers information useful to users wishing to explore a program’s behavior further using the full CrayPat tool set.</p>
+<p>To use CrayPat-lite you only need to make sure that the base CrayPat perftools-base module has been loaded, an instrumentation module can then be loaded for further experimentation.</p>
+<div class="section" id="how-to-use-craypat-lite">
+<h3>How to use CrayPat-lite<a class="headerlink" href="#how-to-use-craypat-lite" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Ensure the <code class="docutils literal notranslate"><span class="pre">perftools-base</span></code> module is loaded</li>
+</ol>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">perftools</span><span class="o">-</span><span class="n">base</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Load <code class="docutils literal notranslate"><span class="pre">perfotools-lite</span></code> module</li>
+</ol>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">perftools</span><span class="o">-</span><span class="n">lite</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Compile your application normally. An information message from CrayPat-lite will appear indicating that the executable has been instrumented.</li>
+</ol>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>[user@archer2]$ cc -h std=c99  -o myapplication.x myapplication.c
+INFO: creating the CrayPat-instrumented executable &#39;myapplication.x&#39; (lite-samples) ...OK
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Run the generated executable normally submitting a job.</li>
+</ol>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The following SLURM script is provisional and should be verified</p>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#!/bin/bash</span>
+
+<span class="cp">#SBATCH --job-name=craypat_test</span>
+<span class="cp">#SBATCH --nodes=4</span>
+<span class="cp">#SBATCH --tasks-per-node=128</span>
+<span class="cp">#SBATCH --cpus-per-task=1</span>
+<span class="cp">#SBATCH --time=00:20:00</span>
+
+<span class="cp">#SBATCH --account=[budget code]</span>
+
+<span class="n">srun</span> <span class="n">mpi_test</span><span class="p">.</span><span class="n">x</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>Analyse the data</li>
+</ol>
+<p>After the job finishes executing, CrayPat-lite output should be printed to stdout i.e. at the end of the job’s output file generated. A new directory will also be created in the directory the run occurred in with <code class="docutils literal notranslate"><span class="pre">.rpt</span></code> and <code class="docutils literal notranslate"><span class="pre">.ap2</span></code> files. The <code class="docutils literal notranslate"><span class="pre">.rpt</span></code> files are text files that contain the same information printed in the job’s output file, the <code class="docutils literal notranslate"><span class="pre">.ap2</span></code> files can be used to obtained more detailed information  and can be visualized with the Cray Apprentice2 tool (for information on using this, please take a look at <a class="reference internal" href="#cray-apprentice2">Cray Apprentice2</a>).</p>
+</div>
+<div class="section" id="further-help">
+<h3>Further help<a class="headerlink" href="#further-help" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://pubs.cray.com/content/S-2376/7.0.0/cray-performance-measurement-and-analysis-tools-user-guide/craypat-lite">CrayPat-lite User Guide</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="craypat">
+<h2>CrayPat<a class="headerlink" href="#craypat" title="Permalink to this headline">¶</a></h2>
+<p>The Cray Performance Analysis Tool (CrayPAT) is a powerful framework for analysing a parallel
+application’s performance on Cray supercomputers. It can provide very detailed information on
+the timing and performance of individual application procedures.</p>
+<p>CrayPat can perform two types of performance analysis: <em>sampling</em> experiments and <em>tracing</em> experiments. A sampling experiment probes the code at a predefined interval and produces a report based on these statistics. A tracing experiment explicitly monitors the code performance within named routines. Typically, the overhead associated with a tracing experiment is higher than that associated with a sampling experiment but provides much more detailed information. The key to getting useful data out of a sampling experiment is to run your profiling for a representative length of time.</p>
+<div class="section" id="sampling-analysis">
+<h3>Sampling analysis<a class="headerlink" href="#sampling-analysis" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Ensure the <code class="docutils literal notranslate"><span class="pre">perftools-base</span></code> module is loaded</li>
+</ol>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">perftools</span><span class="o">-</span><span class="n">base</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Load <code class="docutils literal notranslate"><span class="pre">perftools</span></code> module</li>
+</ol>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">perftools</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Compile your code in the standard way always using the Cray compiler wrappers (ftn, cc and CC). Object files need to be made available to CrayPat to correctly build an instrumented executable for profiling or tracing, this means that compile and link stage should be separated by using the <code class="docutils literal notranslate"><span class="pre">-c</span></code> compile flag.</li>
+</ol>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>[user@archer2]$ cc -h std=c99 -c jacobi.c
+[user@archer2]$ cc jacobi.o -o jacobi
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Instrument your application
+To instrument then the binary, run the <code class="docutils literal notranslate"><span class="pre">pat_build</span></code> command. This will generate a new binary with <code class="docutils literal notranslate"><span class="pre">+pat</span></code> appended to the end (e.g. <code class="docutils literal notranslate"><span class="pre">jacobi+pat</span></code>)</li>
+</ol>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>[user@archer2]$ pat_build jacobi
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>Run the new executable with <code class="docutils literal notranslate"><span class="pre">+pat</span></code> appended as you would with the regular executable. This will generate performance data files with the suffix <code class="docutils literal notranslate"><span class="pre">.xf</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">jacobi+pat+12265-1573s/xf-files</span></code>).</li>
+<li>Generate report data</li>
+</ol>
+<p>This <code class="docutils literal notranslate"><span class="pre">.xt</span></code> file contains the raw sampling data from the run and needs to be post processed to produce useful results. This is done using the <code class="docutils literal notranslate"><span class="pre">pat_report</span></code> tool which converts all the raw data into a summarised and readable form.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>  [user@archer2]$ pat_report jacobi+pat+12265-1573s
+
+  Table 1:  Profile by Function (limited entries shown)
+
+  Samp% |  Samp |  Imb. |  Imb. | Group
+        |       |  Samp | Samp% |  Function
+        |       |       |       |   PE=HIDE
+ 100.0% | 849.5 |    -- |    -- | Total
+|--------------------------------------------------
+|  56.7% | 481.4 |    -- |    -- | MPI
+||-------------------------------------------------
+||  48.7% | 414.1 |  50.9 | 11.0% | MPI_Allreduce
+||   4.4% |  37.5 | 118.5 | 76.6% | MPI_Waitall
+||   3.0% |  25.2 |  44.8 | 64.5% | MPI_Isend
+||=================================================
+|  29.9% | 253.9 |  55.1 | 18.0% | USER
+||-------------------------------------------------
+||  29.9% | 253.9 |  55.1 | 18.0% | main
+||=================================================
+|  13.4% | 114.1 |    -- |    -- | ETC
+||-------------------------------------------------
+||  13.4% | 113.9 |  26.1 | 18.8% | __cray_memcpy_SNB
+|==================================================
+</pre></div>
+</div>
+<p>This report will generate two more files, one with the extension <code class="docutils literal notranslate"><span class="pre">.ap2</span></code> which holds the same data as the <code class="docutils literal notranslate"><span class="pre">.xf</span></code> but in the post processed form. The other file has a <code class="docutils literal notranslate"><span class="pre">.apa</span></code> extension and is a text file with a suggested configuration for generating a traced experiment. The <code class="docutils literal notranslate"><span class="pre">.ap2</span></code> file generated is used to view performance data graphically with the Cray Apprentice2 tool (for information on using this, please take a look at <a class="reference internal" href="#cray-apprentice2">Cray Apprentice2</a>), and the latter is used for more detailed tracing experiments.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">pat_report</span></code> command is able to produce many different profile reports from the profile data. You can select a predefined report with the <code class="docutils literal notranslate"><span class="pre">-O</span></code> flag to <code class="docutils literal notranslate"><span class="pre">pat_report</span></code>. A selection of the most generally useful predefined report types are</p>
+<ul class="simple">
+<li><strong>ca+src</strong> - Show the callers (bottom-up view) leading to the routines that have a high use in the report and include source code line numbers for the calls and time-consuming statements.</li>
+<li><strong>load_balance</strong> - Show load-balance statistics for the high-use routines in the program. Parallel processes with minimum, maximum and median times for routines will be displayed. Only available with tracing experiments.</li>
+<li><strong>mpi_callers</strong> - Show MPI message statistics. Only available with tracing experiments.</li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>  [user@archer2]$ pat_report -O ca+src,load_balance  jacobi+pat+12265-1573s
+
+  Table 1:  Profile by Function and Callers, with Line Numbers (limited entries shown)
+
+  Samp% |  Samp |  Imb. |  Imb. | Group
+        |       |  Samp | Samp% |  Function
+        |       |       |       |   PE=HIDE
+ 100.0% | 849.5 |    -- |    -- | Total
+|--------------------------------------------------
+|--------------------------------------
+|  56.7% | 481.4 | MPI
+||-------------------------------------
+||  48.7% | 414.1 | MPI_Allreduce
+3|        |       |  main:jacobi.c:line.80
+||   4.4% |  37.5 | MPI_Waitall
+3|        |       |  main:jacobi.c:line.73
+||   3.0% |  25.2 | MPI_Isend
+|||------------------------------------
+3||   1.6% |  13.2 | main:jacobi.c:line.65
+3||   1.4% |  12.0 | main:jacobi.c:line.69
+||=====================================
+|  29.9% | 253.9 | USER
+||-------------------------------------
+||  29.9% | 253.9 | main
+|||------------------------------------
+3||  18.7% | 159.0 | main:jacobi.c:line.76
+3||   9.1% |  76.9 | main:jacobi.c:line.84
+|||====================================
+||=====================================
+|  13.4% | 114.1 | ETC
+||-------------------------------------
+||  13.4% | 113.9 | __cray_memcpy_SNB
+3|        |       |  __cray_memcpy_SNB
+|======================================
+</pre></div>
+</div>
+</div>
+<div class="section" id="tracing-analysis">
+<h3>Tracing analysis<a class="headerlink" href="#tracing-analysis" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="automatic-program-analysis-apa">
+<h4>Automatic Program Analysis (APA)<a class="headerlink" href="#automatic-program-analysis-apa" title="Permalink to this headline">¶</a></h4>
+<p>We can produce a focused tracing experiment based on the results from the <em>sampling</em> experiment using <code class="docutils literal notranslate"><span class="pre">pat_build</span></code> with the <code class="docutils literal notranslate"><span class="pre">.apa</span></code> file produced during the sampling.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>[user@archer2]$ pat_build -O jacobi+pat+12265-1573s/build-options.apa
+</pre></div>
+</div>
+<p>This will produce a third binary with extension <code class="docutils literal notranslate"><span class="pre">+apa</span></code>. This binary should once again be run on the compute nodes and the name of the executable changed to <code class="docutils literal notranslate"><span class="pre">jacobi+apa</span></code>. As with the sampling analysis, a report can be produced using <code class="docutils literal notranslate"><span class="pre">pat_report</span></code>.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>  [user@archer2]$ pat_report jacobi+apa+13955-1573t
+
+  Table 1:  Profile by Function Group and Function (limited entries shown)
+
+  Time% |      Time |     Imb. |  Imb. |       Calls | Group
+        |           |     Time | Time% |             |  Function
+        |           |          |       |             |   PE=HIDE
+
+ 100.0% | 12.987762 |       -- |    -- | 1,387,544.9 | Total
+|-------------------------------------------------------------------------
+|  44.9% |  5.831320 |       -- |    -- |         2.0 | USER
+||------------------------------------------------------------------------
+||  44.9% |  5.831229 | 0.398671 |  6.4% |         1.0 | main
+||========================================================================
+|  29.2% |  3.789904 |       -- |    -- |   199,111.0 | MPI_SYNC
+||------------------------------------------------------------------------
+||  29.2% |  3.789115 | 1.792050 | 47.3% |   199,109.0 | MPI_Allreduce(sync)
+||========================================================================
+|  25.9% |  3.366537 |       -- |    -- | 1,188,431.9 | MPI
+||------------------------------------------------------------------------
+||  18.0% |  2.334765 | 0.164646 |  6.6% |   199,109.0 | MPI_Allreduce
+||   3.7% |  0.486714 | 0.882654 | 65.0% |   199,108.0 | MPI_Waitall
+||   3.3% |  0.428731 | 0.557342 | 57.0% |   395,104.9 | MPI_Isend
+|=========================================================================
+</pre></div>
+</div>
+</div>
+<div class="section" id="manual-program-analysis">
+<h4>Manual Program Analysis<a class="headerlink" href="#manual-program-analysis" title="Permalink to this headline">¶</a></h4>
+<p>CrayPat allows you to manually choose your profiling preference. This is particularly useful if the APA mode does not meet your tracing analysis requirements.</p>
+<p>The entire program can be traced as a whole using <code class="docutils literal notranslate"><span class="pre">-w</span></code>:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>[user@archer2]$ pat_build -w jacobi
+</pre></div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">-g</span></code> a program can be instrumented to trace all function entry point references belonging to the trace function group tracegroup (mpi, libsci, lapack, scalapack, heap, etc)</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>[user@archer2]$ pat_build -w -g mpi jacobi
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="dynamically-linked-binaries">
+<h3>Dynamically-linked binaries<a class="headerlink" href="#dynamically-linked-binaries" title="Permalink to this headline">¶</a></h3>
+<p>CrayPat allows you to profile un-instrumented, dynamically linked binaries with the <code class="docutils literal notranslate"><span class="pre">pat_run</span></code> utility. <code class="docutils literal notranslate"><span class="pre">pat_run</span></code> delivers profiling information for codes that cannot easily be rebuilt.
+To use <code class="docutils literal notranslate"><span class="pre">pat_run</span></code>:</p>
+<ol class="arabic simple">
+<li>Load the <code class="docutils literal notranslate"><span class="pre">perfotools-base</span></code> module if it is not already loaded</li>
+</ol>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">perftools</span><span class="o">-</span><span class="n">base</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Run your application normally including the <code class="docutils literal notranslate"><span class="pre">pat_run</span></code> command rigth after your <code class="docutils literal notranslate"><span class="pre">srun</span></code> options</li>
+</ol>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">srun</span> <span class="p">[</span><span class="n">srun</span><span class="o">-</span><span class="n">options</span><span class="p">]</span> <span class="n">pat_run</span> <span class="p">[</span><span class="n">pat_run</span><span class="o">-</span><span class="n">options</span><span class="p">]</span> <span class="n">program</span> <span class="p">[</span><span class="n">program</span><span class="o">-</span><span class="n">options</span><span class="p">]</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Use <code class="docutils literal notranslate"><span class="pre">pat_report</span></code> to examine any data collected during the execution of your application.</li>
+</ol>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>[user@archer2]$ pat_report jacobi+pat+12265-1573s
+</pre></div>
+</div>
+<p>Some useful <code class="docutils literal notranslate"><span class="pre">pat_run</span></code> options are:</p>
+<dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">-w</span></code></dt>
+<dd>Collect data by tracing.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-g</span></code></dt>
+<dd>Trace functions belonging to group names. See the -g option in pat_build(1) for a list of valid tracegroup values.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-r</span></code></dt>
+<dd>Generate a text report upon successful execution.</dd>
+</dl>
+</div>
+<div class="section" id="id1">
+<h3>Further help<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://pubs.cray.com/content/S-2376/7.0.0/cray-performance-measurement-and-analysis-tools-user-guide/craypat">CrayPat User Guide</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="cray-apprentice2">
+<h2>Cray Apprentice2<a class="headerlink" href="#cray-apprentice2" title="Permalink to this headline">¶</a></h2>
+<p>Cray Apprentice2 is an optional GUI tool that is used to visualize and manipulate the performance analysis data captured during program execution. Cray Apprentice2 can be run either on the Cray system or, optionally, on a standalone Linux desktop machine. Cray Apprentice2 can display a wide variety of reports and graphs, depending on the type of program being analyzed, the way in which the program was instrumented for data capture, and the data that was collected during program execution.</p>
+<p>You will need to use CrayPat first, to instrument your program and capture performance analysis data, and then use Cray Apprentice2 to visualize and explore the resulting data files.</p>
+<p>The number and appearance of the reports that can be generated using Cray Apprentice2 is determined by the kind and quantity of data captured during program execution, which in turn is determined by the way in which the program was instrumented and the environment variables in effect at the time of program execution. For example, changing the PAT_RT_SUMMARY environment variable to 0 before executing the instrumented program nearly doubles the number of reports available when analyzing the resulting data in Cray Apprentice2.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PAT_RT_SUMMARY</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>To use Cray Apprentice2 (<code class="docutils literal notranslate"><span class="pre">app2</span></code>), load <code class="docutils literal notranslate"><span class="pre">perftools-base</span></code> module if it is not already loaded</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">perftools</span><span class="o">-</span><span class="n">base</span>
+</pre></div>
+</div>
+<p>then open the Cray Apprentice2 data (<code class="docutils literal notranslate"><span class="pre">.ap2</span></code>) generated during the instrumentation phase</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>[user@archer2]$ app2 jacobi+pat+12265-1573s/datafile.ap2
+</pre></div>
+</div>
+</div>
+<div class="section" id="hardware-performance-counters">
+<h2>Hardware Performance Counters<a class="headerlink" href="#hardware-performance-counters" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tuning.html" class="btn btn-neutral float-right" title="Performance tuning" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="debug.html" class="btn btn-neutral float-left" title="Debugging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

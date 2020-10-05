@@ -1,0 +1,387 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>VASP &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Overview" href="../../software-libraries/overview.html" />
+    <link rel="prev" title="Quantum Espresso" href="../qe/qe.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="../../_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start/quickstart-users.html">Quickstart for users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-start/quickstart-developers.html">Quickstart for developers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/data.html">Data management and transfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/sw-environment.html">Software environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/scheduler.html">Running jobs on ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/io.html">I/O and file systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/dev-environment.html">Application development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/python.html">Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/debug.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/profile.html">Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/tuning.html">Performance tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cp2k/cp2k.html">CP2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">VASP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-vasp-on-archer2">Using VASP on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-parallel-vasp-jobs">Running parallel VASP jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hints-and-tips">Hints and tips</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>VASP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/research-software/vasp/vasp.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="vasp">
+<h1>VASP<a class="headerlink" href="#vasp" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ARCHER2 Service is not yet available. This documentation is in
+development.</p>
+</div>
+<p>The <a class="reference external" href="http://www.vasp.at">Vienna Ab initio Simulation Package (VASP)</a> is
+a computer program for atomic scale materials modelling, e.g. electronic
+structure calculations and quantum-mechanical molecular dynamics, from
+first principles.</p>
+<p>VASP computes an approximate solution to the many-body Schrödinger equation,
+either within density functional theory (DFT), solving the Kohn-Sham
+equations, or within the Hartree-Fock (HF) approximation, solving the
+Roothaan equations. Hybrid functionals that mix the Hartree-Fock approach
+with density functional theory are implemented as well. Furthermore, Green’s
+functions methods (GW quasiparticles, and ACFDT-RPA) and many-body
+perturbation theory (2nd-order Møller-Plesset) are available in VASP.</p>
+<p>In VASP, central quantities, like the one-electron orbitals, the electronic
+charge density, and the local potential are expressed in plane wave basis
+sets. The interactions between the electrons and ions are described using
+norm-conserving or ultrasoft pseudopotentials, or the projector-augmented-wave
+method.</p>
+<p>To determine the electronic groundstate, VASP makes use of efficient iterative
+matrix diagonalisation techniques, like the residual minimisation method with
+direct inversion of the iterative subspace (RMM-DIIS) or blocked Davidson
+algorithms. These are coupled to highly efficient Broyden and Pulay density
+mixing schemes to speed up the self-consistency cycle.</p>
+<div class="section" id="useful-links">
+<h2>Useful Links<a class="headerlink" href="#useful-links" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="http://cms.mpi.univie.ac.at/vasp/vasp/vasp.html">VASP Manual</a></li>
+<li><a class="reference external" href="http://www.vasp.at/index.php/faqs/71-how-can-i-purchase-a-vasp-license">VASP Licensing</a></li>
+</ul>
+</div>
+<div class="section" id="using-vasp-on-archer2">
+<h2>Using VASP on ARCHER2<a class="headerlink" href="#using-vasp-on-archer2" title="Permalink to this headline">¶</a></h2>
+<p><strong>VASP is only available to users who have a valid VASP licence.</strong></p>
+<p>If you have a VASP licence and wish to have access to VASP on ARCHER2
+(you may need to speak to your supervisor or line manager to obtain
+the appropriate license details).</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Include details of how to apply for access via te SAFE</p>
+</div>
+</div>
+<div class="section" id="running-parallel-vasp-jobs">
+<h2>Running parallel VASP jobs<a class="headerlink" href="#running-parallel-vasp-jobs" title="Permalink to this headline">¶</a></h2>
+<p>To access VASP you should load the <code class="docutils literal notranslate"><span class="pre">vasp</span></code> module in your job submission
+scripts:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">add</span> <span class="n">vasp</span>
+</pre></div>
+</div>
+<p>Once loaded, the executables are called:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">vasp_std</span></code> - Multiple k-point version</li>
+<li><code class="docutils literal notranslate"><span class="pre">vasp_gam</span></code> - GAMMA-point only version</li>
+<li><code class="docutils literal notranslate"><span class="pre">vasp_ncl</span></code> - Non-collinear version</li>
+</ul>
+<p>You can access the LDA and PBE pseudopotentials for VASP on ARCHER2 at:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">vasp4</span><span class="o">/</span><span class="n">location</span><span class="o">/</span><span class="n">pot</span>
+</pre></div>
+</div>
+<p>The following script will run a VASP job using 4 nodes (128x4 cores).</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The following script is a draft and requires verification.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># Request 4 nodes (512 MPI tasks at 128 tasks per node) for 20 minutes.</span>
+<span class="c1"># Remember to replace [budget code] below with your account code,</span>
+<span class="c1"># e.g., &#39;--account=t01-victoria&#39;</span>
+
+<span class="c1">#SBATCH --job-name=VASP_test</span>
+<span class="c1">#SBATCH --nodes=4</span>
+<span class="c1">#SBATCH --ntasks=512</span>
+<span class="c1">#SBATCH --tasks-per-node=128</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+<span class="c1">#SBATCH --time=00:20:00</span>
+
+<span class="c1">#SBATCH --account=[budget code]</span>
+
+
+<span class="c1"># Load the relevant VASP module</span>
+<span class="c1"># and run the appropriate VASP executable (here &#39;vasp_std&#39;)</span>
+
+<span class="n">module</span> <span class="n">load</span> <span class="n">vasp</span><span class="o">/</span><span class="mf">5.4</span><span class="o">.</span><span class="mf">3.2</span><span class="o">.</span><span class="mi">1</span>
+<span class="n">srun</span> <span class="o">...</span> <span class="n">vasp_std</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="hints-and-tips">
+<h2>Hints and tips<a class="headerlink" href="#hints-and-tips" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../software-libraries/overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../qe/qe.html" class="btn btn-neutral float-left" title="Quantum Espresso" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Debugging &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Profiling" href="profile.html" />
+    <link rel="prev" title="Data analysis" href="analysis.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="../_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-users.html">Quickstart for users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-developers.html">Quickstart for developers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data management and transfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sw-environment.html">Software environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scheduler.html">Running jobs on ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O and file systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev-environment.html">Application development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Data analysis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Debugging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gdb4hpc">gdb4hpc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#launching-through-gdb4hpc">Launching through gdb4hpc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#attaching-with-gdb4hpc">Attaching with gdb4hpc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#valgrind4hpc">valgrind4hpc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-valgrind">Using valgrind</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-valgrind4hpc">Using valgrind4hpc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#stat">STAT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-stat-on-archer2">Using STAT on ARCHER2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#atp">ATP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="profile.html">Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tuning.html">Performance tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/cp2k/cp2k.html">CP2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/vasp/vasp.html">VASP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Debugging</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/user-guide/debug.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="debugging">
+<h1>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ARCHER2 Service is not yet available. This documentation is in
+development.</p>
+</div>
+<p>The following debugging tools are available on ARCHER2:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#gdb4hpc">gdb4hpc</a> is a command-line debugging tool provided by Cray. It works similarly to
+<a href="#id1"><span class="problematic" id="id2">`gdb&lt;https://www.gnu.org/software/gdb/&gt;`_</span></a>, but allows the user to debug multiple parallel processes
+without multiple windows. gdb4hpc can be used to investigate deadlocked code, segfaults, and other
+errors for C/C++ and Fortran code. Users can single-step code and focus on specific processes groups
+to help identify unexpected code behavior. (text from <a href="#id3"><span class="problematic" id="id4">`ALCF&lt;https://www.alcf.anl.gov/support-center/theta/gdb&gt;`_</span></a>).</li>
+<li><a class="reference internal" href="#valgrind4hpc">valgrind4hpc</a> is a parallel memory debugging tool that aids in detection of memory leaks and
+errors in parallel applications. It aggregates like errors across processes and threads to simply
+debugging of parallel applications.</li>
+<li><a class="reference internal" href="#stat">STAT</a> generate merged stack traces for parallel applications. Also has visualisation tools.</li>
+<li><a class="reference internal" href="#atp">ATP</a> scalable core file and backtrace analysis when parallel programs crash. Note that this is not currently working on ARCHER2.</li>
+</ul>
+<div class="section" id="gdb4hpc">
+<h2>gdb4hpc<a class="headerlink" href="#gdb4hpc" title="Permalink to this headline">¶</a></h2>
+<p>The GNU Debugger for HPC (gdb4hpc) is a GDB-based debugger used to debug applications compiled with CCE, PGI, GNU, and Intel Fortran, C and C++ compilers. It allows programmers to either launch an application within it or to attach to an already-running application. Attaching to an already-running and hanging application is a quick way of understanding why the application is hanging, whereas launching an application through gdb4hpc will allow you to see your application running step-by-step, output the values of variables, and check whether the application runs as expected.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For your executable to be compatible with gdb4hpc, it will need to be coded with MPI. You will also need to compile your code with the debugging flag <code class="docutils literal notranslate"><span class="pre">-g</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">cc</span> <span class="pre">-g</span> <span class="pre">my_program.c</span> <span class="pre">-o</span> <span class="pre">my_exe</span></code>).</p>
+</div>
+<div class="section" id="launching-through-gdb4hpc">
+<h3>Launching through gdb4hpc<a class="headerlink" href="#launching-through-gdb4hpc" title="Permalink to this headline">¶</a></h3>
+<p>Launch <code class="docutils literal notranslate"><span class="pre">gdb4hpc</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gdb4hpc</span>
+</pre></div>
+</div>
+<p>You will get some information about this version of the program and, eventually, you will get a command prompt:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gdb4hpc</span> <span class="mf">4.5</span> <span class="o">-</span> <span class="n">Cray</span> <span class="n">Line</span> <span class="n">Mode</span> <span class="n">Parallel</span> <span class="n">Debugger</span>
+<span class="n">With</span> <span class="n">Cray</span> <span class="n">Comparative</span> <span class="n">Debugging</span> <span class="n">Technology</span><span class="o">.</span>
+<span class="n">Copyright</span> <span class="mi">2007</span><span class="o">-</span><span class="mi">2019</span> <span class="n">Cray</span> <span class="n">Inc</span><span class="o">.</span> <span class="n">All</span> <span class="n">Rights</span> <span class="n">Reserved</span><span class="o">.</span>
+<span class="n">Copyright</span> <span class="mi">1996</span><span class="o">-</span><span class="mi">2016</span> <span class="n">University</span> <span class="n">of</span> <span class="n">Queensland</span><span class="o">.</span> <span class="n">All</span> <span class="n">Rights</span> <span class="n">Reserved</span><span class="o">.</span>
+<span class="n">Type</span> <span class="s2">&quot;help&quot;</span> <span class="k">for</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">commands</span><span class="o">.</span>
+<span class="n">Type</span> <span class="s2">&quot;help &lt;cmd&gt;&quot;</span> <span class="k">for</span> <span class="n">detailed</span> <span class="n">help</span> <span class="n">about</span> <span class="n">a</span> <span class="n">command</span><span class="o">.</span>
+<span class="n">dbg</span> <span class="nb">all</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>We will use <code class="docutils literal notranslate"><span class="pre">launch</span></code> to begin a multi-process application within gdb4hpc. Consider that we are wanting to test an application called <code class="docutils literal notranslate"><span class="pre">my_exe</span></code>, and that we want this to be launched across all 256 processes in two nodes. We would launch this in gdb4hpc by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dbg all&gt; launch --launcher-args=&quot;--tasks-per-node=128 --cpus-per-task=1 --exclusive&quot; $my_prog{256} ./my_ex
+</pre></div>
+</div>
+<p>The default launcher is <code class="docutils literal notranslate"><span class="pre">srun</span></code> and the <code class="docutils literal notranslate"><span class="pre">--launcher-args=&quot;...&quot;</span></code> allows you to set launcher flags for <code class="docutils literal notranslate"><span class="pre">srun</span></code>. The variable <code class="docutils literal notranslate"><span class="pre">$my_prog</span></code> is a dummy name for the program being launched and you could use whatever name you want for it – this will be the name of the <code class="docutils literal notranslate"><span class="pre">srun</span></code> job that will be run. The number in the brackets <code class="docutils literal notranslate"><span class="pre">{256}</span></code> is the number of processes over which the program will be executed, it’s 256 here, but you could use any number. You should try to run this on as few processors as possible – the more you use, the longer it will take for gdb4hpc to load the program.</p>
+<p>Once the program is launched, gdb4hpc will load up the program and begin to run it. You will get output to screen something that looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Starting</span> <span class="n">application</span><span class="p">,</span> <span class="n">please</span> <span class="n">wait</span><span class="o">...</span>
+<span class="n">Creating</span> <span class="n">MRNet</span> <span class="n">communication</span> <span class="n">network</span><span class="o">...</span>
+<span class="n">Waiting</span> <span class="k">for</span> <span class="n">debug</span> <span class="n">servers</span> <span class="n">to</span> <span class="n">attach</span> <span class="n">to</span> <span class="n">MRNet</span> <span class="n">communications</span> <span class="n">network</span><span class="o">...</span>
+<span class="n">Timeout</span> <span class="ow">in</span> <span class="mi">400</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Please</span> <span class="n">wait</span> <span class="k">for</span> <span class="n">the</span> <span class="n">attach</span> <span class="n">to</span> <span class="n">complete</span><span class="o">.</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">dbgsrvs</span> <span class="n">connected</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">];</span>  <span class="n">Timeout</span> <span class="n">Counter</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">dbgsrvs</span> <span class="n">connected</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">];</span>  <span class="n">Timeout</span> <span class="n">Counter</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">dbgsrvs</span> <span class="n">connected</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">];</span>  <span class="n">Timeout</span> <span class="n">Counter</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">dbgsrvs</span> <span class="n">connected</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">];</span>  <span class="n">Timeout</span> <span class="n">Counter</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">dbgsrvs</span> <span class="n">connected</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">];</span>  <span class="n">Timeout</span> <span class="n">Counter</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">dbgsrvs</span> <span class="n">connected</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">];</span>  <span class="n">Timeout</span> <span class="n">Counter</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">Finalizing</span> <span class="n">setup</span><span class="o">...</span>
+<span class="n">Launch</span> <span class="n">complete</span><span class="o">.</span>
+<span class="n">my_prog</span><span class="p">{</span><span class="mf">0.</span><span class="o">.</span><span class="mi">255</span><span class="p">}:</span> <span class="n">Initial</span> <span class="n">breakpoint</span><span class="p">,</span> <span class="n">main</span> <span class="n">at</span> <span class="o">/</span><span class="n">PATH</span><span class="o">/</span><span class="n">TO</span><span class="o">/</span><span class="n">my_program</span><span class="o">.</span><span class="n">c</span><span class="p">:</span><span class="mi">34</span>
+</pre></div>
+</div>
+<p>The line number at which the initial breakpoint is made (in the above example, line 34) corresponds to the line number at which MPI is initialised. You will not be able to see any parts of the code outside of the MPI region of a code with gdb4hpc.</p>
+<p>Once the code is loaded, you can use various commands to move through your code. The following lists and describes some of the most useful ones:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">help</span></code> – Lists all gdb4hpc commands. You can run <code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">COMMAND_NAME</span></code> to learn more about a specific command (<em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">launch</span></code> will tell you about the launch command</li>
+<li><code class="docutils literal notranslate"><span class="pre">list</span></code> – Will show the current line of code and the 9 lines following. Repeated use of <code class="docutils literal notranslate"><span class="pre">list</span></code> will move you down the code in ten-line chunks.</li>
+<li><code class="docutils literal notranslate"><span class="pre">next</span></code> – Will jump to the next step in the program for each process and output which line of code each process is one. It will not enter subroutines. Note that there is no reverse-step in gdb4hpc.</li>
+<li><code class="docutils literal notranslate"><span class="pre">step</span></code> – Like <code class="docutils literal notranslate"><span class="pre">next</span></code>, but this will step into subroutines.</li>
+<li><code class="docutils literal notranslate"><span class="pre">up</span></code> – Go up one level in the program (<em>e.g.</em> from a subroutine back to main).</li>
+<li><code class="docutils literal notranslate"><span class="pre">print</span> <span class="pre">var</span></code> – Prints the value of variable <code class="docutils literal notranslate"><span class="pre">var</span></code> at this point in the code.</li>
+<li><code class="docutils literal notranslate"><span class="pre">watch</span> <span class="pre">var</span></code> – Like print, but will print whenever a variable changes value.</li>
+<li><code class="docutils literal notranslate"><span class="pre">quit</span></code> – Exits gdb4hpc.</li>
+</ul>
+</div></blockquote>
+<p>Remember to exit the interactive session once you are done debugging.</p>
+</div>
+<div class="section" id="attaching-with-gdb4hpc">
+<h3>Attaching with gdb4hpc<a class="headerlink" href="#attaching-with-gdb4hpc" title="Permalink to this headline">¶</a></h3>
+<p>Attaching to a hanging job using gdb4hpc is a great way of seeing which state each processor is in. However, this does not produce the most visually appealing results. For a more easy-to-read program, please take a look at <a class="reference internal" href="#stat">STAT</a></p>
+<p>In your interactive session, launch your executable as a background task (by adding an <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>  at the end of the command). For example, if you are running an executable called <code class="docutils literal notranslate"><span class="pre">my_exe</span></code> using 256 processes, you would run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">srun</span> <span class="o">-</span><span class="n">n</span> <span class="mi">256</span> <span class="o">--</span><span class="n">nodes</span><span class="o">=</span><span class="mi">2</span> <span class="o">--</span><span class="n">tasks</span><span class="o">-</span><span class="n">per</span><span class="o">-</span><span class="n">node</span><span class="o">=</span><span class="mi">128</span> <span class="o">--</span><span class="n">cpus</span><span class="o">-</span><span class="n">per</span><span class="o">-</span><span class="n">task</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="n">time</span><span class="o">=</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span> <span class="o">--</span><span class="n">account</span><span class="o">=</span><span class="p">[</span><span class="n">budget</span> <span class="n">code</span><span class="p">]</span> <span class="o">./</span><span class="n">my_exe</span> <span class="o">&amp;</span>
+</pre></div>
+</div>
+<p>Make sure to replace the <code class="docutils literal notranslate"><span class="pre">--account</span></code> input to your budget code (<em>e.g.</em> if you are using budget t01, that part should look like <code class="docutils literal notranslate"><span class="pre">--account=t01</span></code>).</p>
+<p>You will need to get the full job ID of the job you have just launched. To do this, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>squeue -u $USER
+</pre></div>
+</div>
+<p>and find the job ID associated with this interactive session – this will be the one with the jobname <code class="docutils literal notranslate"><span class="pre">bash</span></code>. In this example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">JOBID</span> <span class="n">PARTITION</span>     <span class="n">NAME</span>     <span class="n">USER</span> <span class="n">ST</span>       <span class="n">TIME</span>  <span class="n">NODES</span> <span class="n">NODELIST</span><span class="p">(</span><span class="n">REASON</span><span class="p">)</span>
+<span class="mi">1050</span>     <span class="n">workq</span> <span class="n">my_mpi_j</span>   <span class="n">jsindt</span>  <span class="n">R</span>       <span class="mi">0</span><span class="p">:</span><span class="mi">16</span>      <span class="mi">1</span> <span class="n">nid000001</span>
+<span class="mi">1051</span>     <span class="n">workq</span>     <span class="n">bash</span>   <span class="n">jsindt</span>  <span class="n">R</span>       <span class="mi">0</span><span class="p">:</span><span class="mi">12</span>      <span class="mi">1</span> <span class="n">nid000002</span>
+</pre></div>
+</div>
+<p>the appropriate job id is 1051. Next, you will need to run <code class="docutils literal notranslate"><span class="pre">sstat</span></code> on this job id:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sstat</span> <span class="mi">1051</span>
+</pre></div>
+</div>
+<p>This will output a large amount of information about this specific job. We are looking for the first number of this output, which should look like <code class="docutils literal notranslate"><span class="pre">JOB_ID.##</span></code>  – the number after the job ID is the number of slurm tasks performed in this interactive session. For our example (where <code class="docutils literal notranslate"><span class="pre">srun</span></code> is the first slurm task performed), the number is 1051.0.</p>
+<p>Launch <code class="docutils literal notranslate"><span class="pre">gdb4hpc</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gdb4hpc</span>
+</pre></div>
+</div>
+<p>You will get some information about this version of the program and, eventually, you will get a command prompt:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gdb4hpc</span> <span class="mf">4.5</span> <span class="o">-</span> <span class="n">Cray</span> <span class="n">Line</span> <span class="n">Mode</span> <span class="n">Parallel</span> <span class="n">Debugger</span>
+<span class="n">With</span> <span class="n">Cray</span> <span class="n">Comparative</span> <span class="n">Debugging</span> <span class="n">Technology</span><span class="o">.</span>
+<span class="n">Copyright</span> <span class="mi">2007</span><span class="o">-</span><span class="mi">2019</span> <span class="n">Cray</span> <span class="n">Inc</span><span class="o">.</span> <span class="n">All</span> <span class="n">Rights</span> <span class="n">Reserved</span><span class="o">.</span>
+<span class="n">Copyright</span> <span class="mi">1996</span><span class="o">-</span><span class="mi">2016</span> <span class="n">University</span> <span class="n">of</span> <span class="n">Queensland</span><span class="o">.</span> <span class="n">All</span> <span class="n">Rights</span> <span class="n">Reserved</span><span class="o">.</span>
+<span class="n">Type</span> <span class="s2">&quot;help&quot;</span> <span class="k">for</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">commands</span><span class="o">.</span>
+<span class="n">Type</span> <span class="s2">&quot;help &lt;cmd&gt;&quot;</span> <span class="k">for</span> <span class="n">detailed</span> <span class="n">help</span> <span class="n">about</span> <span class="n">a</span> <span class="n">command</span><span class="o">.</span>
+<span class="n">dbg</span> <span class="nb">all</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>We will be using the <code class="docutils literal notranslate"><span class="pre">attach</span></code> command to attach to our program that hangs. This is done by writing:</p>
+<dl class="docutils">
+<dt>::</dt>
+<dd>dbg all&gt; attach $my_prog JOB_ID.##</dd>
+</dl>
+<p>where JOB_ID.## is the full job ID found using <code class="docutils literal notranslate"><span class="pre">sstat</span></code> (in our example, this would be 1051.0). The name <code class="docutils literal notranslate"><span class="pre">$my_prog</span></code> is a dummy-name – it could be whatever name you like.</p>
+<p>As it is attaching, gdb4hpc will output text to screen that looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Attaching</span> <span class="n">to</span> <span class="n">application</span><span class="p">,</span> <span class="n">please</span> <span class="n">wait</span><span class="o">...</span>
+<span class="n">Creating</span> <span class="n">MRNet</span> <span class="n">communication</span> <span class="n">network</span><span class="o">...</span>
+<span class="n">Waiting</span> <span class="k">for</span> <span class="n">debug</span> <span class="n">servers</span> <span class="n">to</span> <span class="n">attach</span> <span class="n">to</span> <span class="n">MRNet</span> <span class="n">communications</span> <span class="n">network</span><span class="o">...</span>
+<span class="n">Timeout</span> <span class="ow">in</span> <span class="mi">400</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Please</span> <span class="n">wait</span> <span class="k">for</span> <span class="n">the</span> <span class="n">attach</span> <span class="n">to</span> <span class="n">complete</span><span class="o">.</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">dbgsrvs</span> <span class="n">connected</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">];</span>  <span class="n">Timeout</span> <span class="n">Counter</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="o">...</span>
+
+<span class="n">Finalizing</span> <span class="n">setup</span><span class="o">...</span>
+<span class="n">Attach</span> <span class="n">complete</span><span class="o">.</span>
+<span class="n">Current</span> <span class="n">rank</span> <span class="n">location</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>After this, you will get an output that, among other things, tells you which line of your code each process is on, and what each process is doing. This can be helpful to see where the hang-up is.</p>
+<p>If you accidentally attached to the wrong job, you can detach by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dbg all&gt; release $my_prog
+</pre></div>
+</div>
+<p>and re-attach with the correct job ID. You will need to change your dummy name from <code class="docutils literal notranslate"><span class="pre">$my_prog</span></code> to something else.</p>
+<p>When you are finished using <code class="docutils literal notranslate"><span class="pre">gbd4hpc</span></code>, simply run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dbg</span> <span class="nb">all</span><span class="o">&gt;</span> <span class="n">quit</span>
+</pre></div>
+</div>
+<p>Do not forget to exit your interactive session.</p>
+</div>
+</div>
+<div class="section" id="valgrind4hpc">
+<h2>valgrind4hpc<a class="headerlink" href="#valgrind4hpc" title="Permalink to this headline">¶</a></h2>
+<p>Valgrind4hpc is a Valgrind-based debugging tool to aid in the detection of  memory  leaks  and  errors  in  parallel applications. Valgrind4hpc aggregates any duplicate messages  across  ranks  to  help  provide  an understandable picture of program behavior. Valgrind4hpc manages starting and redirecting output from many copies of  Valgrind,  as  well  as recombining  and filtering Valgrind messages.  If your program can be debugged with Valgrind, it can be debugged with valgrind4hpc.</p>
+<p>The valgrind4hpc module enables the use of standard valgrind as well as the valgrind4hpc version more suitable to parallel programs.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">There is a known issue with <cite>valgrind4hpc</cite>: the compiler wrappers (ftn, cc, CC) do not work while this module is loaded. To compile, you will need to unload the module (<cite>module unload valgrind4hpc</cite>), compile, and reload the module (<cite>module load valrgind4hpc</cite>).</p>
+</div>
+<div class="section" id="using-valgrind">
+<h3>Using valgrind<a class="headerlink" href="#using-valgrind" title="Permalink to this headline">¶</a></h3>
+<p>First, load <code class="docutils literal notranslate"><span class="pre">valgrind4hpc</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">valgrind4hpc</span>
+</pre></div>
+</div>
+<p>Next, run your executable through valgrind:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">valgrind</span> <span class="o">--</span><span class="n">tool</span><span class="o">=</span><span class="n">memcheck</span> <span class="o">--</span><span class="n">leak</span><span class="o">-</span><span class="n">check</span><span class="o">=</span><span class="n">yes</span> <span class="n">my_executable</span>
+</pre></div>
+</div>
+<p>The log outputs to screen. The <cite>ERROR SUMMARY</cite> will tell you whether, and how many, memory errors there are in your script. Furthermore, if you compile your code using the <code class="docutils literal notranslate"><span class="pre">-g</span></code> debugging flag (<em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">gcc</span> <span class="pre">-g</span> <span class="pre">my_progam.c</span> <span class="pre">-o</span> <span class="pre">my_executable.c</span></code>), the log will point out the code lines where the error occurs.</p>
+<p>Valgrind also includes a tool called Massif that can be used to give insight into the memory usage of your program. It takes regular snapshots and outputs this data into a single file, which can be visualised to show the total amount of memory used as a function of time. This shows when peaks and bottlenecks occur and allows you to identify which data structures in your code are responsible for the largest memory usage of your program.</p>
+<p>Documentation explaining how to use Massif is available at the <a href="#id5"><span class="problematic" id="id6">`official Massif manual&lt;https://www.valgrind.org/docs/manual/ms-manual.html&gt;`_</span></a>. In short, you should run your executable as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">valgrind</span> <span class="o">--</span><span class="n">tool</span><span class="o">=</span><span class="n">massif</span> <span class="n">my_executable</span>
+</pre></div>
+</div>
+<p>he memory profiling data will be output into a file called <code class="docutils literal notranslate"><span class="pre">massif.out.pid</span></code>, where pid is the runtime process ID of your program. A custom filename can be chosen using the <code class="docutils literal notranslate"><span class="pre">--massif-out-file</span> <span class="pre">option</span></code>, as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">valgrind</span> <span class="o">--</span><span class="n">tool</span><span class="o">=</span><span class="n">massif</span> <span class="o">--</span><span class="n">massif</span><span class="o">-</span><span class="n">out</span><span class="o">-</span><span class="n">file</span><span class="o">=</span><span class="n">optional_filename</span><span class="o">.</span><span class="n">out</span> <span class="n">my_executable</span>
+</pre></div>
+</div>
+<p>The output file contains raw profiling statistics. To view a summary including a graphical plot of memory usage over time, use the <code class="docutils literal notranslate"><span class="pre">ms_print</span></code> command as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ms_print</span> <span class="n">massif</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="mi">12345</span>
+</pre></div>
+</div>
+<p>or, to save to a file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ms_print</span> <span class="n">massif</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="mi">12345</span> <span class="o">&gt;</span> <span class="n">massif</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="mi">12345</span>
+</pre></div>
+</div>
+<p>This will show total memory usage over time as well as a breakdown of the top data structures contributing to memory usage at each snapshot where there has been a significant allocation or deallocation of memory.</p>
+</div>
+<div class="section" id="using-valgrind4hpc">
+<h3>Using valgrind4hpc<a class="headerlink" href="#using-valgrind4hpc" title="Permalink to this headline">¶</a></h3>
+<p>First, load <code class="docutils literal notranslate"><span class="pre">valgrind4hpc</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">valgrind4hpc</span>
+</pre></div>
+</div>
+<p>Valgrind4hpc will launch an srun job to run the executable while it profiles. To test an executable called <code class="docutils literal notranslate"><span class="pre">my_executable</span></code> that requires two arguments <code class="docutils literal notranslate"><span class="pre">arg1</span></code> and <code class="docutils literal notranslate"><span class="pre">arg2</span></code> on two nodes and 256 processes, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">valgrind4hpc</span> <span class="o">--</span><span class="n">tool</span><span class="o">=</span><span class="n">memcheck</span> <span class="o">--</span><span class="n">num</span><span class="o">-</span><span class="n">ranks</span><span class="o">=</span><span class="mi">256</span> <span class="o">--</span><span class="n">launcher</span><span class="o">-</span><span class="n">args</span><span class="o">=</span><span class="s2">&quot;--exclusive --ntasks-per-node=128 --cpus-per-task=1&quot;</span> <span class="n">my_executable</span> <span class="o">--</span> <span class="n">arg1</span> <span class="n">arg2</span>
+</pre></div>
+</div>
+<p>In particular, note the <code class="docutils literal notranslate"><span class="pre">--</span></code> separating the executable from the arguments (this is not necessary of your executable takes no arguments). The <code class="docutils literal notranslate"><span class="pre">--lancher-args=&quot;arguments&quot;</span></code> allow you to set launcher flags for <code class="docutils literal notranslate"><span class="pre">srun</span></code>.</p>
+<p>Valgrind4hpc only supports certain tools found in valgrind. These are: memcheck, helgrind, exp-sgcheck, or drd. The <code class="docutils literal notranslate"><span class="pre">--valgrind-args=&quot;arguments&quot;</span></code> allows users to use valgrind options not supported in valgrind4hpc (<em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">--leak-check</span></code>) – note, however, that some of these options might interfere with valgrind4hpc.</p>
+<p>More information on valgrind4hpc can be found in the manual (<code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">valgrind4hpc</span></code>).</p>
+</div>
+</div>
+<div class="section" id="stat">
+<h2>STAT<a class="headerlink" href="#stat" title="Permalink to this headline">¶</a></h2>
+<p>The Stack Trace Analysis Tool (STAT) is a cross-platform debugging tool from the University of Wisconsin-Madison. ATP is based on the same technology as STAT, both are designed to gather and merge stack traces from a running application’s parallel processes. The STAT tool can be useful when application seems to be deadlocked or stuck, i.e. they don’t crash but they don’t progress as expected, and it has been designed to scale to a very large number of processes. Full information on STAT, including use cases, is available at the <a class="reference external" href="https://hpc.llnl.gov/software/development-environment-software/stat-stack-trace-analysis-tool">STAT website</a>.</p>
+<p>STAT will attach to a running program and query that program to find out where all the processes in that program currently are. It will then process that data and produce a graph displaying the unique process locations (i.e. where all the processes in the running program currently are). To make this easily understandable it collates together all processes that are in the same place providing only unique program locations for display.</p>
+<div class="section" id="using-stat-on-archer2">
+<h3>Using STAT on ARCHER2<a class="headerlink" href="#using-stat-on-archer2" title="Permalink to this headline">¶</a></h3>
+<p>On the login node, load the <code class="docutils literal notranslate"><span class="pre">cray-stat</span></code> module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">cray</span><span class="o">-</span><span class="n">stat</span>
+</pre></div>
+</div>
+<p>Then, launch your job using <code class="docutils literal notranslate"><span class="pre">srun</span></code> as a background task (by adding an <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> at the end of the command). For example, if you are running an executable called <code class="docutils literal notranslate"><span class="pre">my_exe</span></code> using 256 processes, you would run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">srun</span> <span class="o">-</span><span class="n">n</span><span class="o">=</span><span class="mi">256</span> <span class="o">--</span><span class="n">nodes</span><span class="o">=</span><span class="mi">2</span> <span class="o">--</span><span class="n">tasks</span><span class="o">-</span><span class="n">per</span><span class="o">-</span><span class="n">node</span><span class="o">=</span><span class="mi">128</span> <span class="o">--</span><span class="n">cpus</span><span class="o">-</span><span class="n">per</span><span class="o">-</span><span class="n">task</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="n">time</span><span class="o">=</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span> <span class="o">--</span><span class="n">account</span><span class="o">=</span><span class="p">[</span><span class="n">budget</span> <span class="n">code</span><span class="p">]</span> <span class="o">./</span><span class="n">my_exe</span> <span class="o">&amp;</span>
+</pre></div>
+</div>
+<p>Note that this example has set the job time limit to 1 hour – if you need longer, change the <code class="docutils literal notranslate"><span class="pre">--time</span></code> command.</p>
+<p>You will need the Program ID (PID) of the job you have just launched – the PID is printed to screen upon launch, or you can get it by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ps -u $USER
+</pre></div>
+</div>
+<p>This will present you with a set of text that looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   PID TTY          TIME CMD
+154296 ?        00:00:00 systemd
+154297 ?        00:00:00 (sd-pam)
+154302 ?        00:00:00 sshd
+154303 pts/8    00:00:00 bash
+157150 pts/8    00:00:00 salloc
+157152 pts/8    00:00:00 bash
+157183 pts/8    00:00:00 srun
+157185 pts/8    00:00:00 srun
+157191 pts/8    00:00:00 ps
+</pre></div>
+</div>
+<p>Once your application has reached the point where it hangs, issue the following command (replacing PID with the ID of the <strong>first</strong> srun task – in the above example, I would replace PID with 157183):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span><span class="o">-</span><span class="n">cl</span> <span class="o">-</span><span class="n">i</span> <span class="n">PID</span>
+</pre></div>
+</div>
+<p>You will get an output that looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>STAT started at 2020-07-22-13:31:35
+Attaching to job launcher (null):157565 and launching tool daemons...
+Tool daemons launched and connected!
+Attaching to application...
+Attached!
+Application already paused... ignoring request to pause
+Sampling traces...
+Traces sampled!
+Resuming the application...
+Resumed!
+Pausing the application...
+Paused!
+
+...
+
+Detaching from application...
+Detached!
+
+Results written to $PATH_TO_RUN_DIRECTORY/stat_results/my_exe.0000
+</pre></div>
+</div>
+<p>Once STAT is finished, you can kill the srun job using <code class="docutils literal notranslate"><span class="pre">scancel</span></code> (replacing JID with the job ID of the job you just launched):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scancel</span> <span class="n">JID</span>
+</pre></div>
+</div>
+<p>You can view the results that STAT has produced using the following command (note that “my_exe” will need to be replaced with the name of the executable you ran):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span><span class="o">-</span><span class="n">view</span> <span class="n">stat_results</span><span class="o">/</span><span class="n">my_exe</span><span class="o">.</span><span class="mi">0000</span><span class="o">/</span><span class="mi">00</span><span class="n">_my_exe</span><span class="o">.</span><span class="mf">0000.3</span><span class="n">D</span><span class="o">.</span><span class="n">dot</span>
+</pre></div>
+</div>
+<p>This produces a graph displaying all the different places within the program that the parallel processes were when you queried them.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To see the graph, you will need to have exported your X display when logging in.</p>
+</div>
+</div>
+</div>
+<div class="section" id="atp">
+<h2>ATP<a class="headerlink" href="#atp" title="Permalink to this headline">¶</a></h2>
+<p>To enable ATP you should load the atp module and set the “ATP_ENABLED” environment variable to 1 on the login node:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">atp</span>
+<span class="n">export</span> <span class="n">ATP_ENABLED</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Then, launch your job using <code class="docutils literal notranslate"><span class="pre">srun</span></code> as a background task (by adding an <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> at the end of the command). For example, if you are running an executable called <code class="docutils literal notranslate"><span class="pre">my_exe</span></code> using 256 processes, you would run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   srun -n=256 --nodes=2 --tasks-per-node=128 --cpus-per-task=1 --time=01:00:00 --account=[budget code] ./my_exe &amp;
+
+Note that this example has set the job time limit to 1 hour -- if you need longer, change the ``--time`` command.
+
+Once the job has finished running, load the ``stat`` module to view the results:
+
+::
+
+    module load cray-stat
+</pre></div>
+</div>
+<p>and view the merged stack trace using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span><span class="o">-</span><span class="n">view</span> <span class="n">atpMergedBT</span><span class="o">.</span><span class="n">dot</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To see the graph, you will need to have exported your X display when logging in.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="profile.html" class="btn btn-neutral float-right" title="Profiling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="analysis.html" class="btn btn-neutral float-left" title="Data analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

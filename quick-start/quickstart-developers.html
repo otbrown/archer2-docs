@@ -1,0 +1,659 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Quickstart for developers &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Overview" href="../user-guide/overview.html" />
+    <link rel="prev" title="Quickstart for users" href="quickstart-users.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="../_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart-users.html">Quickstart for users</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart for developers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#compiler-wrappers">Compiler wrappers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#programming-environments">Programming environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#useful-compiler-options">Useful compiler options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linking-on-archer2">Linking on ARCHER2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-rpaths-to-link">Using RPATHs to link</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging-tools">Debugging tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#profiling-tools">Profiling tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#useful-links">Useful Links</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/data.html">Data management and transfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/sw-environment.html">Software environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/scheduler.html">Running jobs on ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/io.html">I/O and file systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/dev-environment.html">Application development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/python.html">Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/debug.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/profile.html">Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/tuning.html">Performance tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/cp2k/cp2k.html">CP2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/vasp/vasp.html">VASP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Quickstart for developers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/quick-start/quickstart-developers.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="quickstart-for-developers">
+<h1>Quickstart for developers<a class="headerlink" href="#quickstart-for-developers" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ARCHER2 Service is not yet available. This documentation is in
+development.</p>
+</div>
+<p>This guide aims to quickly enable developers to work on ARCHER2. It assumes
+that you are familiar with the material in <a class="reference internal" href="quickstart-users.html"><span class="doc">Quickstart for users</span></a>.</p>
+<div class="section" id="compiler-wrappers">
+<h2>Compiler wrappers<a class="headerlink" href="#compiler-wrappers" title="Permalink to this headline">¶</a></h2>
+<p>When compiling code on ARCHER2, you should make use of the Cray compiler
+wrappers. These ensure that the correct libraries and headers (for example, MPI
+or Cray LibSci) will be used during the compilation and linking stages. These
+wrappers should be accessed by providing the following compiler names:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Language</th>
+<th class="head">Wrapper name</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>C</td>
+<td>cc</td>
+</tr>
+<tr class="row-odd"><td>C++</td>
+<td>CC</td>
+</tr>
+<tr class="row-even"><td>Fortran</td>
+<td>ftn</td>
+</tr>
+</tbody>
+</table>
+<p>This means that you should use the wrapper names whether on the command line, in
+build scripts, or in configure options. It could be helpful to set some or all
+of the following environment variables before running a build to ensure that the
+build tool is aware of the wrappers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">CC</span><span class="o">=</span><span class="n">cc</span>
+<span class="n">export</span> <span class="n">CXX</span><span class="o">=</span><span class="n">CC</span>
+<span class="n">export</span> <span class="n">FC</span><span class="o">=</span><span class="n">ftn</span>
+<span class="n">export</span> <span class="n">F77</span><span class="o">=</span><span class="n">ftn</span>
+<span class="n">export</span> <span class="n">F90</span><span class="o">=</span><span class="n">ftn</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">man</span></code> pages are available for each wrapper. You can also see the full set of
+compiler and linker options being used by passing the <code class="docutils literal notranslate"><span class="pre">-craype-verbose</span></code> option
+to the wrapper when using it.</p>
+</div>
+<div class="section" id="programming-environments">
+<h2>Programming environments<a class="headerlink" href="#programming-environments" title="Permalink to this headline">¶</a></h2>
+<p>On login to ARCHER2, the <code class="docutils literal notranslate"><span class="pre">PrgEnv-cray</span></code> collection will be loaded, as will a
+<code class="docutils literal notranslate"><span class="pre">cce</span></code> module. The latter makes available Cray’s compilers from the Cray
+Compiling Environment (CCE), while the former provides the correct wrappers and
+support to use them. The GNU Compiler Collection (GCC) is also available.</p>
+<p>To make use of any Programming Environment, restore the correct <code class="docutils literal notranslate"><span class="pre">PrgEnv</span></code>
+collection. After doing so the compiler wrappers (<code class="docutils literal notranslate"><span class="pre">cc</span></code>, <code class="docutils literal notranslate"><span class="pre">CC</span></code> and <code class="docutils literal notranslate"><span class="pre">ftn</span></code>) will
+correctly call the compilers from the new suite. The default version of the
+corresponding compiler suite will also be loaded, but you may swap to another
+available version if you wish.</p>
+<p>The following table summarises the suites and associated programming environments.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="14%" />
+<col width="64%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Suite name</th>
+<th class="head">Module</th>
+<th class="head">Programming environment collection</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>CCE</td>
+<td><code class="docutils literal notranslate"><span class="pre">cce</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">PrgEnv-cray</span></code></td>
+</tr>
+<tr class="row-odd"><td>GCC</td>
+<td><code class="docutils literal notranslate"><span class="pre">gcc</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">PrgEnv-gnu</span></code></td>
+</tr>
+<tr class="row-even"><td>AOCC</td>
+<td><code class="docutils literal notranslate"><span class="pre">aocc</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">PrgEnv-aocc</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>As an example, after logging in you may wish to use GCC as your compiler suite.
+Running <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">restore</span> <span class="pre">PrgEnv-gnu</span></code> will replace the Cray environment
+with the GNU environment. It will also unload the <code class="docutils literal notranslate"><span class="pre">cce</span></code> module
+and load the default version of the <code class="docutils literal notranslate"><span class="pre">gcc</span></code> module; at the time of writing, this
+is GCC 10.1.0. If you need to use a different version of GCC, for example 9.3.0,
+you would follow up with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">swap</span> <span class="pre">gcc</span> <span class="pre">gcc/9.3.0</span></code>. At this point you may
+invoke the compiler wrappers and they will correctly use Cray’s libraries and
+tools in conjunction with GCC 9.3.0.</p>
+<p>When choosing the programming environment, a big factor will likely be which
+compilers you have previously used for your code’s development. The Cray Fortran
+compiler is similar to the compiler you may be familiar with from ARCHER, while
+the Cray C and C++ compilers provided on ARCHER2 are new versions that are now
+derived from Clang. The GCC suite provides gcc/g++ and gfortran. The AOCC suite
+provides AMD Clang/Clang++ and AMD Flang.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Unlike ARCHER, the Intel compilers are not available on ARCHER2.</p>
+</div>
+</div>
+<div class="section" id="useful-compiler-options">
+<h2>Useful compiler options<a class="headerlink" href="#useful-compiler-options" title="Permalink to this headline">¶</a></h2>
+<p>The compiler options you use will depend on both the software you are building
+and also on the current stage of development. The following flags should be a
+good starting point for reasonable performance:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Compilers</th>
+<th class="head">Optimisation flags</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Cray C/C++</td>
+<td><code class="docutils literal notranslate"><span class="pre">-O2</span> <span class="pre">-funroll-loops</span> <span class="pre">-ffast-math</span></code></td>
+</tr>
+<tr class="row-odd"><td>Cray Fortran</td>
+<td>Default options</td>
+</tr>
+<tr class="row-even"><td>GCC</td>
+<td><code class="docutils literal notranslate"><span class="pre">-O2</span> <span class="pre">-ftree-vectorize</span> <span class="pre">-funroll-loops</span> <span class="pre">-ffast-math</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>When you are happy with your code’s performance you may wish to enable more
+aggressive optimisations; in this case you could start using the following
+flags. Please note, however, that these optimisations may lead to deviations
+from IEEE/ISO specifications. If your code relies on strict adherence then these
+flags may lead to it producing incorrect output.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Compilers</th>
+<th class="head">Optimisation flags</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Cray C/C++</td>
+<td><code class="docutils literal notranslate"><span class="pre">-Ofast</span> <span class="pre">-funroll-loops</span></code></td>
+</tr>
+<tr class="row-odd"><td>Cray Fortran</td>
+<td><code class="docutils literal notranslate"><span class="pre">-O3</span> <span class="pre">-hfp3</span></code></td>
+</tr>
+<tr class="row-even"><td>GCC</td>
+<td><code class="docutils literal notranslate"><span class="pre">-Ofast</span> <span class="pre">-funroll-loops</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>Vectorisation is enabled by the Cray Fortran compiler at <code class="docutils literal notranslate"><span class="pre">-O1</span></code> and above, by
+Cray C and C++ at <code class="docutils literal notranslate"><span class="pre">-O2</span></code> and above or when using <code class="docutils literal notranslate"><span class="pre">-ftree-vectorize</span></code>, and by
+the GCC compilers at <code class="docutils literal notranslate"><span class="pre">-O3</span></code> and above or when using <code class="docutils literal notranslate"><span class="pre">-ftree-vectorize</span></code>.</p>
+<p>You may wish to promote default <code class="docutils literal notranslate"><span class="pre">real</span></code> and <code class="docutils literal notranslate"><span class="pre">integer</span></code> types in Fortran codes
+from 4 to 8 bytes. In this case, the following flags may be used:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Compiler</th>
+<th class="head">Fortran <code class="docutils literal notranslate"><span class="pre">real</span></code> and <code class="docutils literal notranslate"><span class="pre">integer</span></code> promotion flags</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Cray Fortran</td>
+<td><code class="docutils literal notranslate"><span class="pre">-s</span> <span class="pre">real64</span> <span class="pre">-s</span> <span class="pre">integer64</span></code></td>
+</tr>
+<tr class="row-odd"><td>gfortran</td>
+<td><code class="docutils literal notranslate"><span class="pre">-freal-4-real-8</span> <span class="pre">-finteger-4-integer-8</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>More documentation on the compilers is available through <code class="docutils literal notranslate"><span class="pre">man</span></code>. The pages to
+read are accessed as follow:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="26%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Compiler suite</th>
+<th class="head">C</th>
+<th class="head">C++</th>
+<th class="head">Fortran</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Cray</td>
+<td><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">craycc</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">crayCC</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">crayftn</span></code></td>
+</tr>
+<tr class="row-odd"><td>GNU</td>
+<td><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">gcc</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">g++</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">gfortran</span></code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There are no <code class="docutils literal notranslate"><span class="pre">man</span></code> pages for the AOCC compilers at the moment.</p>
+</div>
+</div>
+<div class="section" id="linking-on-archer2">
+<h2>Linking on ARCHER2<a class="headerlink" href="#linking-on-archer2" title="Permalink to this headline">¶</a></h2>
+<p>Executables on ARCHER2 link dynamically, and the Cray Programming Environment
+does not currently support static linking. This is in contrast to ARCHER where
+the default was to build statically.</p>
+<p>The compiler wrapper scripts on ARCHER link runtime libraries in using the
+<code class="docutils literal notranslate"><span class="pre">runpath</span></code> by default. This means that the paths to the runtime libraries
+are encoded into the executable so you do not need to load the compiler
+environment in your job submission scripts.</p>
+<div class="section" id="using-rpaths-to-link">
+<h3>Using RPATHs to link<a class="headerlink" href="#using-rpaths-to-link" title="Permalink to this headline">¶</a></h3>
+<p>The default behaviour of a dynamically linked executable will be to allow the
+linker to provide the libraries it needs at runtime by searching the paths in
+the <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> environment variable. This is flexible in that it allows
+an executable to use newly installed library versions without rebuilding, but in
+some cases you may prefer to bake the paths to specific libraries into the
+executable, keeping them constant. While the libraries are still dynamically
+loaded at run time, from the end user’s point of view the resulting behaviour
+will be similar to that of a statically compiled executable in that they will
+not need to concern themselves with ensuring the linker will be able to find the
+libraries.</p>
+<p>This is achieved by providing RPATHs to the compiler as options. To set the
+compiler wrappers to do this, you can set the following environment variable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">CRAY_ADD_RPATH</span><span class="o">=</span><span class="n">yes</span>
+</pre></div>
+</div>
+<p>You can also provide RPATHs directly to the compilers using the
+<code class="docutils literal notranslate"><span class="pre">-Wl,-rpath=&lt;path-to-directory&gt;</span></code> flag, where the provided path is to the
+directory containing the libraries which are themselves typically specified with
+flags of the type <code class="docutils literal notranslate"><span class="pre">-l&lt;library-name&gt;</span></code>.</p>
+</div>
+</div>
+<div class="section" id="debugging-tools">
+<h2>Debugging tools<a class="headerlink" href="#debugging-tools" title="Permalink to this headline">¶</a></h2>
+<p>The following debugging tools are available on ARCHER2:</p>
+<ul class="simple">
+<li><strong>gdb4hpc</strong> is a command-line tool working similarly to <a class="reference external" href="https://www.gnu.org/software/gdb/">gdb</a> that allows users to debug parallel
+programs. It can launch parallel programs or attach to ones already running and
+allows the user to step through the execution to identify the causes of any
+unexpected behaviour. Available via <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">gdb4hpc</span></code>.</li>
+<li><strong>valgrind4hpc</strong> is a parallel memory debugging tool that aids in detection of
+memory leaks and errors in parallel applications. It aggregates like errors
+across processes and threads to simplify debugging of parallel appliciations.
+Available via <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">valgrind4hpc</span></code>.</li>
+<li><strong>STAT</strong>, the Stack Trace Analysis Tool, generates merged stack traces for
+parallel applications. It also provides visualisation tools. Available via
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">cray-stat</span></code>.</li>
+<li><strong>ATP</strong>, Abnormal Termiation Processing, offers scalable core file and
+backtrace analysis when parallel programs crash. Output can be viewed with
+STAT. Available via <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">atp</span></code>.</li>
+</ul>
+<p>To get started debugging on ARCHER2, you might like to use gdb4hpc. You should
+first of all compile your code using the <code class="docutils literal notranslate"><span class="pre">-g</span></code> flag to enable debugging symbols.
+Once compiled, load the gdb4hpc module and start it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">gdb4hpc</span>
+<span class="n">gdb4hpc</span>
+</pre></div>
+</div>
+<p>Once inside gdb4hpc, you can start your program’s execution with the <code class="docutils literal notranslate"><span class="pre">launch</span></code>
+command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dbg all&gt; launch $my_prog{128} ./prog
+</pre></div>
+</div>
+<p>In this example, a job called <code class="docutils literal notranslate"><span class="pre">my_prog</span></code> will be launched to run the executable
+file <code class="docutils literal notranslate"><span class="pre">prog</span></code> over 128 cores on a compute node. If you run <code class="docutils literal notranslate"><span class="pre">squeue</span></code> in another
+terminal you will be able to see it running. Inside gdb4hpc you may then
+<code class="docutils literal notranslate"><span class="pre">step</span></code> through the code’s execution, <code class="docutils literal notranslate"><span class="pre">continue</span></code> to breakpoints that you set
+with <code class="docutils literal notranslate"><span class="pre">break</span></code>, <code class="docutils literal notranslate"><span class="pre">print</span></code> the values of variables at these points, and perform a
+<code class="docutils literal notranslate"><span class="pre">backtrace</span></code> on the stack if the program crashes. Debugging jobs will end when
+you exit gdb4hpc, or you can end them yourself by running, in this example,
+<code class="docutils literal notranslate"><span class="pre">release</span> <span class="pre">$my_prog</span></code>.</p>
+<p>For more information on debugging parallel codes, see the documentation
+at <a class="reference internal" href="../user-guide/debug.html"><span class="doc">ARCHER2 User and Best Practice Guide - Debugging</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We will add more information on using the debugging tools once the ARCHER2 system is available.</p>
+</div>
+</div>
+<div class="section" id="profiling-tools">
+<h2>Profiling tools<a class="headerlink" href="#profiling-tools" title="Permalink to this headline">¶</a></h2>
+<p>Profiling on ARCHER2 is provided through the Cray Performance Measurement and
+Analysis Tools (CrayPAT). This has a number of different components:</p>
+<ul class="simple">
+<li><strong>CrayPAT</strong> the full-featured program analysis tool set. CrayPAT consists of
+pat_build, the utility used to instrument programs, the CrayPat run time
+environment, which collects the specified performance data during program
+execution, and pat_report, the first-level data analysis tool, used to produce
+text reports or export data for more sophisticated analysis</li>
+<li><strong>CrayPAT-lite</strong> a simplified and easy-to-use version of CrayPAT that provides
+basic performance analysis information automatically, with a minimum of user
+interaction.</li>
+<li><strong>Reveal</strong> the next-generation integrated performance analysis and code
+optimization tool, which enables the user to correlate performance data
+captured during program execution directly to the original source, and
+identify opportunities for further optimization.</li>
+<li><strong>Cray PAPI</strong> components, which are support packages for those who want to
+access performance counters.</li>
+<li><strong>Cray Apprentice2</strong> the second-level data analysis tool, used to visualize,
+manipulate, explore, and compare sets of program performance data in a GUI
+environment.</li>
+</ul>
+<p>The above tools are made available for use by firstly loading the
+<code class="docutils literal notranslate"><span class="pre">perftools-base</span></code> module followed by either <code class="docutils literal notranslate"><span class="pre">perftools</span></code> (for CrayPAT, Reveal
+and Apprentice2) or one of the <code class="docutils literal notranslate"><span class="pre">perftools-lite</span></code> modules.</p>
+<p>The simplest way to get started profiling your code is with CrayPAT-lite. For
+example, to sample a run of a code you would load the <code class="docutils literal notranslate"><span class="pre">perftools-base</span></code> and
+<code class="docutils literal notranslate"><span class="pre">perftools-lite</span></code> modules, and then compile (you will receive a message that
+the executable is being instrumented). Performing a batch run as usual with this
+executable will produce a directory such as <code class="docutils literal notranslate"><span class="pre">my_prog+74653-2s</span></code> which can be
+passed to <code class="docutils literal notranslate"><span class="pre">pat_report</span></code> to view the results. In this example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pat_report</span> <span class="o">-</span><span class="n">O</span> <span class="n">calltree</span><span class="o">+</span><span class="n">src</span> <span class="n">my_prog</span><span class="o">+</span><span class="mi">74653</span><span class="o">-</span><span class="mi">2</span><span class="n">s</span>
+</pre></div>
+</div>
+<p>will produce a report containing the call tree.
+You can view available report keywords to be provided to the <code class="docutils literal notranslate"><span class="pre">-O</span></code> option by
+running <code class="docutils literal notranslate"><span class="pre">pat_report</span> <span class="pre">-O</span> <span class="pre">-h</span></code>. The available <code class="docutils literal notranslate"><span class="pre">perftools-lite</span></code> modules are:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">perftools-lite</span></code>, instrumenting a basic sampling experiment.</li>
+<li><code class="docutils literal notranslate"><span class="pre">perftools-lite-events</span></code>, instrumenting a tracing experiment.</li>
+<li><code class="docutils literal notranslate"><span class="pre">perftools-lite-gpu</span></code>, instrumenting OpenACC and OpenMP 4 use of GPUs.</li>
+<li><code class="docutils literal notranslate"><span class="pre">perftools-lite-hbm</span></code>, instrumenting for memory bandwidth usage.</li>
+<li><code class="docutils literal notranslate"><span class="pre">perftools-lite-loops</span></code>, instrumenting a loop work estimate experiment.</li>
+</ul>
+<p>For more information on profiling parallel codes, see the documentation
+at <a class="reference internal" href="../user-guide/profile.html"><span class="doc">ARCHER2 User and Best Practice Guide - Profiling</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We will add more information on using the profiling tools once the ARCHER2 system is available.</p>
+</div>
+</div>
+<div class="section" id="useful-links">
+<h2>Useful Links<a class="headerlink" href="#useful-links" title="Permalink to this headline">¶</a></h2>
+<p>Links to other documentation you may find useful:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../user-guide/overview.html"><span class="doc">ARCHER2 User and Best Practice Guide</span></a> - Covers all aspects of use of the ARCHER2 service. This includes fundamentals (required by all users to use the system effectively), best practice for getting the most out of ARCHER2, and more advanced technical topics.</li>
+<li><a class="reference external" href="https://pubs.cray.com/bundle/XC_Series_Programming_Environment_User_Guide_1705_S-2529/page/Record_of_Revision.html">Cray Programming Environment User Guide</a></li>
+<li><a class="reference external" href="https://pubs.cray.com/bundle/Cray_Performance_Measurement_and_Analysis_Tools_User_Guide_644_S-2376/page/About_the_Cray_Performance_Measurement_and_Analysis_Tools_User_Guide.html">Cray Performance Measurement and Analysis Tools User Guide</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../user-guide/overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quickstart-users.html" class="btn btn-neutral float-left" title="Quickstart for users" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

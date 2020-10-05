@@ -1,0 +1,639 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Software environment &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Running jobs on ARCHER2" href="scheduler.html" />
+    <link rel="prev" title="Data management and transfer" href="data.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="../_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-users.html">Quickstart for users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-developers.html">Quickstart for developers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data management and transfer</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Software environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-the-module-command">Using the <code class="docutils literal notranslate"><span class="pre">module</span></code> command</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#information-on-the-available-modules">Information on the available modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loading-removing-and-swapping-modules">Loading, removing and swapping modules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#capturing-your-environment-for-reuse">Capturing your environment for reuse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shell-environment-overview">Shell environment overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scheduler.html">Running jobs on ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O and file systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev-environment.html">Application development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profile.html">Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tuning.html">Performance tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/cp2k/cp2k.html">CP2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/vasp/vasp.html">VASP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Software environment</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/user-guide/sw-environment.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="software-environment">
+<h1>Software environment<a class="headerlink" href="#software-environment" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ARCHER2 Service is not yet available. This documentation is in
+development.</p>
+</div>
+<p>The software environment on ARCHER2 is primarily controlled through
+the <code class="docutils literal notranslate"><span class="pre">module</span></code> command. By loading and switching software modules you
+control which software and versions are available to you.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A module is a self-contained description of a software package – it
+contains the settings required to run a software package and, usually,
+encodes required dependencies on other software packages.</p>
+</div>
+<p>By default, all users on ARCHER2 start with the default software
+environment loaded.</p>
+<p>Software modules on ARCHER2 are provided by both HPE Cray (usually known
+as the <em>Cray Development Environment, CDE</em>) and by EPCC, who provide
+the Service Provision, and Computational Science and Engineering
+services.</p>
+<p>In this section, we provide:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A brief overview of the <code class="docutils literal notranslate"><span class="pre">module</span></code> command</li>
+<li>A brief description of how the <code class="docutils literal notranslate"><span class="pre">module</span></code> command manipulates your environment</li>
+</ul>
+</div></blockquote>
+<div class="section" id="using-the-module-command">
+<h2>Using the <code class="docutils literal notranslate"><span class="pre">module</span></code> command<a class="headerlink" href="#using-the-module-command" title="Permalink to this headline">¶</a></h2>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">We only cover basic usage of the <code class="docutils literal notranslate"><span class="pre">module</span></code> command here. For full documentation
+please see the <a class="reference external" href="http://linux.die.net/man/1/module">Linux manual page on modules</a></p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">module</span></code> command takes a subcommand to indicate what operation
+you wish to perform. Common subcommands are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">list</span> <span class="pre">[name]</span></code> - List modules currently loaded in your environment,
+optionally filtered by <code class="docutils literal notranslate"><span class="pre">[name]</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">avail</span> <span class="pre">[name]</span></code> - List modules available, optionally filtered by <code class="docutils literal notranslate"><span class="pre">[name]</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">savelist</span></code> - List module collections available (usually used for accessing different programming environments)</li>
+<li><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">restore</span> <span class="pre">name</span></code> - Restore the module collection called <code class="docutils literal notranslate"><span class="pre">name</span></code> (usually used for setting up a programming environment)</li>
+<li><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">name</span></code> - Load the module called <code class="docutils literal notranslate"><span class="pre">name</span></code> into your environment</li>
+<li><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">remove</span> <span class="pre">name</span></code> - Remove the module called <code class="docutils literal notranslate"><span class="pre">name</span></code> from your environment</li>
+<li><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">swap</span> <span class="pre">old</span> <span class="pre">new</span></code> - Swap module <code class="docutils literal notranslate"><span class="pre">new</span></code> for module <code class="docutils literal notranslate"><span class="pre">old</span></code> in your environment</li>
+<li><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">help</span> <span class="pre">name</span></code> - Show help information on module <code class="docutils literal notranslate"><span class="pre">name</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">show</span> <span class="pre">name</span></code> - List what module <code class="docutils literal notranslate"><span class="pre">name</span></code> actually does to your environment</li>
+</ul>
+</div></blockquote>
+<p>These are described in more detail below.</p>
+<div class="section" id="information-on-the-available-modules">
+<h3>Information on the available modules<a class="headerlink" href="#information-on-the-available-modules" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">list</span></code> command will give the names of the modules
+and their versions you have presently loaded in your environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module list</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Currently Loaded Modulefiles:</dt>
+<dd><ol class="first last arabic simple">
+<li>cpe-aocc                          7) cray-dsmml/0.1.2(default)</li>
+<li>aocc/2.1.0.3(default)             8) perftools-base/20.09.0(default)</li>
+<li>craype/2.7.0(default)             9) xpmem/2.2.35-7.0.1.0_1.3__gd50fabf.shasta(default)</li>
+<li>craype-x86-rome                  10) cray-mpich/8.0.15(default)</li>
+<li>libfabric/1.11.0.0.233(default)  11) cray-libsci/20.08.1.2(default)</li>
+<li>craype-network-ofi</li>
+</ol>
+</dd>
+</dl>
+<p>Finding out which software modules are available on the system is performed using the
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">avail</span></code> command. To list all software modules available, use:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module avail</span>
+<span class="go">------------------------------- /opt/cray/pe/perftools/20.09.0/modulefiles --------------------------------</span>
+<span class="go">perftools       perftools-lite-events  perftools-lite-hbm    perftools-nwpc</span>
+<span class="go">perftools-lite  perftools-lite-gpu     perftools-lite-loops  perftools-preload</span>
+
+<span class="go">---------------------------------- /opt/cray/pe/craype/2.7.0/modulefiles ----------------------------------</span>
+<span class="go">craype-hugepages1G  craype-hugepages8M   craype-hugepages128M  craype-network-ofi</span>
+<span class="go">craype-hugepages2G  craype-hugepages16M  craype-hugepages256M  craype-network-slingshot10</span>
+<span class="go">craype-hugepages2M  craype-hugepages32M  craype-hugepages512M  craype-x86-rome</span>
+<span class="go">craype-hugepages4M  craype-hugepages64M  craype-network-none</span>
+
+<span class="go">------------------------------------- /usr/local/Modules/modulefiles --------------------------------------</span>
+<span class="go">dot  module-git  module-info  modules  null  use.own</span>
+
+<span class="go">-------------------------------------- /opt/cray/pe/cpe-prgenv/7.0.0 --------------------------------------</span>
+<span class="go">cpe-aocc  cpe-cray  cpe-gnu</span>
+
+<span class="go">-------------------------------------------- /opt/modulefiles ---------------------------------------------</span>
+<span class="go">aocc/2.1.0.3(default)  cray-R/4.0.2.0(default)  gcc/8.1.0  gcc/9.3.0  gcc/10.1.0(default)</span>
+
+
+<span class="go">---------------------------------------- /opt/cray/pe/modulefiles -----------------------------------------</span>
+<span class="go">atp/3.7.4(default)              cray-mpich-abi/8.0.15             craype-dl-plugin-py3/20.06.1(default)</span>
+<span class="go">cce/10.0.3(default)             cray-mpich-ucx/8.0.15             craype/2.7.0(default)</span>
+<span class="go">cray-ccdb/4.7.1(default)        cray-mpich/8.0.15(default)        craypkg-gen/1.3.10(default)</span>
+<span class="go">cray-cti/2.7.3(default)         cray-netcdf-hdf5parallel/4.7.4.0  gdb4hpc/4.7.3(default)</span>
+<span class="go">cray-dsmml/0.1.2(default)       cray-netcdf/4.7.4.0               iobuf/2.0.10(default)</span>
+<span class="go">cray-fftw/3.3.8.7(default)      cray-openshmemx/11.1.1(default)   papi/6.0.0.2(default)</span>
+<span class="go">cray-ga/5.7.0.3                 cray-parallel-netcdf/1.12.1.0     perftools-base/20.09.0(default)</span>
+<span class="go">cray-hdf5-parallel/1.12.0.0     cray-pmi-lib/6.0.6(default)       valgrind4hpc/2.7.2(default)</span>
+<span class="go">cray-hdf5/1.12.0.0              cray-pmi/6.0.6(default)</span>
+<span class="go">cray-libsci/20.08.1.2(default)  cray-python/3.8.5.0(default)</span>
+</pre></div>
+</div>
+<p>This will list all the names and versions of the modules available on
+the service. Not all of them may work in your account though due to,
+for example, licencing restrictions. You will notice that for many
+modules we have more than one version, each of which is identified by a
+version number. One of these versions is the default. As the
+service develops the default version will change and old versions of
+software may be deleted.</p>
+<p>You can list all the modules of a particular type by providing an
+argument to the <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">avail</span></code> command. For example, to list all
+available versions of the HPE Cray FFTW library, use:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module avail cray-fftw</span>
+
+<span class="go">---------------------------------------- /opt/cray/pe/modulefiles -----------------------------------------</span>
+<span class="go">cray-fftw/3.3.8.7(default)</span>
+</pre></div>
+</div>
+<p>If you want more info on any of the modules, you can use the
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">help</span></code> command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module help cray-fftw</span>
+
+<span class="go">-------------------------------------------------------------------</span>
+<span class="go">Module Specific Help for /opt/cray/pe/modulefiles/cray-fftw/3.3.8.7:</span>
+
+
+<span class="go">===================================================================</span>
+<span class="go">FFTW 3.3.8.7</span>
+<span class="go">============</span>
+<span class="go">  Release Date:</span>
+<span class="go">  -------------</span>
+<span class="go">    June 2020</span>
+
+
+<span class="go">  Purpose:</span>
+<span class="go">  --------</span>
+<span class="go">    This Cray FFTW 3.3.8.7 release is supported on Cray Shasta Systems.</span>
+<span class="go">    FFTW is supported on the host CPU but not on the accelerator of Cray systems.</span>
+
+<span class="go">    The Cray FFTW 3.3.8.7 release provides the following:</span>
+<span class="go">      - Optimizations for AMD Rome CPUs.</span>
+<span class="go">    See the Product and OS Dependencies section for details</span>
+
+<span class="go">[...]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">show</span></code> command reveals what operations the module actually
+performs to change your environment when it is loaded. We provide a brief
+overview of what the significance of these different settings mean below.
+For example, for the default FFTW module:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module show cray-fftw</span>
+<span class="go">-------------------------------------------------------------------</span>
+<span class="go">/opt/cray/pe/modulefiles/cray-fftw/3.3.8.7:</span>
+
+<span class="go">conflict        cray-fftw</span>
+<span class="go">conflict        fftw</span>
+<span class="go">setenv          FFTW_VERSION 3.3.8.7</span>
+<span class="go">setenv          CRAY_FFTW_VERSION 3.3.8.7</span>
+<span class="go">setenv          CRAY_FFTW_PREFIX /opt/cray/pe/fftw/3.3.8.7/x86_rome</span>
+<span class="go">setenv          FFTW_ROOT /opt/cray/pe/fftw/3.3.8.7/x86_rome</span>
+<span class="go">setenv          FFTW_DIR /opt/cray/pe/fftw/3.3.8.7/x86_rome/lib</span>
+<span class="go">setenv          FFTW_INC /opt/cray/pe/fftw/3.3.8.7/x86_rome/include</span>
+<span class="go">prepend-path    PATH /opt/cray/pe/fftw/3.3.8.7/x86_rome/bin</span>
+<span class="go">prepend-path    MANPATH /opt/cray/pe/fftw/3.3.8.7/share/man</span>
+<span class="go">prepend-path    CRAY_LD_LIBRARY_PATH /opt/cray/pe/fftw/3.3.8.7/x86_rome/lib</span>
+<span class="go">prepend-path    PE_PKGCONFIG_PRODUCTS PE_FFTW</span>
+<span class="go">setenv          PE_FFTW_TARGET_x86_skylake x86_skylake</span>
+<span class="go">setenv          PE_FFTW_TARGET_x86_rome x86_rome</span>
+<span class="go">setenv          PE_FFTW_TARGET_x86_cascadelake x86_cascadelake</span>
+<span class="go">setenv          PE_FFTW_TARGET_x86_64 x86_64</span>
+<span class="go">setenv          PE_FFTW_TARGET_share share</span>
+<span class="go">setenv          PE_FFTW_TARGET_sandybridge sandybridge</span>
+<span class="go">setenv          PE_FFTW_TARGET_mic_knl mic_knl</span>
+<span class="go">setenv          PE_FFTW_TARGET_ivybridge ivybridge</span>
+<span class="go">setenv          PE_FFTW_TARGET_haswell haswell</span>
+<span class="go">setenv          PE_FFTW_TARGET_broadwell broadwell</span>
+<span class="go">setenv          PE_FFTW_VOLATILE_PKGCONFIG_PATH /opt/cray/pe/fftw/3.3.8.7/@PE_FFTW_TARGET@/lib/pkgconfig</span>
+<span class="go">setenv          PE_FFTW_PKGCONFIG_VARIABLES PE_FFTW_OMP_REQUIRES_@openmp@</span>
+<span class="go">setenv          PE_FFTW_OMP_REQUIRES { }</span>
+<span class="go">setenv          PE_FFTW_OMP_REQUIRES_openmp _mp</span>
+<span class="go">setenv          PE_FFTW_PKGCONFIG_LIBS fftw3_mpi:libfftw3_threads:fftw3:fftw3f_mpi:libfftw3f_threads:fftw3f</span>
+<span class="go">module-whatis   {FFTW 3.3.8.7 - Fastest Fourier Transform in the West}</span>
+<span class="go">  [...]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-removing-and-swapping-modules">
+<h3>Loading, removing and swapping modules<a class="headerlink" href="#loading-removing-and-swapping-modules" title="Permalink to this headline">¶</a></h3>
+<p>To load a module to use the <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span></code> command. For example,
+to load the default version of HPE Cray FFTW into your environment, use:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module load cray-fftw</span>
+</pre></div>
+</div>
+<p>Once you have done this, your environment will be setup to use the HPE Cray FFTW
+library. The above command will load the default version of HPE Cray FFTW. If
+you need a specific version of the software, you can add more information:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module load cray-fftw/3.3.8.7</span>
+</pre></div>
+</div>
+<p>will load HPE Cray FFTW version 3.3.8.7 into your environment, regardless of the
+default.</p>
+<p>If you want to remove software from your environment, <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">remove</span></code> will
+remove a loaded module:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module remove cray-fftw</span>
+</pre></div>
+</div>
+<p>will unload what ever version of <code class="docutils literal notranslate"><span class="pre">cray-fftw</span></code> (even if it is not the default)
+you might have loaded.</p>
+<p>There are many situations in which you might want to change the
+presently loaded version to a different one, such as trying the latest
+version which is not yet the default or using a legacy version to keep
+compatibility with old data. This can be achieved most easily by using
+“module swap oldmodule newmodule”.</p>
+<p>Suppose you have loaded version 3.3.8.7 of <code class="docutils literal notranslate"><span class="pre">cray-fftw</span></code>, the following
+command will change to version 3.3.8.5:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module swap cray-fftw cray-fftw/3.3.8.5</span>
+</pre></div>
+</div>
+<p>You did not need to specify the version of the loaded module in your
+current environment as this can be inferred as it will be the only one
+you have loaded.</p>
+</div>
+</div>
+<div class="section" id="capturing-your-environment-for-reuse">
+<h2>Capturing your environment for reuse<a class="headerlink" href="#capturing-your-environment-for-reuse" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes it is useful to save the module environment that you are using to
+compile a piece of code or execute a piece of software. This is known as a
+module <em>collection</em> You can save a collection from your current environment
+by executing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module save [collection_name]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you do not specify the environment name, it is called <code class="docutils literal notranslate"><span class="pre">default</span></code>.</p>
+</div>
+<p>You can find the list of saved module environments by executing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module savelist</span>
+<span class="go">Named collection list:</span>
+<span class="go"> 1) default   2) PrgEnv-aocc   3) PrgEnv-cray   4) PrgEnv-gnu</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All users have three PrgEnv collections available. These are used
+to setup the different programming environments for compiling
+software.</p>
+</div>
+<p>You can load a saved module environment by executing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module restore PrgEnv-gnu</span>
+<span class="go">Unloading cray-fftw/3.3.8.7</span>
+<span class="go">Unloading cray-libsci/20.08.1.2</span>
+<span class="go">Unloading cray-mpich/8.0.15</span>
+<span class="go">Unloading xpmem/2.2.35-7.0.1.0_1.3__gd50fabf.shasta</span>
+
+<span class="go">Unloading perftools-base/20.09.0</span>
+<span class="go">  WARNING: Did not unuse /opt/cray/pe/perftools/20.09.0/modulefiles</span>
+
+<span class="go">Unloading cray-dsmml/0.1.2</span>
+<span class="go">Unloading craype-network-ofi</span>
+<span class="go">Unloading libfabric/1.11.0.0.233</span>
+<span class="go">Unloading craype-x86-rome</span>
+
+<span class="go">Unloading craype/2.7.0</span>
+<span class="go">  WARNING: Did not unuse /opt/cray/pe/craype/2.7.0/modulefiles</span>
+
+<span class="go">Unloading aocc/2.1.0.3</span>
+<span class="go">Unloading cpe-aocc</span>
+<span class="go">Loading cpe-gnu</span>
+<span class="go">Loading gcc/10.1.0</span>
+<span class="go">Loading craype/2.7.0</span>
+<span class="go">Loading craype-x86-rome</span>
+<span class="go">Loading libfabric/1.11.0.0.233</span>
+<span class="go">Loading craype-network-ofi</span>
+<span class="go">Loading cray-dsmml/0.1.2</span>
+<span class="go">Loading perftools-base/20.09.0</span>
+<span class="go">Loading xpmem/2.2.35-7.0.1.0_1.3__gd50fabf.shasta</span>
+<span class="go">Loading cray-mpich/8.0.15</span>
+<span class="go">Loading cray-libsci/20.08.1.2</span>
+</pre></div>
+</div>
+<p>To list the saved environment modules, you can execute:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module saveshow</span>
+<span class="go">-------------------------------------------------------------------</span>
+<span class="go">/home/t01/t01/atuser/.module/default:</span>
+
+<span class="go">module use --append /opt/cray/pe/perftools/20.09.0/modulefiles</span>
+<span class="go">module use --append /opt/cray/pe/craype/2.7.0/modulefiles</span>
+<span class="go">module use --append /usr/local/Modules/modulefiles</span>
+<span class="go">module use --append /opt/cray/pe/cpe-prgenv/7.0.0</span>
+<span class="go">module use --append /opt/modulefiles</span>
+<span class="go">module use --append /opt/cray/modulefiles</span>
+<span class="go">module use --append /opt/cray/pe/modulefiles</span>
+<span class="go">module use --append /opt/cray/pe/craype-targets/default/modulefiles</span>
+<span class="go">module load cpe-aocc</span>
+<span class="go">module load aocc</span>
+<span class="go">module load craype</span>
+<span class="go">module load craype-x86-rome</span>
+<span class="go">module load --notuasked libfabric</span>
+<span class="go">module load craype-network-ofi</span>
+<span class="go">module load cray-dsmml</span>
+<span class="go">module load perftools-base</span>
+<span class="go">module load xpmem</span>
+<span class="go">module load cray-mpich</span>
+<span class="go">module load cray-libsci</span>
+<span class="go">module load cray-fftw</span>
+</pre></div>
+</div>
+<p>To delete a module environment, you can execute:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">auser@uan01:~&gt; module saverm &lt;environment_name&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="shell-environment-overview">
+<h2>Shell environment overview<a class="headerlink" href="#shell-environment-overview" title="Permalink to this headline">¶</a></h2>
+<p>When you log in to ARCHER2, you are using the <em>bash</em> shell by default. As any
+other software, the <em>bash</em> shell has loaded a set of environment variables
+that can be listed by executing <code class="docutils literal notranslate"><span class="pre">printenv</span></code> or <code class="docutils literal notranslate"><span class="pre">export</span></code>.</p>
+<p>The environment variables listed before are useful to define the behaviour of
+the software you run. For instance, <code class="docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code> define the number of
+threads.</p>
+<p>To define an environment variable, you need to execute:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export OMP_NUM_THREADS=4</span>
+</pre></div>
+</div>
+<p>Please note there are no blanks between the variable name, the assignation
+symbol, and the value. If the value is a string, enclose the string in double
+quotation marks.</p>
+<p>You can show the value of a specific environment variable if you print it:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">echo $OMP_NUM_THREADS</span>
+</pre></div>
+</div>
+<p>Do not forget the dollar symbol.
+To remove an environment variable, just execute:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">unset OMP_NUM_THREADS</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="scheduler.html" class="btn btn-neutral float-right" title="Running jobs on ARCHER2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="data.html" class="btn btn-neutral float-left" title="Data management and transfer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

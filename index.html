@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ARCHER2 User Documentation &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Overview" href="quick-start/overview.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quick-start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start/quickstart-users.html">Quickstart for users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start/quickstart-developers.html">Quickstart for developers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/data.html">Data management and transfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/sw-environment.html">Software environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/scheduler.html">Running jobs on ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/io.html">I/O and file systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/dev-environment.html">Application development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/python.html">Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/debug.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/profile.html">Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/tuning.html">Performance tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="research-software/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/cp2k/cp2k.html">CP2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/vasp/vasp.html">VASP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>ARCHER2 User Documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/index.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="archer2-user-documentation">
+<h1>ARCHER2 User Documentation<a class="headerlink" href="#archer2-user-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ARCHER2 Service is not yet available. This documentation is in
+development. ARCHER2 is due to commence operation in 2020, replacing
+the current service ARCHER. For more information on ARCHER, please
+visit the <a class="reference external" href="http://www.archer.ac.uk">ARCHER web site</a>.</p>
+</div>
+<p>ARCHER2 is the next generation UK National Supercomputing Service. You can find more
+information on the service and the research it supports on the
+<a class="reference external" href="https://www.archer2.ac.uk">ARCHER2 website</a>.</p>
+<p>The ARCHER2 Service is a world class advanced computing resource for UK researchers.
+ARCHER2 is provided by <a class="reference external" href="https://www.ukri.org/">UKRI</a>, <a class="reference external" href="https://www.epcc.ed.ac.uk/">EPCC</a>,
+<a class="reference external" href="https://www.cray.com/">Cray (an HPE company)</a> and the
+<a class="reference external" href="https://www.ed.ac.uk/">University of Edinburgh</a>.</p>
+<div class="section" id="what-the-documentation-covers">
+<h2>What the documentation covers<a class="headerlink" href="#what-the-documentation-covers" title="Permalink to this headline">¶</a></h2>
+<p>This is the documentation for the ARCHER2 service and includes:</p>
+<dl class="docutils">
+<dt>Quick Start Guide</dt>
+<dd>The ARCHER2 quick start guide provides the minimum information for new users or users
+transferring from ARCHER.</dd>
+<dt>ARCHER2 User and Best Practice Guide</dt>
+<dd>Covers all aspects of use of the ARCHER2 supercomputing service. This includes fundamentals
+(required by all users to use the system effectively), best practice for getting the most
+out of ARCHER2, and more advanced technical topics.</dd>
+<dt>Research Software</dt>
+<dd>Information on each of the centrally-installed research software packages.</dd>
+<dt>Software Libraries</dt>
+<dd>Information on the centrally-installed software libraries. Most libraries work
+<em>as expected</em> so no additional notes are required however a small number require
+specific documentation</dd>
+<dt>Data Analysis and Tools</dt>
+<dd>Information on data analysis tools and other useful utilities.</dd>
+<dt>Essential Skills</dt>
+<dd>This section provides information and links on essential skills required to use
+ARCHER2 efficiently: <em>e.g.</em> using Linux command line, accessing help and documentation.</dd>
+</dl>
+</div>
+<div class="section" id="contributing-to-the-documentation">
+<h2>Contributing to the documentation<a class="headerlink" href="#contributing-to-the-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The source for this documentation is publicly available in the
+<a class="reference external" href="https://github.com/ARCHER2-HPC/archer2-docs">ARCHER2 documentation Github repository</a>
+so that anyone can contribute to improve the documentation for the service. Contributions
+can be in the form of improvements or addtions to the content and/or addtion of Issues
+providing suggestions for how it can be improved.</p>
+<p>Full details of how to contribute can be found in the README.rst file of the repository.</p>
+</div>
+<div class="section" id="credits">
+<h2>Credits<a class="headerlink" href="#credits" title="Permalink to this headline">¶</a></h2>
+<p>This documentation draws on the <a class="reference external" href="https://cirrus.readthedocs.io">Cirrus Tier-2 HPC Documentation</a>,
+<a class="reference external" href="https://docs.hpc.shef.ac.uk/">Sheffield Iceberg Documentation</a> and the
+<a class="reference external" href="http://www.archer.ac.uk/documentation/">ARCHER National Supercomputing Service Documentation</a>.</p>
+<p>We are also grateful to the Isambard Tier-2 HPC service for discussions on the combination of Github
+and Sphinx technologies.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Quick start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quick-start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start/quickstart-users.html">Quickstart for users</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-users.html#request-an-account-on-archer2">Request an account on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-users.html#login-to-archer2">Login to ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-users.html#file-systems-and-manipulating-data">File systems and manipulating data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-users.html#accessing-software">Accessing software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-users.html#create-a-job-submission-script">Create a job submission script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-users.html#submit-your-job-to-the-queue">Submit your job to the queue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-users.html#monitoring-your-job">Monitoring your job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-users.html#checking-the-output-from-the-job">Checking the output from the job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-users.html#acknowledging-archer2">Acknowledging ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-users.html#useful-links">Useful Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start/quickstart-developers.html">Quickstart for developers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-developers.html#compiler-wrappers">Compiler wrappers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-developers.html#programming-environments">Programming environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-developers.html#useful-compiler-options">Useful compiler options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-developers.html#linking-on-archer2">Linking on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-developers.html#debugging-tools">Debugging tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-developers.html#profiling-tools">Profiling tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick-start/quickstart-developers.html#useful-links">Useful Links</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/connecting.html">Connecting to ARCHER2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/connecting.html#access-credentials">Access credentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/connecting.html#ssh-clients">SSH Clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/connecting.html#making-access-more-convenient-using-the-ssh-configuration-file">Making access more convenient using the SSH configuration file</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/data.html">Data management and transfer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/data.html#useful-resources-and-links">Useful resources and links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/data.html#data-management">Data management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/data.html#archiving-and-data-transfer">Archiving and data transfer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/sw-environment.html">Software environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/sw-environment.html#using-the-module-command">Using the <code class="docutils literal notranslate"><span class="pre">module</span></code> command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/sw-environment.html#capturing-your-environment-for-reuse">Capturing your environment for reuse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/sw-environment.html#shell-environment-overview">Shell environment overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/scheduler.html">Running jobs on ARCHER2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/scheduler.html#basic-slurm-commands">Basic Slurm commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/scheduler.html#resource-limits">Resource Limits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/scheduler.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/scheduler.html#output-from-slurm-jobs">Output from Slurm jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/scheduler.html#specifying-resources-in-job-scripts">Specifying resources in job scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/scheduler.html#srun-launching-parallel-jobs"><code class="docutils literal notranslate"><span class="pre">srun</span></code>: Launching parallel jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/scheduler.html#example-job-submission-scripts">Example job submission scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/scheduler.html#job-arrays">Job arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/scheduler.html#job-chaining">Job chaining</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/scheduler.html#interactive-jobs-salloc">Interactive Jobs: <code class="docutils literal notranslate"><span class="pre">salloc</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/scheduler.html#reservations">Reservations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/scheduler.html#best-practices-for-job-submission">Best practices for job submission</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/io.html">I/O and file systems</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/io.html#using-the-archer2-file-systems">Using the ARCHER2 file systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/io.html#disk-quotas">Disk quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/io.html#sharing-data-with-other-archer2-users">Sharing data with other ARCHER2 users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/io.html#common-i-o-patterns">Common I/O patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/io.html#achieving-efficient-i-o">Achieving efficient I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/io.html#i-o-profiling">I/O Profiling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/dev-environment.html">Application development environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/dev-environment.html#what-s-available">What’s available</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/dev-environment.html#managing-development">Managing development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/dev-environment.html#compilation-environment">Compilation environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/dev-environment.html#message-passing-interface-mpi">Message passing interface (MPI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/dev-environment.html#linking-and-libraries">Linking and libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/dev-environment.html#building-standard-packages">Building standard packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/containers.html">Containers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/containers.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/containers.html#about-singularity-containers-images">About Singularity Containers (Images)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/containers.html#using-singularity-images-on-archer2">Using Singularity Images on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/containers.html#creating-your-own-singularity-images">Creating Your Own Singularity Images</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/python.html">Using Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/python.html#python-for-general-users">Python for general users</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/debug.html">Debugging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/debug.html#gdb4hpc">gdb4hpc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/debug.html#valgrind4hpc">valgrind4hpc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/debug.html#stat">STAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/debug.html#atp">ATP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/profile.html">Profiling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/profile.html#craypat-lite">CrayPat-lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/profile.html#craypat">CrayPat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/profile.html#cray-apprentice2">Cray Apprentice2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/profile.html#hardware-performance-counters">Hardware Performance Counters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/tuning.html">Performance tuning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/tuning.html#mpi">MPI</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="research-software/overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/overview.html#centrally-supported-packages">Centrally supported packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/castep/castep.html">CASTEP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/castep/castep.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/castep/castep.html#using-castep-on-archer2">Using CASTEP on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/castep/castep.html#running-parallel-castep-jobs">Running parallel CASTEP jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/castep/castep.html#hints-and-tips">Hints and Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/castep/castep.html#compiling-castep">Compiling CASTEP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/chemshell/chemshell.html">ChemShell</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/chemshell/chemshell.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/chemshell/chemshell.html#using-chemshell-on-archer2">Using ChemShell on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/chemshell/chemshell.html#running-parallel-chemshell-jobs">Running parallel ChemShell jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/chemshell/chemshell.html#hints-and-tips">Hints and Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/chemshell/chemshell.html#compiling-chemshell">Compiling ChemShell</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/code-saturne/code-saturne.html">Code Saturne</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/code-saturne/code-saturne.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/code-saturne/code-saturne.html#using-code-saturne-on-archer2">Using Code Saturne on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/code-saturne/code-saturne.html#running-parallel-code-saturne-jobs">Running parallel Code Saturne jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/code-saturne/code-saturne.html#hints-and-tips">Hints and tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/code-saturne/code-saturne.html#compiling-code-saturne">Compiling Code Saturne</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/cp2k/cp2k.html">CP2K</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/cp2k/cp2k.html#useful-links">Useful links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/cp2k/cp2k.html#using-cp2k-on-archer2">Using CP2K on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/cp2k/cp2k.html#running-parallel-cp2k-jobs">Running parallel CP2K jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/cp2k/cp2k.html#hints-and-tips">Hints and Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/cp2k/cp2k.html#compiling-cp2k">Compiling CP2K</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/elk/elk.html">ELK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/elk/elk.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/elk/elk.html#using-elk-on-archer2">Using ELK on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/elk/elk.html#running-parallel-elk-jobs">Running parallel ELK jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/elk/elk.html#hints-and-tips">Hints and Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/elk/elk.html#compiling-elk">Compiling ELK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/fenics/fenics.html">FEniCS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/fenics/fenics.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/fenics/fenics.html#using-fenics-on-archer2">Using FEniCS on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/fenics/fenics.html#running-parallel-fenics-jobs">Running parallel FEniCS jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/fenics/fenics.html#hints-and-tips">Hints and Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/fenics/fenics.html#compiling-fenics">Compiling FEniCS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/gromacs/gromacs.html">GROMACS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/gromacs/gromacs.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/gromacs/gromacs.html#using-gromacs-on-archer2">Using GROMACS on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/gromacs/gromacs.html#running-parallel-gromacs-jobs">Running parallel GROMACS jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/gromacs/gromacs.html#hints-and-tips">Hints and Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/gromacs/gromacs.html#compiling-gromacs">Compiling Gromacs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/lammps/lammps.html">LAMMPS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/lammps/lammps.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/lammps/lammps.html#using-lammps-on-archer2">Using LAMMPS on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/lammps/lammps.html#running-parallel-lammps-jobs">Running parallel LAMMPS jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/lammps/lammps.html#hints-and-tips">Hints and Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/lammps/lammps.html#compiling-lammps">Compiling LAMMPS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/mitgcm/mitgcm.html">MITgcm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/mitgcm/mitgcm.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/mitgcm/mitgcm.html#using-mitgcm-on-archer2">Using MITgcm on ARCHER2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/mo-unified-model/mo-unified-model.html">Met Office Unified Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/mo-unified-model/mo-unified-model.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/mo-unified-model/mo-unified-model.html#using-the-unified-model">Using the Unified Model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/namd/namd.html">NAMD</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/namd/namd.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/namd/namd.html#using-namd-on-archer2">Using NAMD on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/namd/namd.html#running-parallel-namd-jobs">Running parallel NAMD jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/nemo/nemo.html">NEMO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/nemo/nemo.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/nemo/nemo.html#using-nemo-on-archer2">Using NEMO on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/nemo/nemo.html#running-parallel-nemo-jobs">Running parallel NEMO jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/nwchem/nwchem.html">NWChem</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/nwchem/nwchem.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/nwchem/nwchem.html#using-nwchem-on-archer2">Using NWChem on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/nwchem/nwchem.html#running-nwchem-jobs">Running NWChem jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/nwchem/nwchem.html#compiling-nwchem">Compiling NWChem</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/onetep/onetep.html">ONETEP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/onetep/onetep.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/onetep/onetep.html#using-onetep-on-archer2">Using ONETEP on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/onetep/onetep.html#running-parallel-onetep-jobs">Running parallel ONETEP jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/onetep/onetep.html#hints-and-tips">Hints and tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/onetep/onetep.html#compiling-onetep">Compiling ONETEP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/openfoam/openfoam.html">OpenFOAM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/openfoam/openfoam.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/openfoam/openfoam.html#using-openfoam-on-archer2">Using OpenFOAM on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/openfoam/openfoam.html#running-parallel-openfoam-jobs">Running parallel OpenFOAM jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/openfoam/openfoam.html#hints-and-tips">Hints and tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/openfoam/openfoam.html#compiling-openfoam">Compiling OpenFOAM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/qe/qe.html">Quantum Espresso</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/qe/qe.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/qe/qe.html#using-qe-on-archer2">Using QE on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/qe/qe.html#running-parallel-qe-jobs">Running parallel QE jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/qe/qe.html#hints-and-tips">Hints and tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/qe/qe.html#compiling-qe">Compiling QE</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="research-software/vasp/vasp.html">VASP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="research-software/vasp/vasp.html#useful-links">Useful Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/vasp/vasp.html#using-vasp-on-archer2">Using VASP on ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/vasp/vasp.html#running-parallel-vasp-jobs">Running parallel VASP jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="research-software/vasp/vasp.html#hints-and-tips">Hints and tips</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="software-libraries/overview.html">Overview</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data-tools/overview.html">Overview</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="essentials/overview.html">Overview</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="quick-start/overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

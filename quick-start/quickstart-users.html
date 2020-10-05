@@ -1,0 +1,688 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Quickstart for users &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Quickstart for developers" href="quickstart-developers.html" />
+    <link rel="prev" title="Overview" href="overview.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="../_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart for users</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#request-an-account-on-archer2">Request an account on ARCHER2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#obtain-an-account-on-the-safe-website">Obtain an account on the SAFE website</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generating-and-adding-an-ssh-key-pair">Generating and adding an SSH key pair</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#request-an-archer2-login-account">Request an ARCHER2 login account</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#collecting-your-archer2-password">Collecting your ARCHER2 password</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#login-to-archer2">Login to ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#file-systems-and-manipulating-data">File systems and manipulating data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-software">Accessing software</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requesting-access-to-licensed-software">Requesting access to licensed software</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-job-submission-script">Create a job submission script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#submit-your-job-to-the-queue">Submit your job to the queue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring-your-job">Monitoring your job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#checking-the-output-from-the-job">Checking the output from the job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#acknowledging-archer2">Acknowledging ARCHER2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#useful-links">Useful Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart-developers.html">Quickstart for developers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/data.html">Data management and transfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/sw-environment.html">Software environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/scheduler.html">Running jobs on ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/io.html">I/O and file systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/dev-environment.html">Application development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/python.html">Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/debug.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/profile.html">Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/tuning.html">Performance tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/cp2k/cp2k.html">CP2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/vasp/vasp.html">VASP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Quickstart for users</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/quick-start/quickstart-users.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="quickstart-for-users">
+<h1>Quickstart for users<a class="headerlink" href="#quickstart-for-users" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ARCHER2 Service is not yet available. This documentation is in
+development.</p>
+</div>
+<p>This guide aims to quickly enable new users to get up and running on
+ARCHER2 by running through the process of getting an ARCHER2 account,
+logging in and running your first job.</p>
+<div class="section" id="request-an-account-on-archer2">
+<h2>Request an account on ARCHER2<a class="headerlink" href="#request-an-account-on-archer2" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You need to use both a password and a passphrase-protected SSH key pair to log into
+ARCHER2. You get the password from SAFE but will need to setup your own SSH key
+pair and add the public part to your account via SAFE before you will be able to
+log in. We cover the authentication steps below.</p>
+</div>
+<div class="section" id="obtain-an-account-on-the-safe-website">
+<h3>Obtain an account on the SAFE website<a class="headerlink" href="#obtain-an-account-on-the-safe-website" title="Permalink to this headline">¶</a></h3>
+<p>The first step is to sign up for an account on the ARCHER2 SAFE website. This account
+is used to manage your user accounts and report on your usage and quotas. To do this:</p>
+<ol class="arabic simple">
+<li>Go to the <a class="reference external" href="https://safe.epcc.ed.ac.uk/signup.jsp">SAFE New User Signup Form</a></li>
+<li>Fill in your personal details.  You can come back later and change them if you wish</li>
+<li>Click <em>Submit</em></li>
+</ol>
+<p>You are now registered. Your SAFE password will be emailed to the email address you provided. You can then login
+with that email address and password.</p>
+</div>
+<div class="section" id="generating-and-adding-an-ssh-key-pair">
+<h3>Generating and adding an SSH key pair<a class="headerlink" href="#generating-and-adding-an-ssh-key-pair" title="Permalink to this headline">¶</a></h3>
+<p>How you generate your SSH key pair depends on which operating system you use and which
+SSH client you use to connect to ARCHER2. We will not cover the details on generating an
+SSH key pair here, but detailed information on generating an SSH key pair is available
+in the <a class="reference external" href="https://docs.archer2.ac.uk/user-guide/connecting.html">ARCHER2 User and Best Practice Guide</a>.</p>
+<p>Once you have generated your SSH key pair, you should add the public part to your
+login account using SAFE:</p>
+<ol class="arabic simple">
+<li><a class="reference external" href="https://safe.epcc.ed.ac.uk">Log into SAFE</a></li>
+<li>Use the menu <em>Your details</em> and select <em>Update personal details</em></li>
+<li>Either copy and paste the public part of your SSH key into the SSH Public key box or use the
+button to select the public key file on your computer.</li>
+<li>Click <em>Update</em> to associate the public SSH key part with your SAFE account</li>
+</ol>
+</div>
+<div class="section" id="request-an-archer2-login-account">
+<h3>Request an ARCHER2 login account<a class="headerlink" href="#request-an-archer2-login-account" title="Permalink to this headline">¶</a></h3>
+<p>Once you have a SAFE account and an SSH key you will need to request a user account on ARCHER2 itself.
+To do this you will require a <em>Project Code</em>; you usually obtain this from the Principle
+Investigator (PI) or project manager for the project you will be working on. Once you have
+the Project Code:</p>
+<ol class="arabic simple">
+<li><a class="reference external" href="https://safe.epcc.ed.ac.uk">Log into SAFE</a></li>
+<li>Use the <em>Login accounts - Request new account</em> menu item</li>
+<li>Select the correct project from the drop down list</li>
+<li>Select the <em>ARCHER2</em> machine in the list of available machines</li>
+<li>Click <em>Next</em></li>
+<li>Enter a username for the account</li>
+<li>Click <em>Request</em></li>
+</ol>
+<p>The PI or project manager of the project will be asked to approve your request. After your
+request has been approved the account will be created and when this has been done you will
+receive an email. You can then come back to SAFE and pick up the initial, one use password
+for your new account (ARCHER2 account passwords are also sometimes referred to as LDAP
+passwords by the system).</p>
+</div>
+<div class="section" id="collecting-your-archer2-password">
+<h3>Collecting your ARCHER2 password<a class="headerlink" href="#collecting-your-archer2-password" title="Permalink to this headline">¶</a></h3>
+<p>You should now collect your ARCHER2 password:</p>
+<ol class="arabic simple">
+<li><a class="reference external" href="https://safe.epcc.ed.ac.uk">Log into SAFE</a></li>
+<li>Use the <em>Login accounts</em> menu to select your new login account</li>
+<li>This will display details of your account. Use the <em>View Login Account Password</em> button
+to view your single-use ARCHER2 password.</li>
+</ol>
+<p>This password is generated randomly by the software. It’s best to copy-and-paste it across
+when you log in to the service machine. After you login, you will be prompted to change it.
+You should enter this password again, and then you will be prompted for your new,
+easy-to-remember password. Your new password should conform to
+<a class="reference external" href="https://www.archer2.ac.uk/about/policies/passwords_usernames.html">the ARCHER2 Password Policy</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When you change your password on the service machine in this way, this is not reflected on the SAFE.</p>
+</div>
+</div>
+</div>
+<div class="section" id="login-to-archer2">
+<h2>Login to ARCHER2<a class="headerlink" href="#login-to-archer2" title="Permalink to this headline">¶</a></h2>
+<p>To log into ARCHER2 you should use the <code class="docutils literal notranslate"><span class="pre">login.archer2.ac.uk</span></code> address:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="p">[</span><span class="n">userID</span><span class="p">]</span><span class="nd">@login</span><span class="o">.</span><span class="n">archer2</span><span class="o">.</span><span class="n">ac</span><span class="o">.</span><span class="n">uk</span>
+</pre></div>
+</div>
+<p>You will first be prompted for the passphrase associated with your
+SSH key pair. Once you have entered your passphrase successfully, you
+will then be prompted for your password. You need to enter both
+correctly to be able to access ARCHER2.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If your SSH key pair is not stored in the default location (usually
+<code class="docutils literal notranslate"><span class="pre">~/.ssh/id_rsa</span></code>) on your local system, you may need to specify the
+path to the private part of the key wih the <code class="docutils literal notranslate"><span class="pre">-i</span></code> option to <code class="docutils literal notranslate"><span class="pre">ssh</span></code>.
+For example, if your key is in a file called <code class="docutils literal notranslate"><span class="pre">keys/id_rsa_archer2</span></code>
+you would use the command
+<code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-i</span> <span class="pre">keys/id_rsa_archer2</span> <span class="pre">username&#64;login.archer2.ac.uk</span></code>
+to log in.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>When you first log into ARCHER2, you will be prompted to change your
+initial password. This is a three step process:</p>
+<ol class="arabic simple">
+<li>When promoted to enter your <em>ldap password</em>: Re-enter the password you retrieved from SAFE</li>
+<li>When prompted to enter your new password: type in a new password</li>
+<li>When prompted to re-enter the new password: re-enter the new password</li>
+</ol>
+<p class="last">Your password has now been changed</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">More information on connecting to ARCHER2 is available in <a class="reference internal" href="../user-guide/connecting.html"><span class="doc">Connecting to ARCHER2</span></a>.</p>
+</div>
+</div>
+<div class="section" id="file-systems-and-manipulating-data">
+<h2>File systems and manipulating data<a class="headerlink" href="#file-systems-and-manipulating-data" title="Permalink to this headline">¶</a></h2>
+<p>ARCHER2 has a number of different file systems and understanding the difference between them is crucial
+to being able to use the system. In particular, transferring and moving data often requires a bit of
+thought in advance to ensure that the data is secure and in a useful form.</p>
+<p>ARCHER2 file systems are:</p>
+<ul class="simple">
+<li><strong>/home</strong>: backed up for disaster recovery purposes only, data recovery for accidental deletion is not
+supported. NFS, available on login and service nodes.</li>
+<li><strong>/work</strong>: not backed-up. Lustre, available on login, service and compute nodes.</li>
+</ul>
+<p>Top tips for managing data on ARCHER2:</p>
+<ul class="simple">
+<li>Do not generate huge (&gt;1000) numbers of files in a single directory</li>
+<li>Much of the performance difference on transferring data is due to numbers of files involved in the
+transfer - minimise the number of files that you have to transfer by using archiving tools to improve
+performance.</li>
+<li>Archive directories or large numbers of files before moving them between file systems (e.g. using tar)</li>
+<li>When using <code class="docutils literal notranslate"><span class="pre">tar</span></code> or <code class="docutils literal notranslate"><span class="pre">rsync</span></code> between file systems mounted on ARCHER2 avoid using the compression
+options as these slow operations down (as file system bandwidth is generally better than throttling
+by CPU performance by using compression).</li>
+<li>Think about automating the combination and transfer of multiple files output by software on ARCHER2 to
+other resources. The Data Management Guide linked below provides examples of how to automatically
+verify the integrity of an archive and examples of how to do this.</li>
+</ul>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">Information on best practice in managing you data is available in the section
+<a class="reference internal" href="../user-guide/data.html"><span class="doc">Data management and transfer</span></a>.</p>
+</div>
+</div>
+<div class="section" id="accessing-software">
+<h2>Accessing software<a class="headerlink" href="#accessing-software" title="Permalink to this headline">¶</a></h2>
+<p>Software on ARCHER2 is principally accessed through environment modules. These
+load and unload the desired compilers, tools and libraries through the
+<code class="docutils literal notranslate"><span class="pre">module</span></code> command and its subcommands. Some will be loaded by default on login,
+providing a default working environment; many more will be available for use but
+initially unloaded, allowing you to set up the environment to suit your needs.</p>
+<p>At any stage you can check which modules have been loaded by running</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="nb">list</span>
+</pre></div>
+</div>
+<p>Running the following command will display all environment modules available on
+ARCHER2, whether loaded or unloaded</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">avail</span>
+</pre></div>
+</div>
+<p>The search field for this command may be narrowed by providing the first few
+characters of the module name being queried. For example, all available versions
+and variants of VASP may be found by running</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">avail</span> <span class="n">vasp</span>
+</pre></div>
+</div>
+<p>You will see that different versions are available for many modules. For
+example, <code class="docutils literal notranslate"><span class="pre">vasp/5/5.4.4</span></code> and <code class="docutils literal notranslate"><span class="pre">vasp/6/6.1.1</span></code> are two available versions of
+VASP. Furthermore, a default version may be specified and will be used if no
+version is provided by the user.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">VASP is licensed software, as are some other software packages on ARCHER2. You must
+have a valid licence to use licensed software on ARCHER2. Often you will need to
+request access through the SAFE. More on this below.</p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span></code> and <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">add</span></code> commands perform the same action, loading
+a module for use. Following the above,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">vasp</span><span class="o">/</span><span class="mi">5</span>
+</pre></div>
+</div>
+<p>would load the default version of VASP 5, while</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">vasp</span><span class="o">/</span><span class="mi">5</span><span class="o">/</span><span class="mf">5.4</span><span class="o">.</span><span class="mi">4</span>
+</pre></div>
+</div>
+<p>would specifically load version 5.4.4. A loaded module may be unloaded through
+the identical <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">unload</span></code>, <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">remove</span></code> or <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">delete</span></code>
+commands, e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">unload</span> <span class="n">vasp</span>
+</pre></div>
+</div>
+<p>which would unload whichever version of VASP is currently in the environment.
+Rather than issuing separate unload and load commands, versions of a module may
+be swapped as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">swap</span> <span class="n">vasp</span> <span class="n">vasp</span><span class="o">/</span><span class="mi">5</span><span class="o">/</span><span class="mf">5.4</span><span class="o">.</span><span class="mi">4</span>
+</pre></div>
+</div>
+<p>Other helpful commands are:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">help</span> <span class="pre">&lt;modulename&gt;</span></code> which provides a short description of the module</li>
+<li><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">show</span> <span class="pre">&lt;modulename&gt;</span></code> which displays the contents of the modulefile</li>
+</ul>
+<p>Points to be aware of include:</p>
+<ul class="simple">
+<li>Some modules will conflict with others. A simple example would be the conflict
+arising when trying to load a different version of an already loaded module.
+When a conflict occurs, the loading process will fail and an error message
+will be displayed. Examination of the message and the modulefiles (via
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">show</span></code>) should reveal the cause of the conflict and how to resolve
+it.</li>
+<li>The order in which modules are loaded <em>can</em> matter. Consider two modules
+which set the same variable to a different value. The final value
+would be that set by the module which loaded last. If you suspect that two
+modules may be interfering with one another, you can examine their contents
+with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">show</span></code>.</li>
+</ul>
+<div class="section" id="requesting-access-to-licensed-software">
+<h3>Requesting access to licensed software<a class="headerlink" href="#requesting-access-to-licensed-software" title="Permalink to this headline">¶</a></h3>
+<p>Some of the software installed on ARCHER2 requires a user to have a valid licence agreed with the
+software owners/developers to be able to use it (for example, VASP). Although you will be able to
+load this software on ARCHER2 you will be barred from actually using it until your licence has been
+verified.</p>
+<p>You request access to licensed software through the EPCC SAFE (the web administration tool you used
+to apply for your account and retrieve your initial password) by being added to the appropriate
+<em>Package Group</em>. To request access to licensed software:</p>
+<ol class="arabic simple">
+<li>Log in to <a class="reference external" href="https://safe.epcc.ed.ac.uk">SAFE</a></li>
+<li>Go to the Menu <em>Login accounts</em> and select the login account which requires access to the software</li>
+<li>Click <em>New Package Group Request</em></li>
+<li>Select the software from the list of available packages and click <em>Select Package Group</em></li>
+<li>Fill in as much information as possible about your license; at the very least provide the information
+requested at the top of the screen such as the licence holder’s name and contact details. If you are
+covered by the license because the licence holder is your supervisor, for example, please state this.</li>
+<li>Click <em>Submit</em></li>
+</ol>
+<p>Your request will then be processed by the ARCHER2 Service Desk who will confirm your license with the
+software owners/developers before enabling your access to the software on ARCHER2. This can take several
+days (depending on how quickly the software owners/developers take to respond) but you will be advised
+once this has been done.</p>
+</div>
+</div>
+<div class="section" id="create-a-job-submission-script">
+<h2>Create a job submission script<a class="headerlink" href="#create-a-job-submission-script" title="Permalink to this headline">¶</a></h2>
+<p>To run a program on the ARCHER2 compute nodes you need to write a job submission script that tells the
+system how many compute nodes you want to reserve and for how long. You also need to use the <code class="docutils literal notranslate"><span class="pre">srun</span></code>
+command to launch your parallel executable.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">For a more details on the Slurm scheduler on ARCHER2 and writing job submission scripts see the
+<a class="reference internal" href="../user-guide/scheduler.html"><span class="doc">Running jobs on ARCHER2</span></a> section of the User and Best Practice Guide.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Parallel jobs on ARCHER2 should be run from the /work file system as /home is not available on the
+compute nodes - you will see a <code class="docutils literal notranslate"><span class="pre">chdir</span></code> or <em>file not found</em> error if you try to run a job from the /home file system.</p>
+</div>
+<p>Create a job submission script called <code class="docutils literal notranslate"><span class="pre">submit.slurm</span></code> in your space on the work file system using your
+favourite text editor. For example, using <code class="docutils literal notranslate"><span class="pre">vim</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auser</span><span class="nd">@uan01</span><span class="p">:</span><span class="o">~&gt;</span> <span class="n">cd</span> <span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">t01</span><span class="o">/</span><span class="n">t01</span><span class="o">/</span><span class="n">auser</span>
+<span class="n">auser</span><span class="nd">@uan01</span><span class="p">:</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">t01</span><span class="o">/</span><span class="n">t01</span><span class="o">/</span><span class="n">auser</span><span class="o">&gt;</span> <span class="n">vim</span> <span class="n">submit</span><span class="o">.</span><span class="n">slurm</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You will need to use your project code and username to get to the correct directory.
+i.e. replace the <cite>t01</cite> above with your project code and replace the username <cite>auser</cite> with your ARCHER2 username.</p>
+</div>
+<p>Paste the following text into your job submission script, replacing <code class="docutils literal notranslate"><span class="pre">ENTER_YOUR_BUDGET_CODE_HERE</span></code> with
+your budget code e.g. <code class="docutils literal notranslate"><span class="pre">e99-ham</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash --login</span>
+
+<span class="c1">#SBATCH --job-name=test_job</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --tasks-per-node=128</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+<span class="c1">#SBATCH --time=0:5:0</span>
+<span class="c1">#SBATCH --account=ENTER_YOUR_BUDGET_CODE_HERE</span>
+
+<span class="c1"># Load the xthi module to get access to the xthi program</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">xthi</span>
+
+<span class="c1"># srun launches the parallel program based on the SBATCH options</span>
+<span class="n">srun</span> <span class="o">--</span><span class="n">cpu</span><span class="o">-</span><span class="n">bind</span><span class="o">=</span><span class="n">cores</span> <span class="n">xthi</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="submit-your-job-to-the-queue">
+<h2>Submit your job to the queue<a class="headerlink" href="#submit-your-job-to-the-queue" title="Permalink to this headline">¶</a></h2>
+<p>You submit your job to the queues using the <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auser</span><span class="nd">@uan01</span><span class="p">:</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">t01</span><span class="o">/</span><span class="n">t01</span><span class="o">/</span><span class="n">auser</span><span class="o">&gt;</span> <span class="n">sbatch</span> <span class="n">submit</span><span class="o">.</span><span class="n">slurm</span>
+<span class="n">Submitted</span> <span class="n">batch</span> <span class="n">job</span> <span class="mi">23996</span>
+
+<span class="n">The</span> <span class="n">value</span> <span class="n">returned</span> <span class="ow">is</span> <span class="n">your</span> <span class="o">*</span><span class="n">Job</span> <span class="n">ID</span><span class="o">*.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="monitoring-your-job">
+<h2>Monitoring your job<a class="headerlink" href="#monitoring-your-job" title="Permalink to this headline">¶</a></h2>
+<p>You use the <code class="docutils literal notranslate"><span class="pre">squeue</span></code> command to examine jobs in the queue. Use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>auser@uan01:/work/t01/t01/auser&gt; squeue -u $USER
+</pre></div>
+</div>
+<p>To list all the jobs <strong>you</strong> have in the queue. <code class="docutils literal notranslate"><span class="pre">squeue</span></code> on its own lists all jobs
+in the queue from all users.</p>
+</div>
+<div class="section" id="checking-the-output-from-the-job">
+<h2>Checking the output from the job<a class="headerlink" href="#checking-the-output-from-the-job" title="Permalink to this headline">¶</a></h2>
+<p>The job submission script above should write the output to a file called <code class="docutils literal notranslate"><span class="pre">slurm-&lt;jobID&gt;.out</span></code>
+(i.e. if the Job ID was 23996, the file would be <code class="docutils literal notranslate"><span class="pre">slurm-23996.out</span></code>), you can check the contents
+of this file with the <code class="docutils literal notranslate"><span class="pre">cat</span></code> command. If the job was successful you should see output that looks
+something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auser</span><span class="nd">@eslogin01</span><span class="p">:</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">t01</span><span class="o">/</span><span class="n">t01</span><span class="o">/</span><span class="n">auser</span><span class="o">&gt;</span> <span class="n">cat</span> <span class="n">slurm</span><span class="o">-</span><span class="mf">23996.</span><span class="n">out</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">20</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">27</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">27</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">23</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">23</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">34</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">34</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">18</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">18</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">33</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">33</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">19</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">19</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">22</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">22</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">6</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">26</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">26</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">31</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">31</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">21</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">21</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">35</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">35</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">32</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">28</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">28</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">25</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">24</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">24</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">30</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">29</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">29</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">10</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">2</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">11</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">11</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">0</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">1</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">7</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">4</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">3</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">5</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">8</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">9</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">12</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">13</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">13</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">14</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">15</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">16</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">17</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid00001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">17</span><span class="p">)</span>
+<span class="o">...</span> <span class="n">output</span> <span class="n">trimmed</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>If something has gone wrong, you will find any error messages in the file instead of the
+expected output.</p>
+</div>
+<div class="section" id="acknowledging-archer2">
+<h2>Acknowledging ARCHER2<a class="headerlink" href="#acknowledging-archer2" title="Permalink to this headline">¶</a></h2>
+<p>You should use the following phrase to acknowledge ARCHER2 in all research outputs that have used the facility:</p>
+<p>This work used the ARCHER2 UK National Supercomputing Service (<a class="reference external" href="https://www.archer2.ac.uk">https://www.archer2.ac.uk</a>).</p>
+<p>You should also tag outputs with the keyword ARCHER2 whenever possible.</p>
+</div>
+<div class="section" id="useful-links">
+<h2>Useful Links<a class="headerlink" href="#useful-links" title="Permalink to this headline">¶</a></h2>
+<p>If you plan to compile your own programs on ARCHER2, you may also want to look at
+<a class="reference internal" href="quickstart-developers.html"><span class="doc">Quickstart for developers</span></a>.</p>
+<p>Links to other documentation you may find useful:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../user-guide/overview.html"><span class="doc">ARCHER2 User and Best Practice Guide</span></a> - Covers all aspects of use of the ARCHER2 service. This includes fundamentals (required by all users to use the system effectively), best practice for getting the most out of ARCHER2, and more advanced technical topics.</li>
+<li><a class="reference external" href="https://pubs.cray.com/content/S-2529/17.05/xctm-series-programming-environment-user-guide-1705-s-2529/introduction">Cray Programming Environment User Guide</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="quickstart-developers.html" class="btn btn-neutral float-right" title="Quickstart for developers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

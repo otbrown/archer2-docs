@@ -1,0 +1,977 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Running jobs on ARCHER2 &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="I/O and file systems" href="io.html" />
+    <link rel="prev" title="Software environment" href="sw-environment.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="../_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-users.html">Quickstart for users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-developers.html">Quickstart for developers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data management and transfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sw-environment.html">Software environment</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Running jobs on ARCHER2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-slurm-commands">Basic Slurm commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sinfo-information-on-resources"><code class="docutils literal notranslate"><span class="pre">sinfo</span></code>: information on resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sbatch-submitting-jobs"><code class="docutils literal notranslate"><span class="pre">sbatch</span></code>: submitting jobs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#squeue-monitoring-jobs"><code class="docutils literal notranslate"><span class="pre">squeue</span></code>: monitoring jobs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scancel-deleting-jobs"><code class="docutils literal notranslate"><span class="pre">scancel</span></code>: deleting jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#resource-limits">Resource Limits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#slurm-error-messages">Slurm error messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#slurm-queued-reasons">Slurm queued reasons</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#output-from-slurm-jobs">Output from Slurm jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specifying-resources-in-job-scripts">Specifying resources in job scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#srun-launching-parallel-jobs"><code class="docutils literal notranslate"><span class="pre">srun</span></code>: Launching parallel jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-job-submission-scripts">Example job submission scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-job-submission-script-for-mpi-parallel-job">Example: job submission script for MPI parallel job</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-job-submission-script-for-mpi-openmp-mixed-mode-parallel-job">Example: job submission script for MPI+OpenMP (mixed mode) parallel job</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#job-arrays">Job arrays</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#job-script-for-a-job-array">Job script for a job array</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#submitting-a-job-array">Submitting a job array</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#job-chaining">Job chaining</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interactive-jobs-salloc">Interactive Jobs: <code class="docutils literal notranslate"><span class="pre">salloc</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reservations">Reservations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices-for-job-submission">Best practices for job submission</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#do-not-run-production-jobs-in-home">Do not run production jobs in /home</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time-limits">Time Limits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#long-running-jobs">Long Running Jobs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#i-o-performance">I/O performance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#large-jobs">Large Jobs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#network-locality">Network Locality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#process-placement">Process Placement</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#default">Default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mpich-rank-reorder-method"><code class="docutils literal notranslate"><span class="pre">MPICH_RANK_REORDER_METHOD</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#huge-pages">Huge pages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#when-to-use-huge-pages">When to Use Huge Pages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#when-to-avoid-huge-pages">When to Avoid Huge Pages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O and file systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev-environment.html">Application development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profile.html">Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tuning.html">Performance tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/cp2k/cp2k.html">CP2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/vasp/vasp.html">VASP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Running jobs on ARCHER2</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/user-guide/scheduler.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="running-jobs-on-archer2">
+<h1>Running jobs on ARCHER2<a class="headerlink" href="#running-jobs-on-archer2" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ARCHER2 Service is not yet available. This documentation is in
+development.</p>
+</div>
+<p>As with most HPC services, ARCHER2 uses a scheduler to manage access to
+resources and ensure that the thousands of different users of system
+are able to share the system and all get access to the resources they
+require. ARCHER2 uses the Slurm software to schedule jobs.</p>
+<p>Writing a submission script is typically the most convenient way to
+submit your job to the scheduler. Example submission scripts
+(with explanations) for the most common job types are provided below.</p>
+<p>Interactive jobs are also available and can be particularly useful for
+developing and debugging applications. More details are available below.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">If you have any questions on how to run jobs on ARCHER2 do not hesitate
+to contact the <a class="reference external" href="mailto:support&#37;&#52;&#48;archer2&#46;ac&#46;uk">ARCHER2 Service Desk</a>.</p>
+</div>
+<p>You typically interact with Slurm by issuing Slurm commands
+from the login nodes (to submit, check and cancel jobs), and by
+specifying Slurm directives that describe the resources required for your
+jobs in job submission scripts.</p>
+<div class="section" id="basic-slurm-commands">
+<h2>Basic Slurm commands<a class="headerlink" href="#basic-slurm-commands" title="Permalink to this headline">¶</a></h2>
+<p>There are three key commands used to interact with the Slurm on the
+command line:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">sinfo</span></code> - Get information on the partitions and resources available</li>
+<li><code class="docutils literal notranslate"><span class="pre">sbatch</span> <span class="pre">jobscript.slurm</span></code> - Submit a job submission script (in this case called: <code class="docutils literal notranslate"><span class="pre">jobscript.slurm</span></code>) to the scheduler</li>
+<li><code class="docutils literal notranslate"><span class="pre">squeue</span></code> - Get the current status of jobs submitted to the scheduler</li>
+<li><code class="docutils literal notranslate"><span class="pre">scancel</span> <span class="pre">12345</span></code> - Cancel a job (in this case with the job ID <code class="docutils literal notranslate"><span class="pre">12345</span></code>)</li>
+</ul>
+<p>We cover each of these commands in more detail below.</p>
+<div class="section" id="sinfo-information-on-resources">
+<h3><code class="docutils literal notranslate"><span class="pre">sinfo</span></code>: information on resources<a class="headerlink" href="#sinfo-information-on-resources" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">sinfo</span></code> is used to query information about available resources and partitions.
+Without any options, <code class="docutils literal notranslate"><span class="pre">sinfo</span></code> lists the status of all resources and partitions,
+e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sinfo
+
+PARTITION       AVAIL  TIMELIMIT  NODES  STATE NODELIST
+standard           up 2-00:00:00      1  fail* cn580
+standard           up 2-00:00:00    128  down$ cn[96,579,793,814,1025-1044,1081-1088]
+standard           up 2-00:00:00     26  maint cn[27,93-95,206,232,310,492,568,577-578,585-588,813,815-816,818,846,889,921-924,956]
+standard           up 2-00:00:00      2   fail cn[274,871]
+standard           up 2-00:00:00      4  down* cn[528,614,637,845]
+standard           up 2-00:00:00   1034  alloc cn[1-26,28-38,40-58,62-86,88-92,97-174,176-205,207-231,233-273,275-309,311-333,335-341,344-371,373-376,378-413,415-452,454-489,493-513,515-527,529-532,535-539,541-550,554-561,563-567,569,572-576,581-584,589-595,598-601,603-613,615,617-620,623-631,633-636,638-647,651-659,661-678,680-687,690-695,697-716,718-736,738-775,777-790,792,794-812,817,819-844,847-852,854-870,872-888,890-920,925-955,957-977,980-1014,1016-1020,1023-1024,1045,1047-1070,1072-1080,1089-1105,1107-1152]
+standard           up 2-00:00:00     26   idle cn[61,490-491,540,551-552,562,570,596,602,621,632,648-650,660,688-689,696,853,978-979,1015,1021-1022,1071]
+</pre></div>
+</div>
+</div>
+<div class="section" id="sbatch-submitting-jobs">
+<h3><code class="docutils literal notranslate"><span class="pre">sbatch</span></code>: submitting jobs<a class="headerlink" href="#sbatch-submitting-jobs" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">sbatch</span></code> is used to submit a job script to the job submission system. The script
+will typically contain one or more <code class="docutils literal notranslate"><span class="pre">srun</span></code> commands to launch parallel tasks.</p>
+<p>When you submit the job, the scheduler provides the job ID, which is used to identify
+this job in other Slurm commands and when looking at resource usage in SAFE.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sbatch</span> <span class="n">test</span><span class="o">-</span><span class="n">job</span><span class="o">.</span><span class="n">slurm</span>
+<span class="n">Submitted</span> <span class="n">batch</span> <span class="n">job</span> <span class="mi">12345</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="squeue-monitoring-jobs">
+<h3><code class="docutils literal notranslate"><span class="pre">squeue</span></code>: monitoring jobs<a class="headerlink" href="#squeue-monitoring-jobs" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">squeue</span></code> without any options or arguments shows the current status of all jobs
+known to the scheduler. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">squeue</span>
+</pre></div>
+</div>
+<p>will list all jobs on ARCHER2.</p>
+<p>The output of this is often overwhelmingly large. You can restrict the output
+to just your jobs by adding the <code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">$USER</span></code> option:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>squeue -u $USER
+</pre></div>
+</div>
+</div>
+<div class="section" id="scancel-deleting-jobs">
+<h3><code class="docutils literal notranslate"><span class="pre">scancel</span></code>: deleting jobs<a class="headerlink" href="#scancel-deleting-jobs" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">scancel</span></code> is used to delete a jobs from the scheduler. If the job is waiting
+to run it is simply cancelled, if it is a running job then it is stopped
+immediately. You need to provide the job ID of the job you wish to cancel/stop.
+For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scancel</span> <span class="mi">12345</span>
+</pre></div>
+</div>
+<p>will cancel (if waiting) or stop (if running) the job with ID <code class="docutils literal notranslate"><span class="pre">12345</span></code>.</p>
+</div>
+</div>
+<div class="section" id="resource-limits">
+<h2>Resource Limits<a class="headerlink" href="#resource-limits" title="Permalink to this headline">¶</a></h2>
+<p>There are different resource limits on ARCHER2 for different purposes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Details on the resource limits will be added when the ARCHER2 system
+is available.</p>
+</div>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="slurm-error-messages">
+<h3>Slurm error messages<a class="headerlink" href="#slurm-error-messages" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">More information on common error messages will be added when the ARCHER2 system
+is available.</p>
+</div>
+</div>
+<div class="section" id="slurm-queued-reasons">
+<h3>Slurm queued reasons<a class="headerlink" href="#slurm-queued-reasons" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Explanations of the reasons for jobs being queued and not running will be added
+when the ARCHER2 system is available.</p>
+</div>
+</div>
+</div>
+<div class="section" id="output-from-slurm-jobs">
+<h2>Output from Slurm jobs<a class="headerlink" href="#output-from-slurm-jobs" title="Permalink to this headline">¶</a></h2>
+<p>Slurm places standard output (STDOUT) and standard error (STDERR) for each
+job in the file <code class="docutils literal notranslate"><span class="pre">slurm_&lt;JobID&gt;.out</span></code>. This file appears in the
+job’s working directory once your job starts running.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This file is plain text and can contain useful information to help debugging
+if a job is not working as expected. The ARCHER2 Service Desk team will often
+ask you to provide the contents of this file if oyu contact them for help
+with issues.</p>
+</div>
+</div>
+<div class="section" id="specifying-resources-in-job-scripts">
+<h2>Specifying resources in job scripts<a class="headerlink" href="#specifying-resources-in-job-scripts" title="Permalink to this headline">¶</a></h2>
+<p>You specify the resources you require for your job using directives at the
+top of your job submission script using lines that start with the directive
+<code class="docutils literal notranslate"><span class="pre">#SBATCH</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Options provided using <code class="docutils literal notranslate"><span class="pre">#SBATCH</span></code> directives can also be specified as
+command line options to <code class="docutils literal notranslate"><span class="pre">srun</span></code>.</p>
+</div>
+<p>If you do not specify any options, then the default for each option will
+be applied. As a minimum, all job submissions must specify the budget that
+they wish to charge the job too with the option:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">--account=&lt;budgetID&gt;</span></code> your budget ID is usually something like
+<code class="docutils literal notranslate"><span class="pre">t01</span></code> or <code class="docutils literal notranslate"><span class="pre">t01-test</span></code>. You can see which budget codes you can
+charge to in SAFE.</li>
+</ul>
+</div></blockquote>
+<p>Other common options that are used are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">--time=&lt;hh:mm:ss&gt;</span></code> the maximum walltime for your job. <em>e.g.</em> For a 6.5 hour
+walltime, you would use <code class="docutils literal notranslate"><span class="pre">--time=6:30:0</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">--job-name=&lt;jobjob-name&gt;</span></code> set a job-name for the job to help identify it in
+Slurm command output.</li>
+</ul>
+</div></blockquote>
+<p>In addition, parallel jobs will also need to specify how many nodes,
+parallel processes and threads they require.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">--nodes=&lt;nodes&gt;</span></code> the number of nodes to use for the job.</li>
+<li><code class="docutils literal notranslate"><span class="pre">--tasks-per-node=&lt;processes</span> <span class="pre">per</span> <span class="pre">node&gt;</span></code> the number of parallel processes
+(e.g. MPI ranks) per node.</li>
+<li><code class="docutils literal notranslate"><span class="pre">--cpus-per-task=1</span></code> if you are using parallel processes only with no
+threading then you should set the number of CPUs (cores) per parallel
+process to 1. <strong>Note:</strong> if you are using threading (e.g. with OpenMP)
+then you will need to change this option as described below.</li>
+</ul>
+</div></blockquote>
+<p>For parallel jobs that use threading (e.g. OpenMP), you will also need to
+change the <code class="docutils literal notranslate"><span class="pre">--cpus-per-task</span></code> option.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">--cpus-per-task=&lt;threads</span> <span class="pre">per</span> <span class="pre">task&gt;</span></code> the number of threads per
+parallel process (e.g. number of OpenMP threads per MPI task for
+hybrid MPI/OpenMP jobs). <strong>Note:</strong> you must also set the <code class="docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code>
+environment variable if using OpenMP in your job.</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For parallel jobs, ARCHER2 operates in a <em>node exclusive</em> way. This means
+that you are assigned resources in the units of full compute nodes for your
+jobs (<em>i.e.</em> 128 cores) and that no other user can share those compute nodes
+with you. Hence, the minimum amount of resource you can request for a parallel
+job is 1 node (or 128 cores).</p>
+</div>
+</div>
+<div class="section" id="srun-launching-parallel-jobs">
+<h2><code class="docutils literal notranslate"><span class="pre">srun</span></code>: Launching parallel jobs<a class="headerlink" href="#srun-launching-parallel-jobs" title="Permalink to this headline">¶</a></h2>
+<p>If you are running parallel jobs, your job submission script should contain
+one or more <code class="docutils literal notranslate"><span class="pre">srun</span></code> commands to launch the parallel executable across the
+compute nodes.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">To ensure that processes and threads are correctly mapped
+(or <em>pinned</em>) to cores, you should always specify <cite>–cpu-bind=cores</cite> option
+to <cite>srun</cite>.</p>
+</div>
+</div>
+<div class="section" id="example-job-submission-scripts">
+<h2>Example job submission scripts<a class="headerlink" href="#example-job-submission-scripts" title="Permalink to this headline">¶</a></h2>
+<p>A subset of example job submission scripts are included in full below. You
+can also download these examples at:</p>
+<div class="section" id="example-job-submission-script-for-mpi-parallel-job">
+<h3>Example: job submission script for MPI parallel job<a class="headerlink" href="#example-job-submission-script-for-mpi-parallel-job" title="Permalink to this headline">¶</a></h3>
+<p>A simple MPI job submission script to submit a job using 4 compute
+nodes and 128 MPI ranks per node for 20 minutes would look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># Slurm job options (job-name, compute nodes, job time)</span>
+<span class="c1">#SBATCH --job-name=Example_MPI_Job</span>
+<span class="c1">#SBATCH --time=0:20:0</span>
+<span class="c1">#SBATCH --nodes=4</span>
+<span class="c1">#SBATCH --tasks-per-node=128</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+
+<span class="c1"># Replace [budget code] below with your budget code (e.g. t01)</span>
+<span class="c1">#SBATCH --account=[budget code]</span>
+
+<span class="c1"># Set the number of threads to 1</span>
+<span class="c1">#   This prevents any threaded system libraries from automatically</span>
+<span class="c1">#   using threading.</span>
+<span class="n">export</span> <span class="n">OMP_NUM_THREADS</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="c1"># Launch the parallel job</span>
+<span class="c1">#   Using 1024 MPI processes and 128 MPI processes per node</span>
+<span class="c1">#   srun picks up the distribution from the sbatch options</span>
+<span class="n">srun</span> <span class="o">--</span><span class="n">cpu</span><span class="o">-</span><span class="n">bind</span><span class="o">=</span><span class="n">cores</span> <span class="o">./</span><span class="n">my_mpi_executable</span><span class="o">.</span><span class="n">x</span>
+</pre></div>
+</div>
+<p>This will run your executable “my_mpi_executable.x” in parallel on 1024
+MPI processes using 4 nodes (128 cores per node, i.e. not using hyper-threading). Slurm will
+allocate 4 nodes to your job and srun will place 128 MPI processes on each node
+(one per physical core).</p>
+<p>See above for a more detailed discussion of the different <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> options</p>
+</div>
+<div class="section" id="example-job-submission-script-for-mpi-openmp-mixed-mode-parallel-job">
+<h3>Example: job submission script for MPI+OpenMP (mixed mode) parallel job<a class="headerlink" href="#example-job-submission-script-for-mpi-openmp-mixed-mode-parallel-job" title="Permalink to this headline">¶</a></h3>
+<p>Mixed mode codes that use both MPI (or another distributed memory
+parallel model) and OpenMP should take care to ensure that the shared
+memory portion of the process/thread placement does not span more than
+one node. This means that the number of shared memory threads should be
+a factor of 128.</p>
+<p>In the example below, we are using 4 nodes for 6 hours. There are 32 MPI
+processes in total (8 MPI processes per node) and 16 OpenMP threads per MPI
+process. This results in all 128 physical cores per node being used.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note the use of the <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">OMP_PLACES=cores</span></code> environment option and
+the <code class="docutils literal notranslate"><span class="pre">--hint=nomultithread</span></code> and <code class="docutils literal notranslate"><span class="pre">--distribution=block:block</span></code>
+options to <a href="#id1"><span class="problematic" id="id2">``</span></a>srun``to generate the correct pinning.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># Slurm job options (job-name, compute nodes, job time)</span>
+<span class="c1">#SBATCH --job-name=Example_MPI_Job</span>
+<span class="c1">#SBATCH --time=0:20:0</span>
+<span class="c1">#SBATCH --nodes=4</span>
+<span class="c1">#SBATCH --ntasks=32</span>
+<span class="c1">#SBATCH --tasks-per-node=8</span>
+<span class="c1">#SBATCH --cpus-per-task=16</span>
+
+<span class="c1"># Replace [budget code] below with your project code (e.g. t01)</span>
+<span class="c1">#SBATCH --account=[budget code]</span>
+
+<span class="c1"># Set the number of threads to 16 and specify placement</span>
+<span class="c1">#   There are 16 OpenMP threads per MPI process</span>
+<span class="c1">#   We want one thread per physical core</span>
+<span class="n">export</span> <span class="n">OMP_NUM_THREADS</span><span class="o">=</span><span class="mi">16</span>
+<span class="n">export</span> <span class="n">OMP_PLACES</span><span class="o">=</span><span class="n">cores</span>
+
+<span class="c1"># Launch the parallel job</span>
+<span class="c1">#   Using 32 MPI processes</span>
+<span class="c1">#   8 MPI processes per node</span>
+<span class="c1">#   16 OpenMP threads per MPI process</span>
+<span class="c1">#   Additional srun options to pin one thread per physical core</span>
+<span class="n">srun</span> <span class="o">--</span><span class="n">hint</span><span class="o">=</span><span class="n">nomultithread</span> <span class="o">--</span><span class="n">distribution</span><span class="o">=</span><span class="n">block</span><span class="p">:</span><span class="n">block</span> <span class="o">./</span><span class="n">my_mixed_executable</span><span class="o">.</span><span class="n">x</span> <span class="n">arg1</span> <span class="n">arg2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="job-arrays">
+<h2>Job arrays<a class="headerlink" href="#job-arrays" title="Permalink to this headline">¶</a></h2>
+<p>The Slurm job scheduling system offers the <em>job array</em> concept,
+for running collections of almost-identical jobs. For example,
+running the same program several times with different arguments
+or input data.</p>
+<p>Each job in a job array is called a <em>subjob</em>. The subjobs of a job
+array can be submitted and queried as a unit, making it easier and
+cleaner to handle the full set, compared to individual jobs.</p>
+<p>All subjobs in a job array are started by running the same job script.
+The job script also contains information on the number of jobs to be
+started, and Slurm provides a subjob index which can be passed to
+the individual subjobs or used to select the input data per subjob.</p>
+<div class="section" id="job-script-for-a-job-array">
+<h3>Job script for a job array<a class="headerlink" href="#job-script-for-a-job-array" title="Permalink to this headline">¶</a></h3>
+<p>As an example, the following script runs 56 subjobs, with the subjob
+index as the only argument to the executable. Each subjob requests a
+single node and uses all 128 cores on the node by placing 1 MPI
+process per core and specifies 4 hours maximum runtime per subjob:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
+# Slurm job options (job-name, compute nodes, job time)
+#SBATCH --job-name=Example_Array_Job
+#SBATCH --time=0:20:0
+#SBATCH --nodes=4
+#SBATCH --tasks-per-node=128
+#SBATCH --cpus-per-task=1
+#SBATCH --array=0-55
+
+# Replace [budget code] below with your budget code (e.g. t01)
+#SBATCH --account=[budget code]
+
+# Set the number of threads to 1
+#   This prevents any threaded system libraries from automatically
+#   using threading.
+export OMP_NUM_THREADS=1
+
+srun --cpu-bind=cores /path/to/exe $Slurm_ARRAY_TASK_ID
+</pre></div>
+</div>
+</div>
+<div class="section" id="submitting-a-job-array">
+<h3>Submitting a job array<a class="headerlink" href="#submitting-a-job-array" title="Permalink to this headline">¶</a></h3>
+<p>Job arrays are submitted using <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> in the same way as for standard
+jobs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sbatch</span> <span class="n">job_script</span><span class="o">.</span><span class="n">pbs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="job-chaining">
+<h2>Job chaining<a class="headerlink" href="#job-chaining" title="Permalink to this headline">¶</a></h2>
+<p>Job dependencies can be used to construct complex pipelines or chain together long
+simulations requiring multiple steps.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">--parsable</span></code> option to <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> can simplify working with job dependencies.
+It returns the job ID in a format that can be used as the input to other
+commands.</p>
+</div>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>jobid=$(sbatch --parsable first_job.sh)
+sbatch --dependency=afterok:$jobid second_job.sh
+</pre></div>
+</div>
+<p>or for a longer chain:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>jobid1=$(sbatch --parsable first_job.sh)
+jobid2=$(sbatch --parsable --dependency=afterok:$jobid1 second_job.sh)
+jobid3=$(sbatch --parsable --dependency=afterok:$jobid1 third_job.sh)
+sbatch --dependency=afterok:$jobid2,afterok:$jobid3 last_job.sh
+</pre></div>
+</div>
+</div>
+<div class="section" id="interactive-jobs-salloc">
+<h2>Interactive Jobs: <code class="docutils literal notranslate"><span class="pre">salloc</span></code><a class="headerlink" href="#interactive-jobs-salloc" title="Permalink to this headline">¶</a></h2>
+<p>When you are developing or debugging code you often want to run many
+short jobs with a small amount of editing the code between runs. This
+can be achieved by using the login nodes to run MPI but you may want
+to test on the compute nodes (e.g. you may want to test running on
+multiple nodes across the high performance interconnect). One of the
+best ways to achieve this on ARCHER2 is to use interactive jobs.</p>
+<p>An interactive job allows you to issue <code class="docutils literal notranslate"><span class="pre">srun</span></code> commands directly
+from the command line without using a job submission script, and to
+see the output from your program directly in the terminal.</p>
+<p>You use the <code class="docutils literal notranslate"><span class="pre">salloc</span></code> command to reserve compute nodes for interactive
+jobs.</p>
+<p>To submit a request for an interactive job reserving 8 nodes
+(1024 physical cores) for 1 hour you would
+issue the following qsub command from the command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">salloc</span> <span class="o">--</span><span class="n">nodes</span><span class="o">=</span><span class="mi">8</span> <span class="o">--</span><span class="n">tasks</span><span class="o">-</span><span class="n">per</span><span class="o">-</span><span class="n">node</span><span class="o">=</span><span class="mi">128</span> <span class="o">--</span><span class="n">cpus</span><span class="o">-</span><span class="n">per</span><span class="o">-</span><span class="n">task</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="n">time</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="mi">0</span> <span class="o">--</span><span class="n">account</span><span class="o">=</span><span class="p">[</span><span class="n">budget</span> <span class="n">code</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>When you submit this job your terminal will display something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">salloc</span><span class="p">:</span> <span class="n">Granted</span> <span class="n">job</span> <span class="n">allocation</span> <span class="mi">24236</span>
+<span class="n">salloc</span><span class="p">:</span> <span class="n">Waiting</span> <span class="k">for</span> <span class="n">resource</span> <span class="n">configuration</span>
+<span class="n">salloc</span><span class="p">:</span> <span class="n">Nodes</span> <span class="n">nid000002</span> <span class="n">are</span> <span class="n">ready</span> <span class="k">for</span> <span class="n">job</span>
+</pre></div>
+</div>
+<p>It may take some time for your interactive job to start. Once it
+runs you will enter a standard interactive terminal session.
+Whilst the interactive session lasts you will be able to run parallel
+jobs on the compute nodes by issuing the <code class="docutils literal notranslate"><span class="pre">srun</span> <span class="pre">--cpu-bind=cores</span></code>  command
+directly at your command prompt using the same syntax as you would inside
+a job script. The maximum number of nodes you can use is limited by resources
+requested in the <code class="docutils literal notranslate"><span class="pre">salloc</span></code> command.</p>
+<p>If you know you will be doing a lot of intensive debugging you may
+find it useful to request an interactive session lasting the expected
+length of your working session, say a full day.</p>
+<p>Your session will end when you hit the requested walltime. If you
+wish to finish before this you should use the <code class="docutils literal notranslate"><span class="pre">exit</span></code> command - this will
+return you to your prompt before you issued the <code class="docutils literal notranslate"><span class="pre">salloc</span></code> command.</p>
+</div>
+<div class="section" id="reservations">
+<h2>Reservations<a class="headerlink" href="#reservations" title="Permalink to this headline">¶</a></h2>
+<p>The mechanism for submitting reservations on ARCHER2 has yet to be specified.</p>
+</div>
+<div class="section" id="best-practices-for-job-submission">
+<h2>Best practices for job submission<a class="headerlink" href="#best-practices-for-job-submission" title="Permalink to this headline">¶</a></h2>
+<p>This guidance is adapted from
+<a class="reference external" href="https://docs.nersc.gov/jobs/best-practices/">the advice provided by NERSC</a></p>
+<div class="section" id="do-not-run-production-jobs-in-home">
+<h3>Do not run production jobs in /home<a class="headerlink" href="#do-not-run-production-jobs-in-home" title="Permalink to this headline">¶</a></h3>
+<p>As a general best practice, users should run production runs from the
+<code class="docutils literal notranslate"><span class="pre">/work</span></code> file systems rather than the <code class="docutils literal notranslate"><span class="pre">/home</span></code> file systems.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">/home</span></code> file system is designed for permanent and relatively small
+storage. It is not tuned to perform well for parallel jobs and large amounts
+of I/O. Home is perfect for storing files such as source codes and shell scripts.
+Please note that while building software in /home is generally OK, it is best
+to install dynamic libraries and binaries that are used on compute nodes
+on the <code class="docutils literal notranslate"><span class="pre">/work</span></code> file systems for best performance.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">/work</span></code> file systems are designed for large, temporary storage, particularly
+for I/O from parallel jobs running on the compute nodes and large scale data analysis
+(although the solid state storage may provide better performance in particular
+scenarios). Running jobs on the <code class="docutils literal notranslate"><span class="pre">/work</span></code> file systems also helps
+to improve the responsiveness of the <code class="docutils literal notranslate"><span class="pre">/home</span></code> file systems for all users.</p>
+</div>
+<div class="section" id="time-limits">
+<h3>Time Limits<a class="headerlink" href="#time-limits" title="Permalink to this headline">¶</a></h3>
+<p>Due to backfill scheduling, short and variable-length jobs generally
+start quickly resulting in much better job throughput. You can specify a minimum
+time for your job with the <code class="docutils literal notranslate"><span class="pre">--time-min</span></code> option to SBATCH:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --time-min=&lt;lower_bound&gt;</span>
+<span class="c1">#SBATCH --time=&lt;upper_bound&gt;</span>
+</pre></div>
+</div>
+<p>Within your job script, you can get the time remaining in the job with
+<code class="docutils literal notranslate"><span class="pre">squeue</span> <span class="pre">-h</span> <span class="pre">-j</span> <span class="pre">${Slurm_JOBID}</span> <span class="pre">-o</span> <span class="pre">%L</span></code> to allow you to deal with potentially
+varying runtimes when using this option.</p>
+</div>
+<div class="section" id="long-running-jobs">
+<h3>Long Running Jobs<a class="headerlink" href="#long-running-jobs" title="Permalink to this headline">¶</a></h3>
+<p>Simulations which must run for a long period of time achieve the best
+throughput when composed of many small jobs using a checkpoint and
+restart method chained together (see above for how to chain jobs together).
+However, this method does occur a startup and shutdown overhead for each
+job as the state is saved and loaded so you should experiment to find the
+best balance between runtime (long runtimes minimise the checkpoint/restart
+overheads) and throughput (short runtimes maximise throughput).</p>
+</div>
+<div class="section" id="i-o-performance">
+<h3>I/O performance<a class="headerlink" href="#i-o-performance" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="large-jobs">
+<h3>Large Jobs<a class="headerlink" href="#large-jobs" title="Permalink to this headline">¶</a></h3>
+<p>Large jobs may take longer to start up. The <code class="docutils literal notranslate"><span class="pre">sbcast</span></code> command
+is recommended for large jobs requesting over 1500 MPI tasks.
+By default, Slurm reads the executable on the allocated compute nodes
+from the location where it is installed; this may take long time when
+the file system (where the executable resides) is slow or busy. The
+<code class="docutils literal notranslate"><span class="pre">sbcast</span></code> command, the executable can be copied to the <code class="docutils literal notranslate"><span class="pre">/tmp</span></code>
+directory on each of the compute nodes. Since <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> is part of the
+memory on the compute nodes, it can speed up the job startup time.</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sbcast</span> <span class="o">--</span><span class="n">compress</span><span class="o">=</span><span class="n">lz4</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">exe</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">exe</span>
+<span class="n">srun</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">exe</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="network-locality">
+<h3>Network Locality<a class="headerlink" href="#network-locality" title="Permalink to this headline">¶</a></h3>
+<p>For jobs which are sensitive to interconnect (MPI) performance and
+utilize less than or equal to 256 nodes it is possible to request that all nodes
+are in a single Slingshot dragonfly group.</p>
+<p>Slurm has a concept of “switches” which on ARCHER2 are configured to map
+to Slingshot groups (there are 256 nodes per group). Since this places an additional constraint
+on the scheduler a maximum time to wait for the requested topology can
+be specified. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sbatch --switches=1@60 job.sh``
+</pre></div>
+</div>
+</div>
+<div class="section" id="process-placement">
+<h3>Process Placement<a class="headerlink" href="#process-placement" title="Permalink to this headline">¶</a></h3>
+<p>Several mechanisms exist to control process placement on ARCHER2.
+Application performance can depend strongly on placement
+depending on the communication pattern and other computational
+characteristics.</p>
+<div class="section" id="default">
+<h4>Default<a class="headerlink" href="#default" title="Permalink to this headline">¶</a></h4>
+<p>The default is to place MPI tasks sequentially on nodes until the
+maximum number of tasks is reached:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">salloc</span> <span class="o">--</span><span class="n">nodes</span><span class="o">=</span><span class="mi">8</span> <span class="o">--</span><span class="n">tasks</span><span class="o">-</span><span class="n">per</span><span class="o">-</span><span class="n">node</span><span class="o">=</span><span class="mi">2</span> <span class="o">--</span><span class="n">cpus</span><span class="o">-</span><span class="n">per</span><span class="o">-</span><span class="n">task</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">0</span> <span class="o">--</span><span class="n">account</span><span class="o">=</span><span class="n">t01</span>
+
+<span class="n">salloc</span><span class="p">:</span> <span class="n">Granted</span> <span class="n">job</span> <span class="n">allocation</span> <span class="mi">24236</span>
+<span class="n">salloc</span><span class="p">:</span> <span class="n">Waiting</span> <span class="k">for</span> <span class="n">resource</span> <span class="n">configuration</span>
+<span class="n">salloc</span><span class="p">:</span> <span class="n">Nodes</span> <span class="n">cn13</span> <span class="n">are</span> <span class="n">ready</span> <span class="k">for</span> <span class="n">job</span>
+
+<span class="n">module</span> <span class="n">load</span> <span class="n">xthi</span>
+<span class="n">export</span> <span class="n">OMP_NUM_THREADS</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">srun</span> <span class="o">--</span><span class="n">cpu</span><span class="o">-</span><span class="n">bind</span><span class="o">=</span><span class="n">cores</span> <span class="n">xthi</span>
+
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">0</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">1</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">2</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000002</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">3</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000002</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">4</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000003</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">5</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000003</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">6</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000004</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">7</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000004</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">8</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000005</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">9</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000005</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">10</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000006</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">11</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000006</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">12</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000007</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">13</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000007</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">14</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000008</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">15</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000008</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mpich-rank-reorder-method">
+<h4><code class="docutils literal notranslate"><span class="pre">MPICH_RANK_REORDER_METHOD</span></code><a class="headerlink" href="#mpich-rank-reorder-method" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">MPICH_RANK_REORDER_METHOD</span></code> environment variable is used to
+specify other types of MPI task placement. For example, setting it to
+0 results in a round-robin placement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">salloc</span> <span class="o">--</span><span class="n">nodes</span><span class="o">=</span><span class="mi">8</span> <span class="o">--</span><span class="n">tasks</span><span class="o">-</span><span class="n">per</span><span class="o">-</span><span class="n">node</span><span class="o">=</span><span class="mi">2</span> <span class="o">--</span><span class="n">cpus</span><span class="o">-</span><span class="n">per</span><span class="o">-</span><span class="n">task</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">0</span> <span class="o">--</span><span class="n">account</span><span class="o">=</span><span class="n">t01</span>
+
+<span class="n">salloc</span><span class="p">:</span> <span class="n">Granted</span> <span class="n">job</span> <span class="n">allocation</span> <span class="mi">24236</span>
+<span class="n">salloc</span><span class="p">:</span> <span class="n">Waiting</span> <span class="k">for</span> <span class="n">resource</span> <span class="n">configuration</span>
+<span class="n">salloc</span><span class="p">:</span> <span class="n">Nodes</span> <span class="n">cn13</span> <span class="n">are</span> <span class="n">ready</span> <span class="k">for</span> <span class="n">job</span>
+
+<span class="n">module</span> <span class="n">load</span> <span class="n">xthi</span>
+<span class="n">export</span> <span class="n">OMP_NUM_THREADS</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">export</span> <span class="n">MPICH_RANK_REORDER_METHOD</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">srun</span> <span class="o">--</span><span class="n">cpu</span><span class="o">-</span><span class="n">bind</span><span class="o">=</span><span class="n">cores</span> <span class="n">xthi</span>
+
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">0</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">1</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000002</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">2</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000003</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">3</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000004</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">4</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000005</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">5</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000006</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">6</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000007</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">7</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000008</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">8</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000001</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">9</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000002</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">10</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000003</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">11</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000004</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">12</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000005</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">13</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000006</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">14</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000007</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">rank</span> <span class="mi">15</span><span class="p">,</span> <span class="n">thread</span> <span class="mi">0</span><span class="p">,</span> <span class="n">on</span> <span class="n">nid000008</span><span class="o">.</span> <span class="p">(</span><span class="n">core</span> <span class="n">affinity</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span><span class="mi">144</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are other modes available with the <code class="docutils literal notranslate"><span class="pre">MPICH_RANK_REORDER_METHOD</span></code>
+environment variable, including one which lets the user provide a file
+called <code class="docutils literal notranslate"><span class="pre">MPICH_RANK_ORDER</span></code> which contains a list of each task’s
+placement on each node. These options are described in detail in the
+<code class="docutils literal notranslate"><span class="pre">intro_mpi</span></code> man page.</p>
+<p><strong>grid_order</strong></p>
+<p>For MPI applications which perform a large amount of nearest-neighbor
+communication, e.g., stencil-based applications on structured grids,
+Cray provides a tool in the <code class="docutils literal notranslate"><span class="pre">perftools-base</span></code> module called
+<code class="docutils literal notranslate"><span class="pre">grid_order</span></code> which can generate a <code class="docutils literal notranslate"><span class="pre">MPICH_RANK_ORDER</span></code> file
+automatically
+by taking as parameters the dimensions of the grid, core count,
+etc. For example, to place MPI tasks in row-major order on a Cartesian
+grid of size $(4, 4, 4)$, using 32 tasks per node:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">perftools</span><span class="o">-</span><span class="n">base</span>
+<span class="n">grid_order</span> <span class="o">-</span><span class="n">R</span> <span class="o">-</span><span class="n">c</span> <span class="mi">32</span> <span class="o">-</span><span class="n">g</span> <span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span>
+
+<span class="c1"># grid_order -R -Z -c 32 -g 4,4,4</span>
+<span class="c1"># Region 3: 0,0,1 (0..63)</span>
+<span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">48</span><span class="p">,</span><span class="mi">49</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">51</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">36</span><span class="p">,</span><span class="mi">37</span><span class="p">,</span><span class="mi">38</span><span class="p">,</span><span class="mi">39</span><span class="p">,</span><span class="mi">52</span><span class="p">,</span><span class="mi">53</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">55</span>
+<span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">41</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="mi">43</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">57</span><span class="p">,</span><span class="mi">58</span><span class="p">,</span><span class="mi">59</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">29</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">44</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">46</span><span class="p">,</span><span class="mi">47</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">61</span><span class="p">,</span><span class="mi">62</span><span class="p">,</span><span class="mi">63</span>
+</pre></div>
+</div>
+<p>One can then save this output to a file called <code class="docutils literal notranslate"><span class="pre">MPICH_RANK_ORDER</span></code> and
+then set <code class="docutils literal notranslate"><span class="pre">MPICH_RANK_REORDER_METHOD=3</span></code> before running the job, which
+tells Cray MPI to read the <code class="docutils literal notranslate"><span class="pre">MPICH_RANK_ORDER</span></code> file to set the MPI
+task placement. For more information, please see the man page
+<code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">grid_order</span></code> (available when the <code class="docutils literal notranslate"><span class="pre">perftools-base</span></code> module is
+loaded).</p>
+</div>
+</div>
+<div class="section" id="huge-pages">
+<h3>Huge pages<a class="headerlink" href="#huge-pages" title="Permalink to this headline">¶</a></h3>
+<p>Huge pages are virtual memory pages which are bigger than the default
+page size of 4K bytes. Huge pages can improve memory performance
+for common access patterns on large data sets since it helps to reduce
+the number of virtual to physical address translations when compared
+to using the default 4KB.</p>
+<p>To use huge pages for an application (with the 2 MB huge pages as an
+example):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">craype</span><span class="o">-</span><span class="n">hugepages2M</span>
+<span class="n">cc</span> <span class="o">-</span><span class="n">o</span> <span class="n">mycode</span><span class="o">.</span><span class="n">exe</span> <span class="n">mycode</span><span class="o">.</span><span class="n">c</span>
+</pre></div>
+</div>
+<p>And also load the same huge pages module at runtime.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Due to the huge pages memory fragmentation issue, applications may get
+<em>Cannot allocate memory</em> warnings or errors when there are not enough
+hugepages on the compute node, such as:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span>libhugetlbfs [nid0000xx:xxxxx]: WARNING: New heap segment map at 0x10000000 failed: Cannot allocate memory``
+</pre></div>
+</div>
+</div>
+<p>By default, The verbosity level of libhugetlbfs <code class="docutils literal notranslate"><span class="pre">HUGETLB_VERBOSE</span></code> is set
+to <code class="docutils literal notranslate"><span class="pre">0</span></code> on ARCHER2 to surpress debugging messages. Users can adjust this value
+to obtain more information on huge pages use.</p>
+<div class="section" id="when-to-use-huge-pages">
+<h4>When to Use Huge Pages<a class="headerlink" href="#when-to-use-huge-pages" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>For MPI applications, map the static data and/or heap onto huge
+pages.</li>
+<li>For an application which uses shared memory, which needs to be
+concurrently registered with the high speed network drivers for
+remote communication.</li>
+<li>For SHMEM applications, map the static data and/or private heap
+onto huge pages.</li>
+<li>For applications written in Unified Parallel C, Coarray Fortran,
+and other languages based on the PGAS programming model, map the
+static data and/or private heap onto huge pages.</li>
+<li>For an application doing heavy I/O.</li>
+<li>To improve memory performance for common access patterns on large
+data sets.</li>
+</ul>
+</div>
+<div class="section" id="when-to-avoid-huge-pages">
+<h4>When to Avoid Huge Pages<a class="headerlink" href="#when-to-avoid-huge-pages" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Applications sometimes consist of many steering programs in addition
+to the core application. Applying huge page behavior to all processes
+would not provide any benefit and would consume huge pages that would
+otherwise benefit the core application. The runtime environment
+variable <code class="docutils literal notranslate"><span class="pre">HUGETLB_RESTRICT_EXE</span></code> can be used to specify the susbset of
+the programs to use hugepages.</li>
+<li>For certain applications if using hugepages either causes issues or
+slows down performance. One such example is that when an application
+forks more subprocesses (such as pthreads) and these threads allocate
+memory, the newly allocated memory are the default 4 KB pages.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="io.html" class="btn btn-neutral float-right" title="I/O and file systems" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sw-environment.html" class="btn btn-neutral float-left" title="Software environment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

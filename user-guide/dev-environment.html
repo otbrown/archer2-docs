@@ -1,0 +1,895 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Application development environment &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Containers" href="containers.html" />
+    <link rel="prev" title="I/O and file systems" href="io.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="../_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-users.html">Quickstart for users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-developers.html">Quickstart for developers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data management and transfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sw-environment.html">Software environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scheduler.html">Running jobs on ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O and file systems</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Application development environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-available">What’s available</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#managing-development">Managing development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compilation-environment">Compilation environment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compiler-man-pages-and-help">Compiler man pages and help</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#which-compiler-environment">Which compiler environment?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amd-optimizing-c-c-compiler-aocc">AMD Optimizing C/C++ Compiler (AOCC)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#aocc-reference-material">AOCC reference material</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cray-compiler-environment-cce">Cray compiler environment (CCE)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#useful-cce-c-c-options">Useful CCE C/C++ options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#useful-cce-fortran-options">Useful CCE Fortran options</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#gnu-compiler-collection-gcc">GNU compiler collection (GCC)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#reference-material">Reference material</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#message-passing-interface-mpi">Message passing interface (MPI)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mpich">MPICH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mpi-resource-limits">MPI Resource limits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fortran-and-the-mpi-module">Fortran and the mpi module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mpi-reference-material">MPI reference material</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#linking-and-libraries">Linking and libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#commonly-used-libraries">Commonly used libraries</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#hpe-cray-libsci">HPE Cray LibSci</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fftw">FFTW</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hdf5">HDF5</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#netcdf">NetCDF</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Reference material</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#building-standard-packages">Building standard packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="containers.html">Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profile.html">Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tuning.html">Performance tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/cp2k/cp2k.html">CP2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/vasp/vasp.html">VASP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Application development environment</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/user-guide/dev-environment.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="application-development-environment">
+<h1>Application development environment<a class="headerlink" href="#application-development-environment" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ARCHER2 Service is not yet available. This documentation is in
+development.</p>
+</div>
+<div class="section" id="what-s-available">
+<h2>What’s available<a class="headerlink" href="#what-s-available" title="Permalink to this headline">¶</a></h2>
+<p>ARCHER2 runs on the Cray Linux Environment (a version of SUSE Linux),
+and provides a development environment which includes:</p>
+<ul class="simple">
+<li>Software modules via a standard module framework</li>
+<li>Three different compiler environments (AMD, Cray, and GNU)</li>
+<li>MPI, OpenMP, and SHMEM</li>
+<li>Scientific and numerical libraries</li>
+<li>Parallel Python and R</li>
+<li>Parallel debugging and profiling</li>
+<li>Singularity containers</li>
+</ul>
+<p>Access to particular software, and particular versions, is managed by
+a standard TCL module framework. Most software is available via standard
+software modules and the different programming environments are available
+via module collections.</p>
+<p>You can see what programming environments are available with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auser</span><span class="nd">@uan01</span><span class="p">:</span><span class="o">~&gt;</span> <span class="n">module</span> <span class="n">savelist</span>
+<span class="n">Named</span> <span class="n">collection</span> <span class="nb">list</span><span class="p">:</span>
+ <span class="mi">1</span><span class="p">)</span> <span class="n">PrgEnv</span><span class="o">-</span><span class="n">aocc</span>   <span class="mi">2</span><span class="p">)</span> <span class="n">PrgEnv</span><span class="o">-</span><span class="n">cray</span>   <span class="mi">3</span><span class="p">)</span> <span class="n">PrgEnv</span><span class="o">-</span><span class="n">gnu</span>
+</pre></div>
+</div>
+<p>Other software modules can be listed with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auser</span><span class="nd">@uan01</span><span class="p">:</span><span class="o">~&gt;</span> <span class="n">module</span> <span class="n">avail</span>
+<span class="o">-------------------------------</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">cray</span><span class="o">/</span><span class="n">pe</span><span class="o">/</span><span class="n">perftools</span><span class="o">/</span><span class="mf">20.09</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">modulefiles</span> <span class="o">--------------------------------</span>
+<span class="n">perftools</span>       <span class="n">perftools</span><span class="o">-</span><span class="n">lite</span><span class="o">-</span><span class="n">events</span>  <span class="n">perftools</span><span class="o">-</span><span class="n">lite</span><span class="o">-</span><span class="n">hbm</span>    <span class="n">perftools</span><span class="o">-</span><span class="n">nwpc</span>
+<span class="n">perftools</span><span class="o">-</span><span class="n">lite</span>  <span class="n">perftools</span><span class="o">-</span><span class="n">lite</span><span class="o">-</span><span class="n">gpu</span>     <span class="n">perftools</span><span class="o">-</span><span class="n">lite</span><span class="o">-</span><span class="n">loops</span>  <span class="n">perftools</span><span class="o">-</span><span class="n">preload</span>
+
+<span class="o">----------------------------------</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">cray</span><span class="o">/</span><span class="n">pe</span><span class="o">/</span><span class="n">craype</span><span class="o">/</span><span class="mf">2.7</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">modulefiles</span> <span class="o">----------------------------------</span>
+<span class="n">craype</span><span class="o">-</span><span class="n">hugepages1G</span>  <span class="n">craype</span><span class="o">-</span><span class="n">hugepages8M</span>   <span class="n">craype</span><span class="o">-</span><span class="n">hugepages128M</span>  <span class="n">craype</span><span class="o">-</span><span class="n">network</span><span class="o">-</span><span class="n">ofi</span>
+<span class="n">craype</span><span class="o">-</span><span class="n">hugepages2G</span>  <span class="n">craype</span><span class="o">-</span><span class="n">hugepages16M</span>  <span class="n">craype</span><span class="o">-</span><span class="n">hugepages256M</span>  <span class="n">craype</span><span class="o">-</span><span class="n">network</span><span class="o">-</span><span class="n">slingshot10</span>
+<span class="n">craype</span><span class="o">-</span><span class="n">hugepages2M</span>  <span class="n">craype</span><span class="o">-</span><span class="n">hugepages32M</span>  <span class="n">craype</span><span class="o">-</span><span class="n">hugepages512M</span>  <span class="n">craype</span><span class="o">-</span><span class="n">x86</span><span class="o">-</span><span class="n">rome</span>
+<span class="n">craype</span><span class="o">-</span><span class="n">hugepages4M</span>  <span class="n">craype</span><span class="o">-</span><span class="n">hugepages64M</span>  <span class="n">craype</span><span class="o">-</span><span class="n">network</span><span class="o">-</span><span class="n">none</span>
+
+<span class="o">-------------------------------------</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">Modules</span><span class="o">/</span><span class="n">modulefiles</span> <span class="o">--------------------------------------</span>
+<span class="n">dot</span>  <span class="n">module</span><span class="o">-</span><span class="n">git</span>  <span class="n">module</span><span class="o">-</span><span class="n">info</span>  <span class="n">modules</span>  <span class="n">null</span>  <span class="n">use</span><span class="o">.</span><span class="n">own</span>
+
+<span class="o">--------------------------------------</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">cray</span><span class="o">/</span><span class="n">pe</span><span class="o">/</span><span class="n">cpe</span><span class="o">-</span><span class="n">prgenv</span><span class="o">/</span><span class="mf">7.0</span><span class="o">.</span><span class="mi">0</span> <span class="o">--------------------------------------</span>
+<span class="n">cpe</span><span class="o">-</span><span class="n">aocc</span>  <span class="n">cpe</span><span class="o">-</span><span class="n">cray</span>  <span class="n">cpe</span><span class="o">-</span><span class="n">gnu</span>
+
+<span class="o">--------------------------------------------</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">modulefiles</span> <span class="o">---------------------------------------------</span>
+<span class="n">aocc</span><span class="o">/</span><span class="mf">2.1</span><span class="o">.</span><span class="mf">0.3</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>  <span class="n">cray</span><span class="o">-</span><span class="n">R</span><span class="o">/</span><span class="mf">4.0</span><span class="o">.</span><span class="mf">2.0</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>  <span class="n">gcc</span><span class="o">/</span><span class="mf">8.1</span><span class="o">.</span><span class="mi">0</span>  <span class="n">gcc</span><span class="o">/</span><span class="mf">9.3</span><span class="o">.</span><span class="mi">0</span>  <span class="n">gcc</span><span class="o">/</span><span class="mf">10.1</span><span class="o">.</span><span class="mi">0</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+
+
+<span class="o">----------------------------------------</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">cray</span><span class="o">/</span><span class="n">pe</span><span class="o">/</span><span class="n">modulefiles</span> <span class="o">-----------------------------------------</span>
+<span class="n">atp</span><span class="o">/</span><span class="mf">3.7</span><span class="o">.</span><span class="mi">4</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>              <span class="n">cray</span><span class="o">-</span><span class="n">mpich</span><span class="o">-</span><span class="n">abi</span><span class="o">/</span><span class="mf">8.0</span><span class="o">.</span><span class="mi">15</span>             <span class="n">craype</span><span class="o">-</span><span class="n">dl</span><span class="o">-</span><span class="n">plugin</span><span class="o">-</span><span class="n">py3</span><span class="o">/</span><span class="mf">20.06</span><span class="o">.</span><span class="mi">1</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="n">cce</span><span class="o">/</span><span class="mf">10.0</span><span class="o">.</span><span class="mi">3</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>             <span class="n">cray</span><span class="o">-</span><span class="n">mpich</span><span class="o">-</span><span class="n">ucx</span><span class="o">/</span><span class="mf">8.0</span><span class="o">.</span><span class="mi">15</span>             <span class="n">craype</span><span class="o">/</span><span class="mf">2.7</span><span class="o">.</span><span class="mi">0</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="n">cray</span><span class="o">-</span><span class="n">ccdb</span><span class="o">/</span><span class="mf">4.7</span><span class="o">.</span><span class="mi">1</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>        <span class="n">cray</span><span class="o">-</span><span class="n">mpich</span><span class="o">/</span><span class="mf">8.0</span><span class="o">.</span><span class="mi">15</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>        <span class="n">craypkg</span><span class="o">-</span><span class="n">gen</span><span class="o">/</span><span class="mf">1.3</span><span class="o">.</span><span class="mi">10</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="n">cray</span><span class="o">-</span><span class="n">cti</span><span class="o">/</span><span class="mf">2.7</span><span class="o">.</span><span class="mi">3</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>         <span class="n">cray</span><span class="o">-</span><span class="n">netcdf</span><span class="o">-</span><span class="n">hdf5parallel</span><span class="o">/</span><span class="mf">4.7</span><span class="o">.</span><span class="mf">4.0</span>  <span class="n">gdb4hpc</span><span class="o">/</span><span class="mf">4.7</span><span class="o">.</span><span class="mi">3</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="n">cray</span><span class="o">-</span><span class="n">dsmml</span><span class="o">/</span><span class="mf">0.1</span><span class="o">.</span><span class="mi">2</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>       <span class="n">cray</span><span class="o">-</span><span class="n">netcdf</span><span class="o">/</span><span class="mf">4.7</span><span class="o">.</span><span class="mf">4.0</span>               <span class="n">iobuf</span><span class="o">/</span><span class="mf">2.0</span><span class="o">.</span><span class="mi">10</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="n">cray</span><span class="o">-</span><span class="n">fftw</span><span class="o">/</span><span class="mf">3.3</span><span class="o">.</span><span class="mf">8.7</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>      <span class="n">cray</span><span class="o">-</span><span class="n">openshmemx</span><span class="o">/</span><span class="mf">11.1</span><span class="o">.</span><span class="mi">1</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>   <span class="n">papi</span><span class="o">/</span><span class="mf">6.0</span><span class="o">.</span><span class="mf">0.2</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="n">cray</span><span class="o">-</span><span class="n">ga</span><span class="o">/</span><span class="mf">5.7</span><span class="o">.</span><span class="mf">0.3</span>                 <span class="n">cray</span><span class="o">-</span><span class="n">parallel</span><span class="o">-</span><span class="n">netcdf</span><span class="o">/</span><span class="mf">1.12</span><span class="o">.</span><span class="mf">1.0</span>     <span class="n">perftools</span><span class="o">-</span><span class="n">base</span><span class="o">/</span><span class="mf">20.09</span><span class="o">.</span><span class="mi">0</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="n">cray</span><span class="o">-</span><span class="n">hdf5</span><span class="o">-</span><span class="n">parallel</span><span class="o">/</span><span class="mf">1.12</span><span class="o">.</span><span class="mf">0.0</span>     <span class="n">cray</span><span class="o">-</span><span class="n">pmi</span><span class="o">-</span><span class="n">lib</span><span class="o">/</span><span class="mf">6.0</span><span class="o">.</span><span class="mi">6</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>       <span class="n">valgrind4hpc</span><span class="o">/</span><span class="mf">2.7</span><span class="o">.</span><span class="mi">2</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="n">cray</span><span class="o">-</span><span class="n">hdf5</span><span class="o">/</span><span class="mf">1.12</span><span class="o">.</span><span class="mf">0.0</span>              <span class="n">cray</span><span class="o">-</span><span class="n">pmi</span><span class="o">/</span><span class="mf">6.0</span><span class="o">.</span><span class="mi">6</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="n">cray</span><span class="o">-</span><span class="n">libsci</span><span class="o">/</span><span class="mf">20.08</span><span class="o">.</span><span class="mf">1.2</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>  <span class="n">cray</span><span class="o">-</span><span class="n">python</span><span class="o">/</span><span class="mf">3.8</span><span class="o">.</span><span class="mf">5.0</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A full discussion of the module system is available in
+<a class="reference internal" href="sw-environment.html"><span class="doc">Software environment</span></a>.</p>
+<p>A consistent set of modules is loaded on login to the machine (currently
+<code class="docutils literal notranslate"><span class="pre">PrgEnv-cray</span></code>, see below). Developing applications then means selecting
+and loading the appropriate set of modules before starting work.</p>
+<p>This section is aimed at code developers and will concentrate on the
+compilation environment and building libraries and executables,
+and specifically parallel executables. Other topics such as <a class="reference internal" href="python.html"><span class="doc">Using Python</span></a>
+and <a class="reference internal" href="containers.html"><span class="doc">Containers</span></a> are covered in more detail in separate sections of the documentation.</p>
+</div>
+<div class="section" id="managing-development">
+<h2>Managing development<a class="headerlink" href="#managing-development" title="Permalink to this headline">¶</a></h2>
+<p>ARCHER2 supports common revision control software such as <code class="docutils literal notranslate"><span class="pre">git</span></code>.</p>
+<p>Standard GNU autoconf tools are available, along with <code class="docutils literal notranslate"><span class="pre">make</span></code> (which
+is GNU Make). Versions of <code class="docutils literal notranslate"><span class="pre">cmake</span></code> are available.</p>
+<p>Note that some of these tools are part of the system software, and
+typically reside in <code class="docutils literal notranslate"><span class="pre">/usr/bin</span></code>, while others are provided as part
+of the module system. Some tools may be available in different versions
+via both <code class="docutils literal notranslate"><span class="pre">/usr/bin</span></code> and via the module system.</p>
+</div>
+<div class="section" id="compilation-environment">
+<h2>Compilation environment<a class="headerlink" href="#compilation-environment" title="Permalink to this headline">¶</a></h2>
+<p>There are three different compiler environments available on ARCHER2:
+AMD, Cray, and GNU. The current compiler suite is selected via the
+programming environment, while the specific compiler versions are
+determined by the relevant compiler module. A summary is:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="50%" />
+<col width="26%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">PrgEnv module</th>
+<th class="head">Compiler Suite</th>
+<th class="head">Compiler module</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">PrgEnv-aocc</span></code></td>
+<td>AMD Optimising C/C++ Compiler</td>
+<td><code class="docutils literal notranslate"><span class="pre">aocc</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">PrgEnv-cray</span></code></td>
+<td>Cray Compiler Environment</td>
+<td><code class="docutils literal notranslate"><span class="pre">cce</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">PrgEnv-gnu</span></code></td>
+<td>Gnu Compiler Collection</td>
+<td><code class="docutils literal notranslate"><span class="pre">gcc</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>For example, at login, the default set of modules are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Currently</span> <span class="n">Loaded</span> <span class="n">Modulefiles</span><span class="p">:</span>
+<span class="mi">1</span><span class="p">)</span> <span class="n">cpe</span><span class="o">-</span><span class="n">cray</span>                          <span class="mi">7</span><span class="p">)</span> <span class="n">cray</span><span class="o">-</span><span class="n">dsmml</span><span class="o">/</span><span class="mf">0.1</span><span class="o">.</span><span class="mi">2</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">)</span> <span class="n">cce</span><span class="o">/</span><span class="mf">10.0</span><span class="o">.</span><span class="mi">3</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>               <span class="mi">8</span><span class="p">)</span> <span class="n">perftools</span><span class="o">-</span><span class="n">base</span><span class="o">/</span><span class="mf">20.09</span><span class="o">.</span><span class="mi">0</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">)</span> <span class="n">craype</span><span class="o">/</span><span class="mf">2.7</span><span class="o">.</span><span class="mi">0</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>             <span class="mi">9</span><span class="p">)</span> <span class="n">xpmem</span><span class="o">/</span><span class="mf">2.2</span><span class="o">.</span><span class="mi">35</span><span class="o">-</span><span class="mf">7.0</span><span class="o">.</span><span class="mf">1.0_1</span><span class="o">.</span><span class="mi">3</span><span class="n">__gd50fabf</span><span class="o">.</span><span class="n">shasta</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">)</span> <span class="n">craype</span><span class="o">-</span><span class="n">x86</span><span class="o">-</span><span class="n">rome</span>                  <span class="mi">10</span><span class="p">)</span> <span class="n">cray</span><span class="o">-</span><span class="n">mpich</span><span class="o">/</span><span class="mf">8.0</span><span class="o">.</span><span class="mi">15</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="mi">5</span><span class="p">)</span> <span class="n">libfabric</span><span class="o">/</span><span class="mf">1.11</span><span class="o">.</span><span class="mf">0.0</span><span class="o">.</span><span class="mi">233</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>  <span class="mi">11</span><span class="p">)</span> <span class="n">cray</span><span class="o">-</span><span class="n">libsci</span><span class="o">/</span><span class="mf">20.08</span><span class="o">.</span><span class="mf">1.2</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="mi">6</span><span class="p">)</span> <span class="n">craype</span><span class="o">-</span><span class="n">network</span><span class="o">-</span><span class="n">ofi</span>
+</pre></div>
+</div>
+<p>from which we see the default programming environment is Cray (indicated
+by <code class="docutils literal notranslate"><span class="pre">cpe-cray</span></code> (at 1 in the list above) and the default compiler module is <code class="docutils literal notranslate"><span class="pre">cce/10.0.3</span></code>
+(at 2 in the list above). The programming environment will give access to a consistent set
+of compiler, MPI library via <code class="docutils literal notranslate"><span class="pre">cray-mpich</span></code> (at 10), and other libraries e.g.,
+<code class="docutils literal notranslate"><span class="pre">cray-libsci</span></code> (at 11 in the list above) infrastructure.</p>
+<p>Within a given programming environment, it is possible to swap to
+a different compiler version by swapping the relevant compiler
+module.</p>
+<p>To ensure consistent behaviour, compilation of C, C++, and Fortran source
+code should then take place
+using the appropriate compiler wrapper: <code class="docutils literal notranslate"><span class="pre">cc</span></code>, <code class="docutils literal notranslate"><span class="pre">CC</span></code>, and <code class="docutils literal notranslate"><span class="pre">ftn</span></code>,
+respectively. The wrapper will automatically call the relevant
+underlying compiler and add the appropriate include directories and
+library locations to the invocation. This typically eliminates the need
+to specify this additional information explicitly in the configuration
+stage. To see the details of the exact compiler invocation use the
+<code class="docutils literal notranslate"><span class="pre">-craype-verbose</span></code> flag to the compiler wrapper.</p>
+<p>The default link time behaviour is also related to the current programming
+environment. See the section below on <a class="reference internal" href="#linking-and-libraries">Linking and libraries</a>.</p>
+<p>Users should not, in general, invoke specific compilers at compile/link
+stages. In particular, <code class="docutils literal notranslate"><span class="pre">gcc</span></code>, which may default to <code class="docutils literal notranslate"><span class="pre">/usr/bin/gcc</span></code>,
+should not be used. The compiler wrappers <code class="docutils literal notranslate"><span class="pre">cc</span></code>, <code class="docutils literal notranslate"><span class="pre">CC</span></code>, and <code class="docutils literal notranslate"><span class="pre">ftn</span></code>
+should be used via the appropriate module. Other common MPI compiler wrappers
+e.g., <code class="docutils literal notranslate"><span class="pre">mpicc</span></code> should also be replaced by the relevant wrapper <code class="docutils literal notranslate"><span class="pre">cc</span></code>
+(<code class="docutils literal notranslate"><span class="pre">mpicc</span></code> etc are not available).</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Always use the compiler wrappers <code class="docutils literal notranslate"><span class="pre">cc</span></code>, <code class="docutils literal notranslate"><span class="pre">CC</span></code>, and/or <code class="docutils literal notranslate"><span class="pre">ftn</span></code> and not
+a specific compiler invocation. This will
+ensure consistent compile/link time behaviour.</p>
+</div>
+<div class="section" id="compiler-man-pages-and-help">
+<h3>Compiler man pages and help<a class="headerlink" href="#compiler-man-pages-and-help" title="Permalink to this headline">¶</a></h3>
+<p>Further information on both the compiler wrappers, and the individual
+compilers themselves are available via the command line, and via standard
+<code class="docutils literal notranslate"><span class="pre">man</span></code> pages. The <code class="docutils literal notranslate"><span class="pre">man</span></code> page for the compiler wrappers is common to
+all programming environments, while the <code class="docutils literal notranslate"><span class="pre">man</span></code> page for individual
+compilers depends on the currently loaded programming environment. The
+following table summarises options for obtaining information on the
+compiler and compiler options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="12%" />
+<col width="19%" />
+<col width="26%" />
+<col width="29%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>PrgEnv</td>
+<td>Compiler</td>
+<td>Wrapper
+man page</td>
+<td>Compiler
+man page</td>
+<td>Compiler options
+summary</td>
+</tr>
+<tr class="row-even"><td>AOCC</td>
+<td rowspan="3">C</td>
+<td rowspan="3"><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">cc</span></code></td>
+<td>TBC</td>
+<td><code class="docutils literal notranslate"><span class="pre">clang</span> <span class="pre">--help</span></code></td>
+</tr>
+<tr class="row-odd"><td>Cray</td>
+<td><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">craycc</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">clang</span> <span class="pre">--help</span></code></td>
+</tr>
+<tr class="row-even"><td>Gnu</td>
+<td><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">gcc</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">gcc</span> <span class="pre">--help</span></code></td>
+</tr>
+<tr class="row-odd"><td>AOCC</td>
+<td rowspan="3">C++</td>
+<td rowspan="3"><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">CC</span></code></td>
+<td>TBC</td>
+<td><code class="docutils literal notranslate"><span class="pre">clang++</span> <span class="pre">--help</span></code></td>
+</tr>
+<tr class="row-even"><td>Cray</td>
+<td><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">crayCC</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">clang++</span> <span class="pre">--help</span></code></td>
+</tr>
+<tr class="row-odd"><td>Gnu</td>
+<td><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">g++</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">g++</span> <span class="pre">--help</span></code></td>
+</tr>
+<tr class="row-even"><td>AOCC</td>
+<td rowspan="3">Fortran</td>
+<td rowspan="3"><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">ftn</span></code></td>
+<td>TBC</td>
+<td><code class="docutils literal notranslate"><span class="pre">flang</span> <span class="pre">--help</span></code></td>
+</tr>
+<tr class="row-odd"><td>Cray</td>
+<td><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">crayftn</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">ftn</span> <span class="pre">--craype-help</span></code></td>
+</tr>
+<tr class="row-even"><td>Gnu</td>
+<td><code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">gfortran</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">gfortran</span> <span class="pre">--help</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>Note that Cray C/C++ is based on a clang front end and therefore supports
+similar options to clang/gcc (<code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">clang</span></code> is in fact  equivalent to
+<code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">craycc</span></code>). Note that <code class="docutils literal notranslate"><span class="pre">clang</span> <span class="pre">--help</span></code> will produce a full summary of
+options with Cray-specific options marked “Cray”. The <code class="docutils literal notranslate"><span class="pre">craycc</span></code> man page
+concentrates on these Cray extensions to the <code class="docutils literal notranslate"><span class="pre">clang</span></code> front end and does
+not provide an exhaustive description of all <code class="docutils literal notranslate"><span class="pre">clang</span></code> options.</p>
+</div>
+<div class="section" id="which-compiler-environment">
+<h3>Which compiler environment?<a class="headerlink" href="#which-compiler-environment" title="Permalink to this headline">¶</a></h3>
+<p>If you are unsure which compiler you should choose, we suggest the
+starting point should be the GNU compiler collection (GCC, <code class="docutils literal notranslate"><span class="pre">PrgEnv-gnu</span></code>); this is
+perhaps the most commonly used by code developers, particularly in
+the open source software domain. A portable, standard-conforming
+code should (in principle) compile in any of the three programming
+environments.</p>
+<p>For users requiring specific compiler features, such as co-array Fortran,
+the recommended starting point would be Cray. The following sections
+provide further details of the different programming environments.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Intel compilers are not available on ARCHER2.</p>
+</div>
+</div>
+<div class="section" id="amd-optimizing-c-c-compiler-aocc">
+<h3>AMD Optimizing C/C++ Compiler (AOCC)<a class="headerlink" href="#amd-optimizing-c-c-compiler-aocc" title="Permalink to this headline">¶</a></h3>
+<p>The AMD Optimizing C/++ Compiler (AOCC) is a clang-based optimising
+compiler. AOCC (despite its name) includes a flang-based Fortran
+compiler.</p>
+<p>Switch the the AOCC programming environment via</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ module restore PrgEnv-aocc
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Further details on AOCC will appear here as they become available.</p>
+</div>
+<div class="section" id="aocc-reference-material">
+<h4>AOCC reference material<a class="headerlink" href="#aocc-reference-material" title="Permalink to this headline">¶</a></h4>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">AMD website:</th><td class="field-body"><a class="reference external" href="https://developer.amd.com/amd-aocc/">https://developer.amd.com/amd-aocc/</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="cray-compiler-environment-cce">
+<h3>Cray compiler environment (CCE)<a class="headerlink" href="#cray-compiler-environment-cce" title="Permalink to this headline">¶</a></h3>
+<p>The Cray compiler environment (CCE) is the default compiler at the point
+of login. CCE supports C/C++ (along with unified parallel C UPC), and
+Fortran (including co-array Fortran). Support for OpenMP parallelism
+is available for both C/C++ and Fortran (currently OpenMP 4.5, with
+a number of exceptions).</p>
+<p>The Cray C/C++ compiler is based on a clang front end, and so compiler
+options are similar to those for gcc/clang. However, the Fortran
+compiler remains based around Cray-specific options. Be sure to separate
+C/C++ compiler options and Fortran compiler options (typically <code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code>
+and <code class="docutils literal notranslate"><span class="pre">FFLAGS</span></code>) if compiling mixed C/Fortran applications.</p>
+<p>Switch the the Cray programming environment via</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ module restore PrgEnv-cray
+</pre></div>
+</div>
+<div class="section" id="useful-cce-c-c-options">
+<h4>Useful CCE C/C++ options<a class="headerlink" href="#useful-cce-c-c-options" title="Permalink to this headline">¶</a></h4>
+<p>When using the compiler wrappers <code class="docutils literal notranslate"><span class="pre">cc</span></code> or <code class="docutils literal notranslate"><span class="pre">CC</span></code>, some of the following
+options may be useful:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td colspan="2">Language, Warning, Debugging options</td>
+</tr>
+<tr class="row-even"><td>Option</td>
+<td>Comment</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">-std=&lt;standard&gt;</span></code></td>
+<td>Default is <code class="docutils literal notranslate"><span class="pre">-std=gnu11</span></code> (<code class="docutils literal notranslate"><span class="pre">gnu++14</span></code> for C++) [1]</td>
+</tr>
+<tr class="row-even"><td colspan="2">Performance options</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">-Ofast</span></code></td>
+<td>Optimisation levels: -O0, -O1, -O2, -O3, -Ofast</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">-ffp=level</span></code></td>
+<td>Floating point maths optimisations levels 0-4 [2]</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">-flto</span></code></td>
+<td>Link time optimisation</td>
+</tr>
+<tr class="row-even"><td colspan="2">Miscellaneous options</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">-fopenmp</span></code></td>
+<td>Compile OpenMP (default is off)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">-v</span></code></td>
+<td>Display verbose output from compiler stages</td>
+</tr>
+</tbody>
+</table>
+<p>Notes:</p>
+<ol class="arabic simple">
+<li>Option <code class="docutils literal notranslate"><span class="pre">-std=gnu11</span></code> gives <code class="docutils literal notranslate"><span class="pre">c11</span></code> plus GNU extensions
+(likewise <code class="docutils literal notranslate"><span class="pre">c++14</span></code> plus GNU extensions).
+See <a class="reference external" href="https://gcc.gnu.org/onlinedocs/gcc-4.8.2/gcc/C-Extensions.html">https://gcc.gnu.org/onlinedocs/gcc-4.8.2/gcc/C-Extensions.html</a></li>
+<li>Option <code class="docutils literal notranslate"><span class="pre">-ffp=3</span></code> is implied by <code class="docutils literal notranslate"><span class="pre">-Ofast</span></code> or <code class="docutils literal notranslate"><span class="pre">-ffast-math</span></code></li>
+</ol>
+</div>
+<div class="section" id="useful-cce-fortran-options">
+<h4>Useful CCE Fortran options<a class="headerlink" href="#useful-cce-fortran-options" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td colspan="2">Language, Warning, Debugging options</td>
+</tr>
+<tr class="row-even"><td>Option</td>
+<td>Comment</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">&lt;level&gt;</span></code></td>
+<td>Message level (default <code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">3</span></code> errors and warnings)</td>
+</tr>
+<tr class="row-even"><td colspan="2">Performance options</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">-O</span> <span class="pre">&lt;level&gt;</span></code></td>
+<td>Optimisation levels: -O0 to -O3 (default -O2)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">-h</span> <span class="pre">fp&lt;level&gt;</span></code></td>
+<td>Floating point maths optimisations levels 0-3</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">-h</span> <span class="pre">ipa</span></code></td>
+<td>Inter-procedural analysis</td>
+</tr>
+<tr class="row-even"><td colspan="2">Miscellaneous options</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">-h</span> <span class="pre">omp</span></code></td>
+<td>Compile OpenMP (default is <code class="docutils literal notranslate"><span class="pre">-hnoomp</span></code>)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">-v</span></code></td>
+<td>Display verbose output from compiler stages</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="gnu-compiler-collection-gcc">
+<h3>GNU compiler collection (GCC)<a class="headerlink" href="#gnu-compiler-collection-gcc" title="Permalink to this headline">¶</a></h3>
+<p>The commonly used open source GNU compiler collection is available and
+provides C/C++ and Fortran compilers.</p>
+<p>The GNU compiler collection is loaded by switching to the GNU programming
+environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ module restore PrgEnv-gnu
+</pre></div>
+</div>
+<div class="section" id="reference-material">
+<h4>Reference material<a class="headerlink" href="#reference-material" title="Permalink to this headline">¶</a></h4>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">C/C++ documentation:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><a class="reference external" href="https://gcc.gnu.org/onlinedocs/gcc-9.3.0/gcc/">https://gcc.gnu.org/onlinedocs/gcc-9.3.0/gcc/</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Fortran documentation:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><a class="reference external" href="https://gcc.gnu.org/onlinedocs/gcc-9.3.0/gfortran/">https://gcc.gnu.org/onlinedocs/gcc-9.3.0/gfortran/</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section" id="message-passing-interface-mpi">
+<h2>Message passing interface (MPI)<a class="headerlink" href="#message-passing-interface-mpi" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mpich">
+<h3>MPICH<a class="headerlink" href="#mpich" title="Permalink to this headline">¶</a></h3>
+<p>HPE Cray provide as standard an MPICH implementation of the message passing
+interface which is specifically optimised for the ARCHER2 network. The
+current implementation supports MPI standard version 3.1. This
+implementation should be used wherever possible.</p>
+<p>Useful environment variables associated with MPICH will be documented
+here.</p>
+<p>ABI compatibility. This may be useful in cases where a source distribution
+is not available.</p>
+<div class="section" id="mpi-resource-limits">
+<h4>MPI Resource limits<a class="headerlink" href="#mpi-resource-limits" title="Permalink to this headline">¶</a></h4>
+<p>Some common resource limits e.g., number of communicators, number
+of message tags, will be documented here.</p>
+</div>
+<div class="section" id="fortran-and-the-mpi-module">
+<h4>Fortran and the mpi module<a class="headerlink" href="#fortran-and-the-mpi-module" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="mpi-reference-material">
+<h4>MPI reference material<a class="headerlink" href="#mpi-reference-material" title="Permalink to this headline">¶</a></h4>
+<p>MPI standard documents: <a class="reference external" href="https://www.mpi-forum.org/docs/">https://www.mpi-forum.org/docs/</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="linking-and-libraries">
+<h2>Linking and libraries<a class="headerlink" href="#linking-and-libraries" title="Permalink to this headline">¶</a></h2>
+<p>Linking to libraries is performed dynamically on ARCHER2. One can use
+the <code class="docutils literal notranslate"><span class="pre">-craype-verbose</span></code> flag to the compiler wrapper to check
+exactly what linker arguments are invoked. The compiler wrapper scripts
+encode the paths to the programming environment system libraries using
+the “runpath”. This ensures that the executable can find the correct
+runtime libraries without the matching software modules loaded.</p>
+<p>The library runpath associated with an executable can be inspected
+via, e.g.,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ readelf -d ./a.out
+</pre></div>
+</div>
+<div class="section" id="commonly-used-libraries">
+<h3>Commonly used libraries<a class="headerlink" href="#commonly-used-libraries" title="Permalink to this headline">¶</a></h3>
+<p>Modules with names prefixed by <code class="docutils literal notranslate"><span class="pre">cray-</span></code> are provided by HPE Cray, and are
+supported to be consistent with any of the programming environments
+and associated compilers. These modules should be the first choice for
+access to the following libraries.</p>
+<div class="section" id="hpe-cray-libsci">
+<h4>HPE Cray LibSci<a class="headerlink" href="#hpe-cray-libsci" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Library</td>
+<td>Module</td>
+</tr>
+<tr class="row-even"><td>BLAS, LAPACK, …</td>
+<td><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">cray-libsci</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>Cray scientific libraries, available for all compiler choices
+provides access to the Fortran <a class="reference external" href="http://www.netlib.org/blas/">BLAS</a> and <a class="reference external" href="http://www.netlib.org/lapack/">LAPACK</a> interface for basic linear
+algebra, the corresponding C interfaces <a class="reference external" href="http://www.netlib.org/blas/#_cblas">CBLAS</a> and <a class="reference external" href="https://www.netlib.org/lapack/lapacke.html">LAPACKE</a>, and <a class="reference external" href="https://www.netlib.org/blacs/">BLACS</a> and
+<a class="reference external" href="http://www.netlib.org/scalapack/">ScaLAPACK</a> for parallel linear algebra.
+Type <code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">intro_libsci</span></code> for further details.</p>
+</div>
+<div class="section" id="fftw">
+<h4>FFTW<a class="headerlink" href="#fftw" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Library</td>
+<td>Module</td>
+</tr>
+<tr class="row-even"><td>FFTW</td>
+<td><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">cray-fftw</span></code></td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="http://www.fftw.org">FFTW</a> provides Fast Fourier Transforms, and is available in
+version 3 only.</p>
+</div>
+<div class="section" id="hdf5">
+<h4>HDF5<a class="headerlink" href="#hdf5" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Library</td>
+<td>Module</td>
+</tr>
+<tr class="row-even"><td>HDF5</td>
+<td><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">cray-hdf5</span></code></td>
+</tr>
+<tr class="row-odd"><td>HDF5 Paralel</td>
+<td><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">cray-hdf5-parallel</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>Hierarchical Data Format <a class="reference external" href="https://portal.hdfgroup.org/display/HDF5/HDF5">HDF5</a> is available in serial and parallel
+versions.</p>
+</div>
+<div class="section" id="netcdf">
+<h4>NetCDF<a class="headerlink" href="#netcdf" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Library</td>
+<td>Module</td>
+</tr>
+<tr class="row-even"><td>NetCDF</td>
+<td><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">cray-netcdf</span></code></td>
+</tr>
+<tr class="row-odd"><td>NetCDF + HDF5</td>
+<td><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">cray-netcdf-hdf5parallel</span></code></td>
+</tr>
+<tr class="row-even"><td>PnetCDF</td>
+<td><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">cray-parallel-netcdf</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>Network Common Data Form <a class="reference external" href="https://www.unidata.ucar.edu/software/netcdf/">NetCDF</a>, and parallel NetCDF (usually
+referred to as <a class="reference external" href="https://parallel-netcdf.github.io/wiki/Documentation.html">PnetCDF</a>) are available.</p>
+<p>A full description of the relationship between various HDF5 and NetCDF
+options will appear here.</p>
+</div>
+<div class="section" id="id2">
+<h4>Reference material<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">HDF5:</th><td class="field-body"><a class="reference external" href="https://portal.hdfgroup.org/display/HDF5/HDF5">https://portal.hdfgroup.org/display/HDF5/HDF5</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">NetCDF:</th><td class="field-body"><a class="reference external" href="https://www.unidata.ucar.edu/software/netcdf/">https://www.unidata.ucar.edu/software/netcdf/</a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">PnetCDF:</th><td class="field-body"><a class="reference external" href="https://parallel-netcdf.github.io/wiki/Documentation.html">https://parallel-netcdf.github.io/wiki/Documentation.html</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section" id="building-standard-packages">
+<h2>Building standard packages<a class="headerlink" href="#building-standard-packages" title="Permalink to this headline">¶</a></h2>
+<p>The ARCHER2 team provide build configurations or instructions for a number of
+standard libraries and software packages. Users wanting particular
+versions of public packages, particularly development versions
+which are not available centrally, are encouraged to try the build
+configuration and consult the Service Desk if there are problems.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="containers.html" class="btn btn-neutral float-right" title="Containers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="io.html" class="btn btn-neutral float-left" title="I/O and file systems" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

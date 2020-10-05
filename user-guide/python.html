@@ -1,0 +1,442 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Using Python &mdash; ARCHER2 0.4beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data analysis" href="analysis.html" />
+    <link rel="prev" title="Containers" href="containers.html" />
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165933823-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165933823-2');
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ARCHER2
+          
+
+          
+            
+            <img src="../_static/archer2_white_transparent.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Quick start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-users.html">Quickstart for users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/quickstart-developers.html">Quickstart for developers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User and best practice guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connecting.html">Connecting to ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data management and transfer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sw-environment.html">Software environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scheduler.html">Running jobs on ARCHER2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">I/O and file systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev-environment.html">Application development environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="containers.html">Containers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#python-for-general-users">Python for general users</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cray-python-3-distribution">Cray Python 3 distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-your-own-packages">Adding your own packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conda">conda</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#creating-conda-environments">Creating conda environments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#activating-conda-environments">Activating conda environments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installing-packages">Installing Packages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#example-python-submission-script">Example Python submission script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mpi4py">mpi4py</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Data analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profile.html">Profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tuning.html">Performance tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Research software</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/castep/castep.html">CASTEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/chemshell/chemshell.html">ChemShell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/code-saturne/code-saturne.html">Code Saturne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/cp2k/cp2k.html">CP2K</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/elk/elk.html">ELK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/fenics/fenics.html">FEniCS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/gromacs/gromacs.html">GROMACS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/lammps/lammps.html">LAMMPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mitgcm/mitgcm.html">MITgcm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/mo-unified-model/mo-unified-model.html">Met Office Unified Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/namd/namd.html">NAMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nemo/nemo.html">NEMO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/nwchem/nwchem.html">NWChem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/onetep/onetep.html">ONETEP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/openfoam/openfoam.html">OpenFOAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/qe/qe.html">Quantum Espresso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../research-software/vasp/vasp.html">VASP</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Software libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../software-libraries/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data analysis and tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../data-tools/overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Essential skills</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../essentials/overview.html">Overview</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ARCHER2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Using Python</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/archer2-hpc/archer2-docs/blob/master/user-guide/python.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="using-python">
+<h1>Using Python<a class="headerlink" href="#using-python" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="python-for-general-users">
+<h2>Python for general users<a class="headerlink" href="#python-for-general-users" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cray-python-3-distribution">
+<h3>Cray Python 3 distribution<a class="headerlink" href="#cray-python-3-distribution" title="Permalink to this headline">¶</a></h3>
+<p>Python 3 on ARCHER2 is provided by Cray.</p>
+<p>The central installation provides many of the most common packages used for
+scientific computation and data analysis. These include:</p>
+<ul class="simple">
+<li>numpy and scipy - built against Cray LibSci</li>
+<li>mpi4py - built against Cray MPT</li>
+<li>dask</li>
+</ul>
+<p>The Python 3 module can be loaded (either on the front-end or in a submission
+script) using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">cray</span><span class="o">-</span><span class="n">python</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="adding-your-own-packages">
+<h3>Adding your own packages<a class="headerlink" href="#adding-your-own-packages" title="Permalink to this headline">¶</a></h3>
+<p>If the packages you require are not included in the central Python distribution,
+further packages can easily be built on top using pip. This can be done using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">&lt;</span><span class="n">package_name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>This uses the “--user” flag to ensure the packages are installed in your user
+directory. This means that you can have your own Python environment that is
+independent of the central installation.</p>
+</div>
+<div class="section" id="conda">
+<h3>conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h3>
+<p>This section on the <code class="docutils literal notranslate"><span class="pre">conda</span></code> tool is adapted from the NERSC Python documentation at <a class="reference external" href="https://docs.nersc.gov/programming/high-level-environments/python/">https://docs.nersc.gov/programming/high-level-environments/python/</a>.</p>
+<div class="section" id="creating-conda-environments">
+<h4>Creating conda environments<a class="headerlink" href="#creating-conda-environments" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">conda</span></code> tool allows you to build your own custom Python installation
+through “environments”.
+First, create a conda environment using <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span></code>. Specify a name for
+your environment using the “-n” flag, and the version of the Python interpreter
+you want installed. For example, the following will create a Python 3.6
+environment called “myenv”:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">myenv</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.6</span>
+</pre></div>
+</div>
+<p>You will then be asked to confirm the package managements steps that will be
+taken, along with the installation location.</p>
+</div>
+<div class="section" id="activating-conda-environments">
+<h4>Activating conda environments<a class="headerlink" href="#activating-conda-environments" title="Permalink to this headline">¶</a></h4>
+<p>There are two options for activating a conda environments: <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">activate</span></code>
+and <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">activate</span></code> is the only option for versions of conda prior to 4.6.</p>
+<p>You can activate an environment with the name “myenv” with the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="n">activate</span> <span class="n">myenv</span>
+</pre></div>
+</div>
+<p>and then deactivate it with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="n">deactivate</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span></code> is available in conda 4.6 and later. It can be more complex
+to use than <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">activate</span></code>, but has some advantages.
+Before running <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span></code> for the first time, first run the command
+<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">init</span></code>. This sets the current Python environment as the default. It does
+this by adding lines to your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file that will be run at login. (These
+lines are enclosed by the lines <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">&gt;&gt;&gt;</span> <span class="pre">conda</span> <span class="pre">initialize</span> <span class="pre">&gt;&gt;&gt;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">&lt;&lt;&lt;</span> <span class="pre">conda</span> <span class="pre">initialize</span> <span class="pre">&lt;&lt;&lt;</span></code>, and can be removed or edited manually if
+needed.)</p>
+<p>Having set your default environment, your custom environments can be activated
+using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">myenv</span>
+</pre></div>
+</div>
+<p>and deactivated using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">deactivate</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-packages">
+<h4>Installing Packages<a class="headerlink" href="#installing-packages" title="Permalink to this headline">¶</a></h4>
+<p>conda can also be used to find and install packages into your environments.
+For example, the following can be used to find and then install a package (in
+this case, scipy):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">search</span> <span class="n">scipy</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="n">scipy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="example-python-submission-script">
+<h3>Example Python submission script<a class="headerlink" href="#example-python-submission-script" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash --login</span>
+
+<span class="c1">#SBATCH --name=python_test</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --tasks-per-node=1</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+<span class="c1">#SBATCH --time=00:10:00</span>
+
+<span class="c1"># Replace [budget code] below with your project code (e.g. t01)</span>
+<span class="c1">#SBATCH --account=[budget code]</span>
+
+<span class="c1"># Load the Python module</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">cray</span><span class="o">-</span><span class="n">python</span>
+
+<span class="c1"># Run your Python progamme</span>
+<span class="n">python</span> <span class="n">python_test</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mpi4py">
+<h3>mpi4py<a class="headerlink" href="#mpi4py" title="Permalink to this headline">¶</a></h3>
+<p>Programmes that have been parallelised with mpi4py can be run on multiple
+processors on ARCHER2. A sample submission script is given below. The primary
+difference from the Python submission script in the previous section is that we
+must run the programme using <code class="docutils literal notranslate"><span class="pre">srun</span> <span class="pre">python</span> <span class="pre">my_prog.py</span></code> instead of <code class="docutils literal notranslate"><span class="pre">python</span>
+<span class="pre">my_prog,py</span></code>. Failing to do so will cause a segmentation fault in your programme
+when it reaches the line <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">mpi4py</span> <span class="pre">import</span> <span class="pre">MPI</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash --login</span>
+<span class="c1"># Slurm job options (job-name, compute nodes, job time)</span>
+<span class="c1">#SBATCH --job-name=mpi4py_test</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --tasks-per-node=2</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+<span class="c1">#SBATCH --time=0:10:0</span>
+
+<span class="c1"># Replace [budget code] below with your budget code (e.g. t01)</span>
+<span class="c1">#SBATCH --account=[budget code]</span>
+
+<span class="c1"># Load the Python module</span>
+<span class="n">module</span> <span class="n">load</span> <span class="n">cray</span><span class="o">-</span><span class="n">python</span>
+
+<span class="c1"># Run your Python programme</span>
+<span class="c1"># Note that srun MUST be used to wrap the call to python, otherwise an error</span>
+<span class="c1"># will occur</span>
+<span class="n">srun</span> <span class="n">python</span> <span class="n">mpi4py_test</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="analysis.html" class="btn btn-neutral float-right" title="Data analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="containers.html" class="btn btn-neutral float-left" title="Containers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, EPCC
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
